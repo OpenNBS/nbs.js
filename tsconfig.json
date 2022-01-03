@@ -1,21 +1,19 @@
 {
     "compilerOptions": {
-        "target": "ES6",
-        "lib": ["ES6"],
-        "allowJs": true,
-        "skipLibCheck": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "esModuleInterop": true,
-        "module": "CommonJS",
-        "moduleResolution": "Node",
-        "isolatedModules": true,
         "rootDir": "src",
         "outDir": "build",
+        "target": "ES6",
+        "lib": ["ES6"],
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "allowJs": true,
+        "strict": true,
         "declaration": true,
-        "paths": {
-            "tslib": ["./node_modules/tslib/tslib.d.ts"]
-        }
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "listFiles": true
     },
     "include": [
         "**/*.ts"
