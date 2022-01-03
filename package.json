@@ -2,7 +2,7 @@
   "name": "@encode42/nbs.js",
   "description": "A versatile API for reading and writing OpenNBS files.",
   "homepage": "https://encode42.github.io/NBS.js/",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "keywords": ["api", "minecraft", "nbs", "noteblock", "onbs"],
   "repository": "https://github.com/Encode42/NBS.js",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "build": "npm run module && npm run bundle",
     "module": "tsc --build",
     "bundle": "webpack",
-    "publish": "npm run module && npm publish --access public"
+    "publishBuild": "npm run module && npm publish --access public"
   },
   "devDependencies": {
     "terser-webpack-plugin": "^5.3.0",
