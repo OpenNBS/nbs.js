@@ -1,122 +1,66 @@
-let resultOverview;
-let resultStructure;
-let fileInput;
+const elements = {
+    "button": {},
+    "text": {
+        "result": {}
+    }
+};
 
 window.addEventListener("load", () => {
-    resultOverview = document.getElementById("result-overview");
-    resultStructure = document.getElementById("result-structure");
-    fileInput = document.getElementById("file-input");
+    elements.button.fileInput = document.getElementById("file-input");
+    elements.text.highlighting = document.getElementById("highlight-status");
+    elements.text.result.structure = document.getElementById("result-structure");
+    elements.text.result.overview = document.getElementById("result-overview");
 
     // Initial result state
-    hljs.highlightElement(resultStructure);
-    prepareResult("No file selected...");
+    prepareResult("No file selected.");
 
     // Initialize file input
-    fileInput.value = null;
-    fileInput.addEventListener("change", async () => {
+    elements.button.fileInput.value = null;
+    elements.button.fileInput.addEventListener("change",  event => {
+        const worker = new Worker("src/loadSong.js");
+
         // Load the song
         prepareResult("Loading...");
-        const song = NBSjs.Song.fromArrayBuffer(await fileInput.files[0].arrayBuffer());
+        worker.postMessage({
+            "file": event.target.files[0]
+        });
 
-        // Remove undefined notes and empty layers
-        const newLayers = [];
-        for (let i = 0; i < song.layers.length; i++) {
-            const layer = song.layers[i];
+        worker.addEventListener("message", event => {
+            // Fill result table
+            for (const overview of event.data.overviews) {
+                const row = document.createElement("tr");
 
-            // Check for empty notes
-            const newNotes = [];
-            for (const note of layer.notes) {
-                if (note !== undefined) {
-                    newNotes.push(note);
-                }
+                const key = document.createElement("td");
+                key.innerHTML = `<strong>${overview[0]}</strong>`;
+
+                const value = document.createElement("td");
+                value.innerHTML = overview[1] === "" ? "None" : overview[1];
+
+                row.append(key);
+                row.append(value);
+
+                elements.text.result.overview.append(row);
             }
 
-            layer.notes = newNotes;
+            // Set structure text
+            elements.text.result.structure.innerHTML = event.data.structureText;
 
-            // Check for empty layers
-            if (layer.notes.length > 0) {
-                newLayers.push(layer);
-            }
-        }
+            const highlightWorker = new Worker("src/highlight.js", {
+                "type": "module"
+            });
 
-        song.layers = newLayers;
+            elements.text.highlighting.classList.add("visible");
 
-        // Get ready to display the result
-        displayResult();
+            // Highlight the block
+            highlightWorker.postMessage({
+                "code": elements.text.result.structure.innerHTML
+            });
 
-        // Display the instruments first
-        resultStructure.innerHTML = `Instruments: ${JSON.stringify(song.instruments, null, 4)}\n\n`;
-
-        // Stringify the song structure
-        const cache = [];
-        resultStructure.innerHTML += "Song: " + JSON.stringify(song, (key, value) => {
-            // Decycle the object
-            if (typeof value === "object" && value !== null) {
-                if (key === "instrument") {
-                    return `[${key} ${value.name}]`;
-                }
-
-                if (key === "song") {
-                    return `[this]`;
-                }
-
-                if (cache.includes(value)) {
-                    return `[${key}]`;
-                }
-
-                cache.push(value);
-            }
-
-            return value;
-        }, 4);
-
-        const overviews = [[
-            "NBS version",
-            song.nbsVersion
-        ], [
-            "Song name",
-            song.name
-        ], [
-            "Song author",
-            song.author
-        ], [
-            "Song description",
-            song.description
-        ], [
-            "Total layers",
-            song.layers.length
-        ], [
-            "Total notes",
-            song.size
-        ], [
-            "Custom instruments",
-            song.instruments.map(i => {
-                if (!i.builtIn) {
-                    return i.name;
-                }
-
-                return null;
-            }).filter(Boolean)
-                .join(", ")
-        ]];
-
-        // Fill result table
-        for (const overview of overviews) {
-            const row = document.createElement("tr");
-
-            const key = document.createElement("td");
-            key.innerHTML = `<strong>${overview[0]}</strong>`;
-
-            const value = document.createElement("td");
-            value.innerHTML = overview[1] === "" ? "None" : overview[1];
-
-            row.append(key);
-            row.append(value);
-
-            resultOverview.append(row);
-        }
-
-        hljs.highlightElement(resultStructure);
+            highlightWorker.addEventListener("message", event => {
+                elements.text.result.structure.innerHTML = event.data.code;
+                elements.text.highlighting.classList.remove("visible");
+            });
+        });
     });
 });
 
@@ -125,15 +69,6 @@ window.addEventListener("load", () => {
  * @param placeholder Message to display
  */
 function prepareResult(placeholder) {
-    resultOverview.innerHTML = null;
-    resultStructure.classList.add("no-white-space");
-    resultStructure.innerHTML = placeholder;
-}
-
-/**
- * Display the result.
- * Used after prepareResult has been called.
- */
-function displayResult() {
-    resultStructure.classList.remove("no-white-space");
+    elements.text.result.overview.innerHTML = null;
+    elements.text.result.structure.innerHTML = placeholder;
 }

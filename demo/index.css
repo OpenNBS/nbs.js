@@ -1,3 +1,7 @@
+h1 {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 table {
     table-layout: auto;
 }
@@ -11,6 +15,26 @@ table td {
     width: min-content;
 }
 
-#result code.no-white-space {
-    white-space: normal;
+main input {
+    width: 100%;
+}
+
+#result-structure-parent {
+    display: flex;
+    flex-direction: column;
+}
+
+#result-structure {
+    width: 100%;
+    padding: 2.5%;
+    text-rendering: optimizeSpeed;
+}
+
+#highlight-status {
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+}
+
+#highlight-status.visible {
+    opacity: 100;
 }
