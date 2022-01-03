@@ -1,14 +1,14 @@
-let resultDiv;
-let resultCode;
+let resultOverview;
+let resultStructure;
 let fileInput;
 
 window.addEventListener("load", () => {
-    resultDiv = document.getElementById("result");
-    resultCode = resultDiv.getElementsByTagName("code")[0];
+    resultOverview = document.getElementById("result-overview");
+    resultStructure = document.getElementById("result-structure");
     fileInput = document.getElementById("file-input");
 
     // Initial result state
-    hljs.highlightElement(resultCode);
+    hljs.highlightElement(resultStructure);
     prepareResult("No file selected...");
 
     // Initialize file input
@@ -34,9 +34,9 @@ window.addEventListener("load", () => {
         // Get ready to display the result
         displayResult();
 
-        // Stringify the song
+        // Stringify the song structure
         const cache = [];
-        resultCode.innerHTML = JSON.stringify(song, (key, value) => {
+        resultStructure.innerHTML = JSON.stringify(song, (key, value) => {
             // Decycle the object
             if (typeof value === "object" && value !== null) {
                 if (cache.includes(value)) {
@@ -49,7 +49,46 @@ window.addEventListener("load", () => {
             return value;
         }, 4);
 
-        hljs.highlightElement(resultCode);
+        const overviews = [[
+            "NBS version",
+            song.nbsVersion
+        ], [
+            "Song name",
+            song.name
+        ], [
+            "Song author",
+            song.author
+        ], [
+            "Song description",
+            song.description
+        ], [
+            "Total layers",
+            song.layers.length
+        ], [
+            "Total notes",
+            song.size
+        ], [
+            "Instruments used",
+            song.instruments.map(i => i.name).join(", ")
+        ]];
+
+        // Fill result table
+        for (const overview of overviews) {
+            const row = document.createElement("tr");
+
+            const key = document.createElement("td");
+            key.innerHTML = `<strong>${overview[0]}</strong>`;
+
+            const value = document.createElement("td");
+            value.innerHTML = overview[1] || "None";
+
+            row.append(key);
+            row.append(value);
+
+            resultOverview.append(row);
+        }
+
+        hljs.highlightElement(resultStructure);
     });
 });
 
@@ -58,8 +97,9 @@ window.addEventListener("load", () => {
  * @param placeholder Message to display
  */
 function prepareResult(placeholder) {
-    resultCode.classList.add("no-white-space");
-    resultCode.innerHTML = placeholder;
+    resultOverview.innerHTML = null;
+    resultStructure.classList.add("no-white-space");
+    resultStructure.innerHTML = placeholder;
 }
 
 /**
@@ -67,5 +107,5 @@ function prepareResult(placeholder) {
  * Used after prepareResult has been called.
  */
 function displayResult() {
-    resultCode.classList.remove("no-white-space");
+    resultStructure.classList.remove("no-white-space");
 }

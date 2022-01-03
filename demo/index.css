@@ -1,3 +1,19 @@
+table {
+    table-layout: auto;
+}
+
+table tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+table td {
+    vertical-align: middle;
+}
+
+td {
+    width: min-content;
+}
+
 #result code.no-white-space {
     white-space: normal;
 }
