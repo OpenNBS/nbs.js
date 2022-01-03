@@ -3,7 +3,7 @@ A versatile API for reading and writing [OpenNBS](https://opennbs.org) files.
 
 Heavily inspired by [NBSEditor](https://github.com/TheGreatFoxxy/NBSEditor/blob/408e3e58058bd72286fc7e9740d62a39a0c919dd/src/NBS.js) and [NoteBlockAPI](https://github.com/koca2000/NoteBlockAPI).
 
-**Note:** This API is still in early development. Report any bugs found!
+**Note:** This API is still in early development. Writing NBS files is not yet supported. Report any bugs found!
 
 ### Including
 As a browser script
