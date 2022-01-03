@@ -13,7 +13,7 @@ module.exports = {
         "filename": "index.js",
         "library": {
             "name": "NBSjs",
-            "type": "window",
+            "type": "global",
             "export": "default"
         }
     },
