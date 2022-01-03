@@ -1,10 +1,12 @@
 {
   "name": "@encode42/nbs.js",
   "description": "A versatile API for reading and writing OpenNBS files.",
-  "version": "1.0.4",
-  "main": "./build/index.js",
+  "homepage": "https://encode42.github.io/NBS.js/",
+  "version": "1.0.5",
+  "keywords": ["api", "minecraft", "nbs", "noteblock", "onbs"],
   "repository": "https://github.com/Encode42/NBS.js",
   "license": "MIT",
+  "main": "./build/index.js",
   "scripts": {
     "build": "npm run module && npm run bundle",
     "module": "tsc --build",
@@ -21,8 +23,6 @@
     "webpack-cli": "^4.9.1"
   },
   "files": [
-    "build",
-    "license.md",
-    "readme.md"
+    "build"
   ]
 }
