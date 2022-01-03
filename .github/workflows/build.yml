@@ -19,13 +19,13 @@ jobs:
     - name: Build
       run: |
         yarn install
-        yarn run build
+        yarn run bundle # build
 
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add dist/* build/*
+        git add dist/* # build/*
         git commit -m "Push build changes" || echo "No changes were found."
 
     - name: Push changes
