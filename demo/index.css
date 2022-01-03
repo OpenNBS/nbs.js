@@ -1,5 +1,9 @@
+:root {
+    --slight-bright: rgba(255, 255, 255, 0.1);
+}
+
 h1 {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--slight-bright);
 }
 
 table {
@@ -7,7 +11,7 @@ table {
 }
 
 table tr {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--slight-bright);
 }
 
 table td {
@@ -17,6 +21,7 @@ table td {
 
 main input {
     width: 100%;
+    color: var(--text-muted);
 }
 
 #result-structure-parent {
@@ -26,7 +31,9 @@ main input {
 
 #result-structure {
     width: 100%;
-    padding: 2.5%;
+    padding: 10px;
+    background: var(--background);
+    color: var(--text-muted);
     text-rendering: optimizeSpeed;
 }
 
