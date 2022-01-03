@@ -5,6 +5,8 @@ const elements = {
     }
 };
 
+let isFirefix;
+
 window.addEventListener("load", () => {
     elements.button.fileInput = document.getElementById("file-input");
     elements.text.highlighting = document.getElementById("highlight-status");
@@ -16,6 +18,10 @@ window.addEventListener("load", () => {
 
     // Initialize file input
     elements.button.fileInput.value = null;
+
+    // Sneaky Firefox detection
+    isFirefix = navigator.userAgent.indexOf("Firefox") > 0;
+
     elements.button.fileInput.addEventListener("change",  event => {
         const worker = new Worker("src/loadSong.js");
 
@@ -43,23 +49,25 @@ window.addEventListener("load", () => {
             }
 
             // Set structure text
-            elements.text.result.structure.innerHTML = event.data.structureText;
+            if (isFirefix) {
+                elements.text.result.structure.innerHTML = event.data.structureText;
+            } else {
+                const highlightWorker = new Worker("src/highlight.js", {
+                    "type": "module"
+                });
 
-            const highlightWorker = new Worker("src/highlight.js", {
-                "type": "module"
-            });
+                elements.text.highlighting.classList.add("visible");
 
-            elements.text.highlighting.classList.add("visible");
+                // Highlight the block
+                highlightWorker.postMessage({
+                    "code": event.data.structureText
+                });
 
-            // Highlight the block
-            highlightWorker.postMessage({
-                "code": elements.text.result.structure.innerHTML
-            });
-
-            highlightWorker.addEventListener("message", event => {
-                elements.text.result.structure.innerHTML = event.data.code;
-                elements.text.highlighting.classList.remove("visible");
-            });
+                highlightWorker.addEventListener("message", event => {
+                    elements.text.result.structure.innerHTML = event.data.code;
+                    elements.text.highlighting.classList.remove("visible");
+                });
+            }
         });
     });
 });
