@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>NBS.js Demo</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.3.1/build/styles/github-dark.min.css">
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <main>
+            <h1>NBS.js Demo</h1>
+            <p>Select a <code>.nbs</code> via the input below.</p>
+            <input type="file" id="file-input">
+
+            <div id="result">
+                <h2>Result:</h2>
+                <p>The resulting song structure from the file selected above will be displayed here.</p>
+                <pre><code class="language-json"></code></pre>
+            </div>
+        </main>
+
+        <script async src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.3.1/build/highlight.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/Encode42/NBS.js/dist/index.js"></script>
+        <!-- <script async src="../dist/index.js"></script> --> <!-- Uncomment for local testing -->
+        <script async src="src/index.js"></script>
+    </body>
+</html>
