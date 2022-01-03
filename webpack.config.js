@@ -11,8 +11,11 @@ module.exports = {
     "output": {
         "path": path.resolve(__dirname, "./dist"),
         "filename": "index.js",
-        "library": "NBSjs",
-        "libraryTarget": "umd"
+        "library": {
+            "name": "NBSjs",
+            "type": "window",
+            "export": "default"
+        }
     },
     "resolve": {
         "extensions": [".ts", ".js"]
