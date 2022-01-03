@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setNoteClass = exports.setLayerClass = exports.setInstrumentClass = exports.getNoteClass = exports.getLayerClass = exports.getInstrumentClass = exports.Instrument = exports.Note = exports.Layer = exports.Song = void 0;
+var Song_1 = require("./nbs/Song");
+Object.defineProperty(exports, "Song", { enumerable: true, get: function () { return __importDefault(Song_1).default; } });
+var Layer_1 = require("./nbs/Layer");
+Object.defineProperty(exports, "Layer", { enumerable: true, get: function () { return __importDefault(Layer_1).default; } });
+var Note_1 = require("./nbs/Note");
+Object.defineProperty(exports, "Note", { enumerable: true, get: function () { return __importDefault(Note_1).default; } });
+var Instrument_1 = require("./nbs/Instrument");
+Object.defineProperty(exports, "Instrument", { enumerable: true, get: function () { return __importDefault(Instrument_1).default; } });
+var util_1 = require("./util/util");
+Object.defineProperty(exports, "getInstrumentClass", { enumerable: true, get: function () { return util_1.getInstrumentClass; } });
+Object.defineProperty(exports, "getLayerClass", { enumerable: true, get: function () { return util_1.getLayerClass; } });
+Object.defineProperty(exports, "getNoteClass", { enumerable: true, get: function () { return util_1.getNoteClass; } });
+Object.defineProperty(exports, "setInstrumentClass", { enumerable: true, get: function () { return util_1.setInstrumentClass; } });
+Object.defineProperty(exports, "setLayerClass", { enumerable: true, get: function () { return util_1.setLayerClass; } });
+Object.defineProperty(exports, "setNoteClass", { enumerable: true, get: function () { return util_1.setNoteClass; } });
