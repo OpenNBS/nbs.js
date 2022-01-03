@@ -1,7 +1,13 @@
-import Instrument from "../nbs/Instrument";
-import Note from "../nbs/Note";
-import Layer from "../nbs/Layer";
-export class BufferReader {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setInstrumentClass = exports.setNoteClass = exports.setLayerClass = exports.getInstrumentClass = exports.getNoteClass = exports.getLayerClass = exports.BufferReader = void 0;
+const Instrument_1 = __importDefault(require("../nbs/Instrument"));
+const Note_1 = __importDefault(require("../nbs/Note"));
+const Layer_1 = __importDefault(require("../nbs/Layer"));
+class BufferReader {
     constructor(buffer) {
         this.currentByte = 0;
         this.buffer = buffer;
@@ -37,25 +43,31 @@ export class BufferReader {
         return result;
     }
 }
-let LayerClass = Layer;
+exports.BufferReader = BufferReader;
+let LayerClass = Layer_1.default;
 function getLayerClass() {
     return LayerClass;
 }
+exports.getLayerClass = getLayerClass;
 function setLayerClass(clazz) {
     LayerClass = clazz;
 }
-let NoteClass = Note;
+exports.setLayerClass = setLayerClass;
+let NoteClass = Note_1.default;
 function getNoteClass() {
     return NoteClass;
 }
+exports.getNoteClass = getNoteClass;
 function setNoteClass(clazz) {
     NoteClass = clazz;
 }
-let InstrumentClass = Instrument;
+exports.setNoteClass = setNoteClass;
+let InstrumentClass = Instrument_1.default;
 function getInstrumentClass() {
     return InstrumentClass;
 }
+exports.getInstrumentClass = getInstrumentClass;
 function setInstrumentClass(clazz) {
     InstrumentClass = clazz;
 }
-export { getLayerClass, getNoteClass, getInstrumentClass, setLayerClass, setNoteClass, setInstrumentClass };
+exports.setInstrumentClass = setInstrumentClass;

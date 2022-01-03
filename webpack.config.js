@@ -6,7 +6,7 @@ module.exports = {
     "mode": "development",
     "context": path.resolve(__dirname, "./src"),
     "entry": {
-        "main": "./index.ts"
+        "main": "./app.ts"
     },
     "output": {
         "path": path.resolve(__dirname, "./dist"),

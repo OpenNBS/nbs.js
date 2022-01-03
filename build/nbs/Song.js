@@ -1,5 +1,7 @@
-import { BufferReader, getInstrumentClass, getLayerClass } from "../util/util";
-export default class Song {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const util_1 = require("../util/util");
+class Song {
     constructor() {
         /**
          * Size of the song.
@@ -86,7 +88,7 @@ export default class Song {
      * Instruments of the song.
      */
     get instruments() {
-        return getInstrumentClass().builtIn;
+        return (0, util_1.getInstrumentClass)().builtIn;
     }
     /**
      * Amount of milliseconds each tick takes.
@@ -104,7 +106,7 @@ export default class Song {
      * Create and add a new layer.
      */
     addLayer() {
-        const layer = new (getLayerClass())(this, this.layers.length + 1);
+        const layer = new ((0, util_1.getLayerClass)())(this, this.layers.length + 1);
         this.layers.push(layer);
         return layer;
     }
@@ -121,7 +123,7 @@ export default class Song {
      */
     static fromArrayBuffer(arrayBuffer) {
         const song = new this();
-        const reader = new BufferReader(arrayBuffer);
+        const reader = new util_1.BufferReader(arrayBuffer);
         let size = reader.readShort(); // Read song size
         // Check if NBS file is ONBS versioned
         if (size === 0) {
@@ -216,7 +218,7 @@ export default class Song {
         // Parse custom instruments
         const customInstruments = reader.readByte(); // Read number of custom instruments
         for (let i = 0; i < customInstruments; i++) {
-            song.instruments.push(new (getInstrumentClass())(reader.readString(), // Read instrument name
+            song.instruments.push(new ((0, util_1.getInstrumentClass)())(reader.readString(), // Read instrument name
             song.instruments.length, {
                 "audioSrc": reader.readString(),
                 "pitch": reader.readByte(),
@@ -236,3 +238,4 @@ export default class Song {
         return song;
     }
 }
+exports.default = Song;

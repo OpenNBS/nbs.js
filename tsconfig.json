@@ -1,19 +1,18 @@
 {
     "compilerOptions": {
         "target": "ES6",
-        "lib": ["esnext", "dom"],
+        "lib": ["esnext"],
         "allowJs": true,
         "skipLibCheck": true,
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "esModuleInterop": true,
-        "module": "ES6",
-        "moduleResolution": "Classic",
+        "module": "CommonJS",
+        "moduleResolution": "Node",
         "isolatedModules": true,
-        "importHelpers": true,
-        "downlevelIteration": true,
         "rootDir": "src",
         "outDir": "build",
+        "declaration": true,
         "paths": {
             "tslib": ["./node_modules/tslib/tslib.d.ts"]
         }
@@ -22,6 +21,8 @@
         "**/*.ts"
     ],
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "build",
+        "src/app.ts"
     ]
 }

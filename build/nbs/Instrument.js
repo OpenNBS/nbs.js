@@ -1,5 +1,7 @@
+"use strict";
 var _a;
-export default class Instrument {
+Object.defineProperty(exports, "__esModule", { value: true });
+class Instrument {
     /**
      * Construct an instrument.
      * @param name Name of the instrument
@@ -16,6 +18,7 @@ export default class Instrument {
         this.builtIn = (options === null || options === void 0 ? void 0 : options.builtIn) || false;
     }
 }
+exports.default = Instrument;
 _a = Instrument;
 /**
  * The built-in instruments.

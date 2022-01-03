@@ -1,4 +1,6 @@
-export default class Note {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Note {
     /**
      * Construct a note.
      * @param key Key of the note
@@ -15,3 +17,4 @@ export default class Note {
         this.instrument = instrument;
     }
 }
+exports.default = Note;

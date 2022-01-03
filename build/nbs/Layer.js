@@ -1,5 +1,7 @@
-import { getNoteClass } from "../util/util";
-export default class Layer {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const util_1 = require("../util/util");
+class Layer {
     /**
      * Construct a layer.
      * @param song Song the layer is attached to
@@ -44,7 +46,7 @@ export default class Layer {
             this.song.size = tick + 1;
         }
         // Construct the note
-        const note = new (getNoteClass())(key, panning, velocity, pitch, instrument);
+        const note = new ((0, util_1.getNoteClass)())(key, panning, velocity, pitch, instrument);
         this.notes[tick] = note;
         return note;
     }
@@ -63,3 +65,4 @@ export default class Layer {
         delete this.notes[tick];
     }
 }
+exports.default = Layer;
