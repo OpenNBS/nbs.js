@@ -21,12 +21,17 @@
                 <table id="result-overview"></table>
                 <h2>Structure:</h2>
                 <p>The resulting song structure will be displayed here.</p>
+                <ul>
+                    <li>Empty notes and layers have been removed for improved rendering speed.</li>
+                    <li>Instrument objects have been separated from the song object.</li>
+                    <li>Circular references have been shortened.</li>
+                </ul>
                 <pre><code class="language-json" id="result-structure"></code></pre>
             </div>
         </main>
 
         <script async src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.3.1/build/highlight.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/gh/Encode42/NBS.js@latest/dist/index.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/Encode42/NBS.js/dist/index.js"></script>
         <!-- <script src="../dist/index.js"></script> --> <!-- Uncomment for local testing -->
         <script async src="src/index.js"></script>
     </body>

@@ -8,9 +8,6 @@ table tr {
 
 table td {
     vertical-align: middle;
-}
-
-td {
     width: min-content;
 }
 

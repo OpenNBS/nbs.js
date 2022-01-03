@@ -18,29 +18,50 @@ window.addEventListener("load", () => {
         prepareResult("Loading...");
         const song = NBSjs.Song.fromArrayBuffer(await fileInput.files[0].arrayBuffer());
 
-        // Remove undefined notes
+        // Remove undefined notes and empty layers
+        const newLayers = [];
         for (let i = 0; i < song.layers.length; i++) {
-            const newNotes = [];
+            const layer = song.layers[i];
 
-            for (const note of song.layers[i].notes) {
+            // Check for empty notes
+            const newNotes = [];
+            for (const note of layer.notes) {
                 if (note !== undefined) {
                     newNotes.push(note);
                 }
             }
 
-            song.layers[i].notes = newNotes;
+            layer.notes = newNotes;
+
+            // Check for empty layers
+            if (layer.notes.length > 0) {
+                newLayers.push(layer);
+            }
         }
+
+        song.layers = newLayers;
 
         // Get ready to display the result
         displayResult();
 
+        // Display the instruments first
+        resultStructure.innerHTML = `Instruments: ${JSON.stringify(song.instruments, null, 4)}\n\n`;
+
         // Stringify the song structure
         const cache = [];
-        resultStructure.innerHTML = JSON.stringify(song, (key, value) => {
+        resultStructure.innerHTML += "Song: " + JSON.stringify(song, (key, value) => {
             // Decycle the object
             if (typeof value === "object" && value !== null) {
+                if (key === "instrument") {
+                    return `[${key} ${value.name}]`;
+                }
+
+                if (key === "song") {
+                    return `[this]`;
+                }
+
                 if (cache.includes(value)) {
-                    return;
+                    return `[${key}]`;
                 }
 
                 cache.push(value);
@@ -68,8 +89,15 @@ window.addEventListener("load", () => {
             "Total notes",
             song.size
         ], [
-            "Instruments used",
-            song.instruments.map(i => i.name).join(", ")
+            "Custom instruments",
+            song.instruments.map(i => {
+                if (!i.builtIn) {
+                    return i.name;
+                }
+
+                return null;
+            }).filter(Boolean)
+                .join(", ")
         ]];
 
         // Fill result table
@@ -80,7 +108,7 @@ window.addEventListener("load", () => {
             key.innerHTML = `<strong>${overview[0]}</strong>`;
 
             const value = document.createElement("td");
-            value.innerHTML = overview[1] || "None";
+            value.innerHTML = overview[1] === "" ? "None" : overview[1];
 
             row.append(key);
             row.append(value);
