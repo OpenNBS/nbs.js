@@ -1,3 +1,10 @@
+interface InstrumentOptions {
+    "audioSrc"?: string,
+    "pitch"?: number,
+    "key"?: number,
+    "builtIn"?: boolean
+}
+
 export default class Instrument {
     /**
      * Name of the instrument.
@@ -25,90 +32,141 @@ export default class Instrument {
     public key: number;
 
     /**
+     * Whether the instrument is a built-in instrument.
+     */
+    public builtIn: boolean;
+
+    /**
      * The built-in instruments.
      */
     public static builtIn = [
         new this(
             "Harp",
             0,
-            "harp.ogg",
-            "default",
-            "default"
+            {
+                "audioSrc": "harp.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Double Bass",
             1,
-            "dbass.ogg"
+            {
+                "audioSrc": "dbass.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Bass Drum",
             2,
-            "bdrum.ogg"
+            {
+                "audioSrc": "bdrum.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Snare Drum",
             3,
-            "sdrum.ogg"
+            {
+                "audioSrc": "sdrum.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Click",
             4,
-            "click.ogg"
+            {
+                "audioSrc": "click.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Guitar",
             5,
-            "guitar.ogg"
+            {
+                "audioSrc": "guitar.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Flute",
             6,
-            "flute.ogg"
+            {
+                "audioSrc": "flute.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Bell",
             7,
-            "bell.ogg"
+            {
+                "audioSrc": "bell.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Chime",
             8,
-            "chime.ogg"
+            {
+                "audioSrc": "chime.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Xylophone",
             9,
-            "xylophone.ogg"
+            {
+                "audioSrc": "xylophone.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Iron Xylophone",
             10,
-            "iron_xylophone.ogg"
+            {
+                "audioSrc": "iron_xylophone.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Cow Bell",
             11,
-            "cow_bell.ogg"
+            {
+                "audioSrc": "cow_bell.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Didgeridoo",
             12,
-            "didgeridoo.ogg"
+            {
+                "audioSrc": "didgeridoo.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Bit",
             13,
-            "bit.ogg"
+            {
+                "audioSrc": "bit.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Banjo",
             14,
-            "banjo.ogg"
+            {
+                "audioSrc": "banjo.ogg",
+                "builtIn": true
+            }
         ),
         new this(
             "Pling",
             15,
-            "pling.ogg"
+            {
+                "audioSrc": "pling.ogg",
+                "builtIn": true
+            }
         )
     ];
 
@@ -116,15 +174,16 @@ export default class Instrument {
      * Construct an instrument.
      * @param name Name of the instrument
      * @param id ID of the instrument in the song's instrument array
-     * @param audioSrc Audio file for the instrument
-     * @param pitch Pitch offset of the instrument
-     * @param key Key of the instrument
+     * @param options Options for the instrument
      */
-    public constructor(name: string, id: number, audioSrc: string, pitch: number | "default" = 0, key: number | "default" = 0) {
+    public constructor(name: string, id: number, options?: InstrumentOptions) {
         this.name = name;
         this.id = id;
-        this.audioSrc = audioSrc;
-        this.pitch = pitch === "default" ? 0 : pitch;
-        this.key = key === "default" ? 45 : key;
+
+        // Parse options
+        this.audioSrc = options?.audioSrc || "";
+        this.pitch = options?.pitch === undefined ? 0 : options.pitch;
+        this.key = options?.key === undefined ? 45 : options.key;
+        this.builtIn = options?.builtIn || false;
     }
 }

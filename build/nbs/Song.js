@@ -217,9 +217,11 @@ export default class Song {
         const customInstruments = reader.readByte(); // Read number of custom instruments
         for (let i = 0; i < customInstruments; i++) {
             song.instruments.push(new (getInstrumentClass())(reader.readString(), // Read instrument name
-            i + song.instruments.length, reader.readString(), // Read instrument file
-            reader.readByte(), // Read instrument pitch
-            reader.readByte())); // Read instrument key
+            song.instruments.length, {
+                "audioSrc": reader.readString(),
+                "pitch": reader.readByte(),
+                "key": reader.readByte() // Read instrument key
+            }));
         }
         // Parse notes
         for (const rawNote of rawNotes) {

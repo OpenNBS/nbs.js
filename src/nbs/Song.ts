@@ -303,10 +303,12 @@ export default class Song {
             song.instruments.push(
                 new (getInstrumentClass())(
                     reader.readString(), // Read instrument name
-                    i + song.instruments.length,
-                    reader.readString(), // Read instrument file
-                    reader.readByte(), // Read instrument pitch
-                    reader.readByte())); // Read instrument key
+                    song.instruments.length,
+                    {
+                        "audioSrc": reader.readString(), // Read instrument file
+                        "pitch": reader.readByte(), // Read instrument pitch
+                        "key": reader.readByte()// Read instrument key
+                    }));
         }
 
         // Parse notes
