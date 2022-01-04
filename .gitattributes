@@ -1,0 +1,4 @@
+# Ignore compiled files for language statistics
+/build/** linguist-vendored
+/dist/** linguist-vendored
+/demo/** linguist-vendored
