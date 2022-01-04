@@ -40,3 +40,5 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./public
         publish_branch: gh-pages
+        git-config-name: GitHub Action
+        git-config-email: action@github.com
