@@ -43,11 +43,11 @@ self.addEventListener("message", async event => {
             "Song description",
             song.description
         ], [
+            "Song tick length",
+            song.size
+        ], [
             "Total layers",
             song.layers.length
-        ], [
-            "Total notes",
-            song.size
         ], [
             "Custom instruments",
             song.instruments.map(i => {
