@@ -34,6 +34,10 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
 
+    - name: Prepare deploy pages
+      run: |
+        cp dist/index.js public/demo/src/
+
     - name: Deploy pages
       uses: peaceiris/actions-gh-pages@v3
       with:
