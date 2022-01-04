@@ -1,4 +1,4 @@
-self.importScripts("/../dist/index.js");
+self.importScripts("../NBS.js");
 
 self.addEventListener("message", async event => {
     // Load the song
