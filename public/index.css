@@ -2,8 +2,12 @@
     --slight-bright: rgba(255, 255, 255, 0.1);
 }
 
-h1 {
+h1, h2, h3 {
     border-bottom: 1px solid var(--slight-bright);
+}
+
+h3 {
+    font-size: 1.6em;
 }
 
 table {
@@ -12,6 +16,10 @@ table {
 
 table tr {
     border-bottom: 1px solid var(--slight-bright);
+}
+
+table td:first-child {
+    width: 33%;
 }
 
 table td {
