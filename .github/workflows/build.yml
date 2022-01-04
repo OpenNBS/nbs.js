@@ -25,7 +25,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add docs/* dist/* -f # build/*
+        git add dist/* -f # build/*
         git commit -m "Push build changes" || echo "No changes were found."
 
     - name: Push changes
@@ -33,3 +33,14 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
+
+    - name: Commit docs
+      run: |
+        git add docs/* -f
+        git commit -m "Push build changes" || echo "No changes were found."
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
