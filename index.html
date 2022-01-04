@@ -1,0 +1,90 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title>NBS.js</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/speed-highlight/core@1.1.4/dist/themes/github-dark.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<main>
+    <h1>NBS.js</h1>
+<h3>A versatile API for reading, manipulating, and writing <a href="https://opennbs.org">OpenNBS</a> files, heavily inspired by <a href="https://github.com/TheGreatFoxxy/NBSEditor/blob/408e3e58058bd72286fc7e9740d62a39a0c919dd/src/NBS.js">NBSEditor</a> and <a href="https://github.com/koca2000/NoteBlockAPI">NoteBlockAPI</a>.</h3>
+<p><a href="https://encode42.github.io/NBS.js/docs/"><img src="https://img.shields.io/badge/Docs-3178C6?labelColor=3178C6&amp;logo=typescript&amp;logoColor=white&amp;style=flat-square" alt="Docs Badge"></a> <a href="https://www.npmjs.com/package/@encode42/nbs.js"><img src="https://img.shields.io/npm/v/@encode42/nbs.js?label=%E2%80%8B&amp;color=cb0000&amp;labelColor=cb0000&amp;logo=npm&amp;logoColor=white&amp;style=flat-square" alt="NPM Badge"></a><br>
+<a href="https://github.com/Encode42/NBS.js/actions/workflows/build.yml"><img src="https://img.shields.io/github/workflow/status/Encode42/NBS.js/Build?style=flat-square" alt=""></a> <a href="https://app.codacy.com/gh/Encode42/NBS.js"><img src="https://img.shields.io/codacy/grade/68f12c67186549b88ab7ada56ac83efc?color=172B4D&amp;labelColor=172B4D&amp;label=%E2%80%8B&amp;logo=codacy&amp;style=flat-square" alt=""></a> <a href="https://encode42.dev/support"><img src="https://img.shields.io/discord/646517284453613578?color=7289da&amp;labelColor=7289da&amp;label=%E2%80%8B&amp;logo=discord&amp;logoColor=white&amp;style=flat-square" alt=""></a></p>
+<p><strong>Note:</strong> This API is still in early development. Writing NBS files is not yet supported. Report any bugs found!</p>
+<h3>🔧 Including</h3>
+<p>🌐 <strong>Browser</strong></p>
+<pre><code class="block shj-lang-html shj-inline" data-lang="html"><span class="shj-syn-var"></span><span class="shj-syn-oper">&lt;</span><span class="shj-syn-var">script</span> <span class="shj-syn-class">src</span><span class="shj-syn-str"></span><span class="shj-syn-oper">=</span><span class="shj-syn-str">"https://cdn.jsdelivr.net/gh/Encode42/NBS.js@main/dist/index.js"</span><span class="shj-syn-oper">&gt;</span><span class="shj-syn-var"></span><span class="shj-syn-oper">&lt;/</span><span class="shj-syn-var">script</span><span class="shj-syn-oper">&gt;</span>
+</code></pre>
+<p>⚙️ <strong>Node.js</strong></p>
+<pre><code class="block shj-lang-bash shj-inline" data-lang="bash">npm i @encode42<span class="shj-syn-oper">/</span>nbs.js
+</code></pre>
+<h3>❔ FAQ</h3>
+<details>
+<summary>
+Is there a demo?
+</summary>
+<p>Yes! A GitHub pages site is located <a href="https://encode42.github.io/NBS.js/demo/">here</a>. It contains a demonstration of how to read and process NBS files, and displays the song structure.</p>
+<p><a href="https://encode42.github.io/NBS.js/demo/"><img src="https://img.shields.io/badge/Demo-202b38?labelColor=202b38&amp;logo=html5&amp;logoColor=white&amp;style=flat-square" alt="Demo Badge"></a></p>
+</details>
+<details>
+<summary>
+How do I use this?
+</summary>
+<p><a href="#-setup">Install NBS.js for your platform</a>, then refer to the <a href="https://encode42.github.io/NBS.js/docs/">documentation</a> and examples below.</p>
+<p><a href="https://encode42.github.io/NBS.js/docs/"><img src="https://img.shields.io/badge/Docs-3178C6?labelColor=3178C6&amp;logo=typescript&amp;logoColor=white&amp;style=flat-square" alt="Docs Badge"></a></p>
+<details>
+<summary>
+Browser
+</summary>
+<pre><code class="block shj-lang-html shj-inline" data-lang="html"><span class="shj-syn-var"></span><span class="shj-syn-oper">&lt;</span><span class="shj-syn-var">input</span> <span class="shj-syn-class">type</span><span class="shj-syn-str"></span><span class="shj-syn-oper">=</span><span class="shj-syn-str">"file"</span> <span class="shj-syn-class">id</span><span class="shj-syn-str"></span><span class="shj-syn-oper">=</span><span class="shj-syn-str">"file-input"</span><span class="shj-syn-oper">&gt;</span>
+
+<span class="shj-syn-var"></span><span class="shj-syn-oper">&lt;</span><span class="shj-syn-var">script</span> <span class="shj-syn-class">src</span><span class="shj-syn-str"></span><span class="shj-syn-oper">=</span><span class="shj-syn-str">"https://cdn.jsdelivr.net/gh/Encode42/NBS.js@main/dist/index.js"</span><span class="shj-syn-oper">&gt;</span><span class="shj-syn-var"></span><span class="shj-syn-oper">&lt;/</span><span class="shj-syn-var">script</span><span class="shj-syn-oper">&gt;</span> &lt;!-- Import NBS.js --&gt;
+<span class="shj-syn-var"></span><span class="shj-syn-oper">&lt;</span><span class="shj-syn-var">script</span><span class="shj-syn-oper">&gt;</span>
+window<span class="shj-syn-oper">.</span><span class="shj-syn-func">addEventListener</span>(<span class="shj-syn-str">"load"</span><span class="shj-syn-oper">,</span> () <span class="shj-syn-kwd">=&gt;</span> {
+  <span class="shj-syn-cmnt">// Initialize file input
+</span>  document<span class="shj-syn-oper">.</span><span class="shj-syn-func">getElementById</span>(<span class="shj-syn-str">"file-input"</span>)<span class="shj-syn-oper">.</span><span class="shj-syn-func">addEventListener</span>(<span class="shj-syn-str">"change"</span><span class="shj-syn-oper">,</span> event <span class="shj-syn-kwd">=&gt;</span> {
+    <span class="shj-syn-kwd">const</span> songFile <span class="shj-syn-oper">=</span> event<span class="shj-syn-oper">.</span>target<span class="shj-syn-oper">.</span>files[<span class="shj-syn-num">0</span>]; <span class="shj-syn-cmnt">// Read a NBS file
+</span>    songFile<span class="shj-syn-oper">.</span><span class="shj-syn-func">arrayBuffer</span>()<span class="shj-syn-oper">.</span><span class="shj-syn-func">then</span>(buffer <span class="shj-syn-kwd">=&gt;</span> { <span class="shj-syn-cmnt">// Create an ArrayBuffer
+</span>      <span class="shj-syn-kwd">const</span> song <span class="shj-syn-oper">=</span> <span class="shj-syn-class">NBSjs</span><span class="shj-syn-oper">.</span><span class="shj-syn-class">Song</span><span class="shj-syn-oper">.</span><span class="shj-syn-func">fromArrayBuffer</span>(buffer); <span class="shj-syn-cmnt">// Parse song from ArrayBuffer
+</span>
+      console<span class="shj-syn-oper">.</span><span class="shj-syn-func">log</span>(song);
+    });
+  });
+});
+<span class="shj-syn-var"></span><span class="shj-syn-oper">&lt;/</span><span class="shj-syn-var">script</span><span class="shj-syn-oper">&gt;</span>
+</code></pre>
+<p><a href="https://encode42.github.io/NBS.js/demo/"><img src="https://img.shields.io/badge/Demo-202b38?labelColor=202b38&amp;logo=html5&amp;logoColor=white&amp;style=flat-square" alt="Demo Badge"></a></p>
+</details>
+<details>
+<summary>
+Node.js
+</summary>
+<pre><code class="block shj-lang-js shj-inline" data-lang="js"><span class="shj-syn-kwd">const</span> fs <span class="shj-syn-oper">=</span> <span class="shj-syn-func">require</span>(<span class="shj-syn-str">"fs"</span>);
+<span class="shj-syn-kwd">const</span> { <span class="shj-syn-class">Song</span> } <span class="shj-syn-oper">=</span> <span class="shj-syn-func">require</span>(<span class="shj-syn-str">"@encode42/nbs.js"</span>); <span class="shj-syn-cmnt">// Import NBS.js
+</span>
+<span class="shj-syn-kwd">const</span> songFile <span class="shj-syn-oper">=</span> fs<span class="shj-syn-oper">.</span><span class="shj-syn-func">readFileSync</span>(<span class="shj-syn-str">"song.nbs"</span>); <span class="shj-syn-cmnt">// Read a NBS file
+</span><span class="shj-syn-kwd">const</span> buffer <span class="shj-syn-oper">=</span> <span class="shj-syn-kwd">new</span> <span class="shj-syn-class">Uint8Array</span>(songFile)<span class="shj-syn-oper">.</span>buffer; <span class="shj-syn-cmnt">// Create an ArrayBuffer
+</span><span class="shj-syn-kwd">const</span> song <span class="shj-syn-oper">=</span> <span class="shj-syn-class">Song</span><span class="shj-syn-oper">.</span><span class="shj-syn-func">fromArrayBuffer</span>(buffer); <span class="shj-syn-cmnt">// Parse song from ArrayBuffer
+</span>
+console<span class="shj-syn-oper">.</span><span class="shj-syn-func">log</span>(song);
+</code></pre>
+<p><a href="https://www.npmjs.com/package/@encode42/nbs.js"><img src="https://img.shields.io/npm/v/@encode42/nbs.js?label=%E2%80%8B&amp;color=cb0000&amp;labelColor=cb0000&amp;logo=npm&amp;logoColor=white&amp;style=flat-square" alt="NPM Badge"></a></p>
+</details>
+</details>
+<h3>🔨 Building</h3>
+<p>Ensure <a href="https://yarnpkg.com/">Yarn</a> and <a href="https://nodejs.org/en/">Node.js</a> are installed.</p>
+<ol>
+<li>Enter the directory containing the NBS.js source code in a terminal window.</li>
+<li>Install the build dependencies via <code>yarn install</code>.</li>
+<li>Run <code>yarn run build</code> to generate the Node.js module and webpack bundle.</li>
+</ol>
+<p>Node.js module can be found in the <code>build</code> directory, and the wepback bundle is stored at <code>dist/index.js</code>.</p>
+
+</main>
+
+<script async="" src="src/index.js" type="module"></script>
+
+
+</body></html>
