@@ -1,3 +1,11 @@
+[Docs Badge]: https://img.shields.io/badge/Docs-3178C6?labelColor=3178C6&logo=typescript&logoColor=white&style=flat-square
+[Docs]: https://encode42.github.io/NBS.js/docs/
+[NPM Badge]: https://img.shields.io/badge/NPM-cb0000?labelColor=cb0000&logo=npm&logoColor=white&style=flat-square
+[NPM]: https://www.npmjs.com/package/@encode42/nbs.js
+[Demo Badge]: https://img.shields.io/badge/Demo-202b38?labelColor=202b38&logo=html5&logoColor=white&style=flat-square
+[Demo]: https://encode42.github.io/NBS.js/demo/
+[Actions Badge]: https://img.shields.io/github/workflow/status/Encode42/NBS.js/Build?style=flat-square
+[Actions]: https://github.com/Encode42/NBS.js/actions/workflows/build.yml
 [Support]: https://encode42.dev/support
 [Discord Badge]: https://img.shields.io/discord/646517284453613578?color=7289da&labelColor=7289da&label=​&logo=discord&logoColor=white&style=flat-square
 [Codacy]: https://app.codacy.com/gh/Encode42/NBS.js
@@ -6,7 +14,8 @@
 # NBS.js
 ### A versatile API for reading, manipulating, and writing [OpenNBS](https://opennbs.org) files, heavily inspired by [NBSEditor](https://github.com/TheGreatFoxxy/NBSEditor/blob/408e3e58058bd72286fc7e9740d62a39a0c919dd/src/NBS.js) and [NoteBlockAPI](https://github.com/koca2000/NoteBlockAPI).
 
-[![][Codacy Badge]][Codacy] [![][Discord Badge]][Support]
+[![Docs Badge]][Docs] [![NPM Badge]][NPM]  
+[![][Actions Badge]][Actions] [![][Codacy Badge]][Codacy] [![][Discord Badge]][Support]
 
 **Note:** This API is still in early development. Writing NBS files is not yet supported. Report any bugs found!
 
@@ -28,6 +37,8 @@ Is there a demo?
 </summary>
 
 Yes! A GitHub pages site is located [here](https://encode42.github.io/NBS.js/demo/). It contains a demonstration of how to read and process NBS files, and displays the song structure.
+
+[![Demo Badge]][Demo]
 </details>
 
 <details>
@@ -35,10 +46,9 @@ Yes! A GitHub pages site is located [here](https://encode42.github.io/NBS.js/dem
 How do I use this?
 </summary>
 
-[Install NBS.js for your platform](#-setup), then refer to the examples below.
+[Install NBS.js for your platform](#-setup), then refer to the [documentation][Docs] and examples below.
 
-Classes and methods exported by NBS.js:
-- `Song`
+[![Docs Badge]][Docs]
 
 <details>
 <summary>
@@ -63,6 +73,8 @@ window.addEventListener("load", () => {
 });
 </script>
 ```
+
+[![Demo Badge]][Demo]
 </details>
 
 <details>
@@ -80,6 +92,8 @@ const song = Song.fromArrayBuffer(buffer); // Parse song from ArrayBuffer
 
 console.log(song);
 ```
+
+[![NPM Badge]][NPM]
 </details>
 </details>
 
