@@ -193,6 +193,13 @@ export default class Song {
     public layers: Layer[] = [];
 
     /**
+     * Errors occurred while loading, manipulating, or saving the nbs file.
+     *
+     * Returns an empty array if no errors occurred.
+     */
+    public errors: string[] = [];
+
+    /**
      * Instruments of the song.
      */
     public get instruments() {
@@ -388,7 +395,7 @@ export default class Song {
                 );
             }
         } catch (e) {
-            console.error(e);
+            song.errors.push(String(e));
         }
 
         return song;
