@@ -1,4 +1,4 @@
-# Don't ignore commonly ignored folders
-/docs
-/dist
-/build
+# Let actions handle these
+/public/docs/
+/dist/
+/build/

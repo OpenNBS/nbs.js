@@ -34,13 +34,9 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
 
-    - name: Commit docs
-      run: |
-        git add docs/* -f
-        git commit -m "Push build changes" || echo "No changes were found."
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
+    - name: Deploy pages
+      uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages
+        publish_dir: ./public
+        publish_branch: gh-pages

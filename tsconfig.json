@@ -17,8 +17,11 @@
     },
     "typedocOptions": {
         "entryPoints": ["src/index.ts"],
-        "out": "docs",
-        "listInvalidSymbolLinks": true,
+        "out": "public/docs",
+        "githubPages": false,
+        "validation": {
+            "invalidLink": true
+        },
         "readme": "none",
         "name": "NBS.js",
         "includeVersion": true,
