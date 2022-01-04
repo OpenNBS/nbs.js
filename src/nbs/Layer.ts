@@ -3,7 +3,15 @@ import Note from "./Note";
 import Instrument from "./Instrument";
 import { getNoteClass } from "../util/util";
 
+/**
+ * Represents a layer of a song instance.
+ */
 export default class Layer {
+    /**
+     * Song instance this layer is attached to.
+     *
+     * @internal
+     */
     private song: Song;
 
     /**
@@ -12,12 +20,14 @@ export default class Layer {
     public name = "";
 
     /**
-     * ID of the layer.
+     * ID (index) of the layer.
+     *
+     * Used internally to order lists.
      */
     public id: number;
 
     /**
-     * Velocity of the layer.
+     * Velocity (volume) of the layer.
      */
     public velocity = 100;
 
@@ -27,7 +37,7 @@ export default class Layer {
     public panning = 100;
 
     /**
-     * Whether the layer is locked.
+     * Whether the layer is locked or muted.
      */
     public locked = false;
 
@@ -38,6 +48,7 @@ export default class Layer {
 
     /**
      * Construct a layer.
+     *
      * @param song Song the layer is attached to
      * @param id ID of the layer
      */
@@ -47,24 +58,35 @@ export default class Layer {
     }
 
     /**
-     * Set a note at a tick.
+     * Create and add a note to a tick.
+     *
+     * @param instrument The note's instrument
      * @param tick Tick to set the note
      * @param key The note's key
      * @param panning The note's panning
      * @param velocity The note's velocity
      * @param pitch The note's pitch
-     * @param instrument The note's instrument
      */
-    public setNote(tick: number, key: number, panning: number, velocity: number, pitch: number, instrument: Instrument): Note {
+    public addNote(tick: number, instrument?: Instrument, key?: number, panning?: number, velocity?: number, pitch?: number): Note {
         // Expand the song if required
         if (tick + 1 > this.song.size) {
             this.song.size = tick + 1;
         }
 
         // Construct the note
-        const note = new (getNoteClass())(key, panning, velocity, pitch, instrument);
+        const note = new (getNoteClass())(instrument, key, panning, velocity, pitch);
         this.notes[tick] = note;
         return note;
+    }
+
+    /**
+     * Set a note at a tick.
+     *
+     * @param tick Tick to set note on
+     * @param note Note to set on tick
+     */
+    public setNote(tick: number, note: Note): void {
+        this.notes[tick] = note;
     }
 
     /**
@@ -74,9 +96,10 @@ export default class Layer {
         this.song.deleteLayer(this);
     }
 
-    // todo: shrink song if last tick
+    // TODO: Shrink song if available
     /**
      * Delete a note at a specified tick.
+     *
      * @param tick Tick to remove note from
      */
     public deleteNote(tick: number): void {

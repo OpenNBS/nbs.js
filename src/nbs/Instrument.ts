@@ -1,50 +1,57 @@
-interface InstrumentOptions {
-    "audioSrc"?: string,
-    "pitch"?: number,
-    "key"?: number,
-    "builtIn"?: boolean
-}
+import { InstrumentOptions } from "./interfaces/InstrumentOptions";
 
+/**
+ * Represents an instrument of a {@linkcode Note}.
+ */
 export default class Instrument {
     /**
      * Name of the instrument.
      */
-    public name: string;
+    public name = "";
 
     /**
      * ID of the instrument.
+     *
+     * Used internally to order lists.
      */
     public id: number;
 
     /**
      * Audio source file of the instrument.
+     *
+     * NBS.js does not handle audio playback, this field is for storage.
      */
-    public audioSrc: string;
+    public audioSrc = "";
 
     /**
      * Pitch of the instrument.
      */
-    public pitch: number;
+    public pitch = 0;
 
     /**
      * Key of the instrument.
+     *
+     * @example E = 44, F = 45
      */
-    public key: number;
+    public key = 45;
 
     /**
      * Whether the instrument is a built-in instrument.
      */
-    public builtIn: boolean;
+    public builtIn = false;
 
     /**
      * The built-in instruments.
+     *
+     * Includes harp, double bass, bass drum, snare drum, click, guitar, flute, bell, chime, xylophone, iron xylophone, cow bell, didgeridoo, bit, banjo, and pling.
+     *
+     * All {@linkcode audioSrc} fields are empty by default - implementation dependent.
      */
     public static builtIn = [
         new this(
             "Harp",
             0,
             {
-                "audioSrc": "harp.ogg",
                 "builtIn": true
             }
         ),
@@ -52,7 +59,6 @@ export default class Instrument {
             "Double Bass",
             1,
             {
-                "audioSrc": "dbass.ogg",
                 "builtIn": true
             }
         ),
@@ -60,7 +66,6 @@ export default class Instrument {
             "Bass Drum",
             2,
             {
-                "audioSrc": "bdrum.ogg",
                 "builtIn": true
             }
         ),
@@ -68,7 +73,6 @@ export default class Instrument {
             "Snare Drum",
             3,
             {
-                "audioSrc": "sdrum.ogg",
                 "builtIn": true
             }
         ),
@@ -76,7 +80,6 @@ export default class Instrument {
             "Click",
             4,
             {
-                "audioSrc": "click.ogg",
                 "builtIn": true
             }
         ),
@@ -84,7 +87,6 @@ export default class Instrument {
             "Guitar",
             5,
             {
-                "audioSrc": "guitar.ogg",
                 "builtIn": true
             }
         ),
@@ -92,7 +94,6 @@ export default class Instrument {
             "Flute",
             6,
             {
-                "audioSrc": "flute.ogg",
                 "builtIn": true
             }
         ),
@@ -100,7 +101,6 @@ export default class Instrument {
             "Bell",
             7,
             {
-                "audioSrc": "bell.ogg",
                 "builtIn": true
             }
         ),
@@ -108,7 +108,6 @@ export default class Instrument {
             "Chime",
             8,
             {
-                "audioSrc": "chime.ogg",
                 "builtIn": true
             }
         ),
@@ -116,7 +115,6 @@ export default class Instrument {
             "Xylophone",
             9,
             {
-                "audioSrc": "xylophone.ogg",
                 "builtIn": true
             }
         ),
@@ -124,7 +122,6 @@ export default class Instrument {
             "Iron Xylophone",
             10,
             {
-                "audioSrc": "iron_xylophone.ogg",
                 "builtIn": true
             }
         ),
@@ -132,7 +129,6 @@ export default class Instrument {
             "Cow Bell",
             11,
             {
-                "audioSrc": "cow_bell.ogg",
                 "builtIn": true
             }
         ),
@@ -140,7 +136,6 @@ export default class Instrument {
             "Didgeridoo",
             12,
             {
-                "audioSrc": "didgeridoo.ogg",
                 "builtIn": true
             }
         ),
@@ -148,7 +143,6 @@ export default class Instrument {
             "Bit",
             13,
             {
-                "audioSrc": "bit.ogg",
                 "builtIn": true
             }
         ),
@@ -156,7 +150,6 @@ export default class Instrument {
             "Banjo",
             14,
             {
-                "audioSrc": "banjo.ogg",
                 "builtIn": true
             }
         ),
@@ -164,7 +157,6 @@ export default class Instrument {
             "Pling",
             15,
             {
-                "audioSrc": "pling.ogg",
                 "builtIn": true
             }
         )

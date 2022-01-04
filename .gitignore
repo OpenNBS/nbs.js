@@ -1,2 +1,4 @@
 # Don't ignore commonly ignored folders
-!/dist/
+/docs
+/dist
+/build

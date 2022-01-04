@@ -10,3 +10,4 @@ export {
     setLayerClass,
     setNoteClass
 } from "./util/util";
+export type { InstrumentOptions } from "./nbs/interfaces/InstrumentOptions";

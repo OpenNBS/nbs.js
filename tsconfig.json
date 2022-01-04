@@ -15,6 +15,15 @@
         "forceConsistentCasingInFileNames": true,
         "listFiles": true
     },
+    "typedocOptions": {
+        "entryPoints": ["src/index.ts"],
+        "out": "docs",
+        "listInvalidSymbolLinks": true,
+        "readme": "none",
+        "name": "NBS.js",
+        "includeVersion": true,
+        "sort": ["static-first", "visibility"]
+    },
     "include": [
         "**/*.ts"
     ],
