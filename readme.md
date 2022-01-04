@@ -1,6 +1,6 @@
 [Docs Badge]: https://img.shields.io/badge/Docs-3178C6?labelColor=3178C6&logo=typescript&logoColor=white&style=flat-square
 [Docs]: https://encode42.github.io/NBS.js/docs/
-[NPM Badge]: https://img.shields.io/badge/NPM-cb0000?labelColor=cb0000&logo=npm&logoColor=white&style=flat-square
+[NPM Badge]: https://img.shields.io/npm/v/@encode42/nbs.js?label=​&color=cb0000&labelColor=cb0000&logo=npm&logoColor=white&style=flat-square
 [NPM]: https://www.npmjs.com/package/@encode42/nbs.js
 [Demo Badge]: https://img.shields.io/badge/Demo-202b38?labelColor=202b38&logo=html5&logoColor=white&style=flat-square
 [Demo]: https://encode42.github.io/NBS.js/demo/
