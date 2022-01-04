@@ -25,7 +25,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add docs/* dist/* # build/*
+        git add docs/* dist/* -f # build/*
         git commit -m "Push build changes" || echo "No changes were found."
 
     - name: Push changes
