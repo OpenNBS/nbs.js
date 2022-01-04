@@ -5,7 +5,7 @@ const elements = {
     }
 };
 
-let isFirefix;
+let isFirefox;
 
 window.addEventListener("load", () => {
     elements.button.fileInput = document.getElementById("file-input");
@@ -20,10 +20,10 @@ window.addEventListener("load", () => {
     elements.button.fileInput.value = null;
 
     // Sneaky Firefox detection
-    isFirefix = navigator.userAgent.indexOf("Firefox") > 0;
+    isFirefox = navigator.userAgent.indexOf("Firefox") > 0;
 
     elements.button.fileInput.addEventListener("change",  event => {
-        const worker = new Worker("src/loadSong.js");
+        const worker = new Worker("src/worker/loadSong.js");
 
         // Load the song
         prepareResult("Loading...");
@@ -49,10 +49,10 @@ window.addEventListener("load", () => {
             }
 
             // Set structure text
-            if (isFirefix) {
+            if (isFirefox) {
                 elements.text.result.structure.innerHTML = event.data.structureText;
             } else {
-                const highlightWorker = new Worker("src/highlight.js", {
+                const highlightWorker = new Worker("src/worker/highlight.js", {
                     "type": "module"
                 });
 

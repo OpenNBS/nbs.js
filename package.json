@@ -14,14 +14,16 @@
   "license": "MIT",
   "main": "./build/index.js",
   "scripts": {
-    "build": "npm run module && npm run bundle && npm run docs",
-    "docs": "npx typedoc",
+    "build": "npm run module && npm run bundle",
+    "docs": "npm run build && npx typedoc && node public/generate.js",
     "module": "tsc --build",
     "bundle": "webpack",
     "publishBuild": "npm run module && npm publish --access public"
   },
   "devDependencies": {
-    "jsdoc": "^3.6.7",
+    "jsdom": "^19.0.0",
+    "markdown-it": "^12.3.0",
+    "speed_highlight_js": "^1.1.3",
     "terser-webpack-plugin": "^5.3.0",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",
@@ -31,6 +33,5 @@
   },
   "files": [
     "build"
-  ],
-  "dependencies": {}
+  ]
 }
