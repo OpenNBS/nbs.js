@@ -19,6 +19,14 @@ table td {
     width: min-content;
 }
 
+code.block {
+    width: 100%;
+    padding: 10px;
+    background: var(--background);
+    color: var(--text-muted);
+    text-rendering: optimizeSpeed;
+}
+
 main input {
     width: 100%;
     color: var(--text-muted);
@@ -27,14 +35,6 @@ main input {
 #result-structure-parent {
     display: flex;
     flex-direction: column;
-}
-
-#result-structure {
-    width: 100%;
-    padding: 10px;
-    background: var(--background);
-    color: var(--text-muted);
-    text-rendering: optimizeSpeed;
 }
 
 #highlight-status {

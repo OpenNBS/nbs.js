@@ -1,4 +1,4 @@
-self.importScripts("../../dist/index.js");
+self.importScripts("/../dist/index.js");
 
 self.addEventListener("message", async event => {
     // Load the song
