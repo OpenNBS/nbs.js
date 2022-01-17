@@ -1,6 +1,6 @@
 # Let actions handle these
 /public/docs/
 /public/index.html
-/public/demo/src/NBS.js
+/.github/tuottaa/private/demo/src/NBS.js
 /dist/
 /build/

@@ -2,7 +2,11 @@
     --slight-bright: rgba(255, 255, 255, 0.1);
 }
 
-h1, h2, h3 {
+body {
+    max-width: 1000px;
+}
+
+h1, h2 {
     border-bottom: 1px solid var(--slight-bright);
 }
 

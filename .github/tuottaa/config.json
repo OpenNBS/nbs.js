@@ -1,0 +1,16 @@
+{
+    "roots": [
+        "nbsjs"
+    ],
+    "nbsjs": {
+        "target": "../../..",
+        "title": "NBS.js",
+        "output": "./public"
+    },
+    "private": {
+        "target": "../private",
+        "excludeFiles": [
+            "template.html"
+        ]
+    }
+}
