@@ -36,7 +36,7 @@ jobs:
 
     - name: Prepare deploy pages
       run: |
-        cp dist/index.js .github/tuottaa/Tuottaa/private/demo/src/NBS.js
+        cp dist/index.js .github/tuottaa/private/demo/src/NBS.js
 
     - name: Build pages
       working-directory: .github/tuottaa
