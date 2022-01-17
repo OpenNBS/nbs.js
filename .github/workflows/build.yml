@@ -52,5 +52,5 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: .github/tuottaa/Tuottaa/public
         publish_branch: gh-pages
-        git-config-name: GitHub Action
-        git-config-email: action@github.com
+        user_name: GitHub Action
+        user_email: action@github.com
