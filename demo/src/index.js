@@ -1,3 +1,10 @@
+// todo: workers are firing twice on firefox
+
+let song;
+let instruments;
+let timePerTick;
+const instrumentMap = new Map();
+
 const elements = {
     "button": {},
     "text": {
@@ -9,6 +16,8 @@ let isFirefox;
 
 window.addEventListener("load", () => {
     elements.button.fileInput = document.getElementById("file-input");
+    elements.button.playback = document.getElementById("playback");
+    elements.button.restart = document.getElementById("restart");
     elements.text.highlighting = document.getElementById("highlight-status");
     elements.text.result.structure = document.getElementById("result-structure");
     elements.text.result.overview = document.getElementById("result-overview");
@@ -31,7 +40,11 @@ window.addEventListener("load", () => {
             "file": event.target.files[0]
         });
 
-        worker.addEventListener("message", event => {
+        worker.addEventListener("message", async event => {
+            song = event.data.song;
+            instruments = event.data.instruments;
+            timePerTick = event.data.timePerTick;
+
             // Fill result table
             for (const overview of event.data.overviews) {
                 const row = document.createElement("tr");
@@ -63,12 +76,29 @@ window.addEventListener("load", () => {
                     "code": event.data.structureText
                 });
 
-                highlightWorker.addEventListener("message", event => {
-                    elements.text.result.structure.innerHTML = event.data.code;
+                highlightWorker.addEventListener("message", highlightEvent => {
+                    elements.text.result.structure.innerHTML = highlightEvent.data.code;
                     elements.text.highlighting.classList.remove("visible");
                 });
             }
         });
+    });
+
+    elements.button.playback.addEventListener("click", () => {
+        // Ensure a song is loaded
+        if (song) {
+            // Start or stop the song
+            if (elements.button.playback.dataset.toggled === "true") {
+                stopSong();
+            } else {
+                prepareSong();
+            }
+        }
+    });
+
+    elements.button.restart.addEventListener("click", () => {
+        // Restart the song
+        currentTick = 0;
     });
 });
 
@@ -79,4 +109,67 @@ window.addEventListener("load", () => {
 function prepareResult(placeholder) {
     elements.text.result.overview.innerHTML = null;
     elements.text.result.structure.innerHTML = placeholder;
+    stopSong();
+}
+
+/**
+ * Prepare and play the loaded song.
+ */
+async function prepareSong() {
+    // Load all instruments
+    await Promise.all(instruments.map(instrument => {
+        return fetch(instrument.audioSrc)
+            .then(data => data.arrayBuffer())
+            .then(audioData => decodeAudioData(audioData))
+            .then(buffer => instrument.audioBuffer = buffer)
+            .then(instrumentMap.set(instrument.name, instrument));
+    }));
+
+    // Play the song
+    stopPlaying = false;
+    elements.button.playback.dataset.toggled = "true";
+    playSong(song, timePerTick);
+}
+
+/**
+ * Stop the currently playing song
+ */
+function stopSong() {
+    elements.button.playback.dataset.toggled = "false";
+    stopPlaying = true;
+}
+
+let stopPlaying = true;
+let currentTick = 0;
+
+/**
+ * Play a song.
+ * @param song Song to play
+ * @param timePerTick Time to wait between notes
+ */
+async function playSong(song, timePerTick) {
+    // Iterate each tick
+    for (currentTick; currentTick < song.size; currentTick++) {
+        if (stopPlaying) {
+            break;
+        }
+
+        // Iterate each layer
+        for (let j = 0; j < song.layers.length; j++) {
+            // Ensure a note is on the tick
+            if (song.layers[j]?.notes[currentTick]) {
+                // Play the note
+                playNote(
+                    song.layers[j].notes[currentTick].key,
+                    instrumentMap.get(song.layers[j].notes[currentTick].instrument.name),
+                    (song.layers[j].notes[currentTick].velocity * song.layers[j].velocity) / 100,
+                    (song.layers[j].panning + song.layers[j].notes[currentTick].panning) / 100,
+                    song.layers[j].notes[currentTick].pitch / 100
+                );
+            }
+        }
+
+        // Wait until next tick
+        await new Promise(resolve => setTimeout(resolve, timePerTick));
+    }
 }
