@@ -18,8 +18,35 @@ h3 {
     display: unset;
 }
 
-#playback-settings {
+#structure {
+    display: none;
+    flex-direction: column;
+}
+
+#structure.visible {
+    display: flex;
+}
+
+#highlight-status {
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+}
+
+#highlight-status.visible {
+    opacity: 100;
+}
+
+.buttons-with-settings {
+    display: flex;
+    align-items: center;
+}
+
+.buttons-with-settings .settings {
     display: flex;
     flex-direction: column;
-    align-content: end;
+}
+
+.text-small {
+    font-size: 0.8em;
+    margin: 0;
 }
