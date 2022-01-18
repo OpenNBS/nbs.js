@@ -180,11 +180,14 @@ function setReady(isReady) {
         elements.button.playback.toggle.disabled = false;
         elements.button.playback.restart.disabled = false;
         elements.button.structure.highlight.disabled = false;
+        elements.toggle.playback.clamping.disabled = false;
     } else {
         setStructureCode = false;
         elements.button.playback.toggle.disabled = true;
         elements.button.playback.restart.disabled = true;
         elements.button.structure.highlight.disabled = true;
+        elements.toggle.playback.looping.disabled = true;
+        elements.toggle.playback.clamping.disabled = true;
         stopSong();
     }
 }
@@ -206,6 +209,10 @@ async function prepareSong() {
 
         return null;
     }));
+
+    // Check looping toggle if available
+    elements.toggle.playback.looping.disabled = !song.loopEnabled;
+    elements.toggle.playback.looping.checked = song.loopEnabled;
 }
 
 /**
