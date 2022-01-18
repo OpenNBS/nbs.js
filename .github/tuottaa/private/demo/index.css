@@ -18,6 +18,20 @@ h3 {
     display: unset;
 }
 
+#highlight-status {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+}
+
+#highlight-status.visible {
+    opacity: 100;
+}
+
+#highlight-status.enabled {
+    display: unset;
+}
+
 #structure {
     display: none;
     flex-direction: column;
@@ -25,15 +39,6 @@ h3 {
 
 #structure.visible {
     display: flex;
-}
-
-#highlight-status {
-    opacity: 0;
-    transition: opacity 0.1s ease-in-out;
-}
-
-#highlight-status.visible {
-    opacity: 100;
 }
 
 .buttons-with-settings {
