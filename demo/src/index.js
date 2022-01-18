@@ -44,9 +44,10 @@ window.addEventListener("load", () => {
     setReady(false);
 
     // Speed highlight does not work on firefox
-    //if (!navigator.userAgent.indexOf("Firefox") > 0) {
+    if (!navigator.userAgent.includes("Firefox")) {
         elements.button.structure.highlight.classList.add("visible");
-    //}
+        elements.text.structure.highlighting.classList.add("enabled");
+    }
 
     // File is selected
     elements.button.fileInput.addEventListener("change",  event => {
@@ -132,13 +133,19 @@ window.addEventListener("load", () => {
         if (event.target.checked) {
             // Hide the code
             elements.text.structure.parent.classList.remove("visible");
-        } else {
-            // Show the code
-            elements.text.structure.parent.classList.add("visible");
 
+            // Don't let highlights happen
+            elements.button.structure.highlight.disabled = true;
+        } else {
             if (!setStructureCode) {
                 elements.text.structure.code.innerHTML = structureCode;
             }
+
+            // Show the code
+            elements.text.structure.parent.classList.add("visible");
+
+            // Let highlights happen
+            elements.button.structure.highlight.disabled = false;
         }
     });
 });
