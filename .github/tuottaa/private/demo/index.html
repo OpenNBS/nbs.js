@@ -18,7 +18,17 @@
             <div>
                 <h1>Result</h1>
                 <h2>Playback</h2>
+                <p>Real-time playback of the song through the browser.</p>
+                <ul>
+                    <li>Volume has been halved due to browser limitations.</li>
+                    <li>Stereo is clamped to ±50 to mimic ONBS behavior.</li>
+                    <li>Song loop settings are respected.</li>
+                </ul>
                 <button id="playback"></button> <button id="restart">Restart</button>
+                <div id="playback-settings">
+                    <label><input type="checkbox" id="toggle-looping" checked> Looping</label>
+                    <label><input type="checkbox" id="toggle-clamping" checked> Clamp Stereo</label>
+                </div>
                 <h2>Overview</h2>
                 <p>A basic overview of the song will be displayed here.</p>
                 <table id="result-overview"></table>
@@ -29,8 +39,7 @@
                     <li>Instrument objects have been separated from the song object.</li>
                     <li>Circular references have been shortened.</li>
                 </ul>
-                <button id="highlight">Highlight</button>
-                <sub id="highlight-status">Highlighting...</sub>
+                <button id="highlight">Highlight</button> <sub id="highlight-status">Highlighting...</sub>
                 <div id="result-structure-parent">
                     <pre><code class="shj-lang-json shj-inline block" id="result-structure"></code></pre>
                 </div>

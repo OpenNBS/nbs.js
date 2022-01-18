@@ -38,6 +38,7 @@
         "multiline-ternary": "off",
         "no-case-declarations": "off",
         "no-console": "off",
+        "no-extend-native": "off",
         "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
         "no-multi-spaces": "off",
         "no-prototype-builtins": "off",

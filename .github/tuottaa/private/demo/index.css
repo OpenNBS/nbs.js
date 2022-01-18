@@ -17,3 +17,9 @@ h3 {
 #highlight.visible {
     display: unset;
 }
+
+#playback-settings {
+    display: flex;
+    flex-direction: column;
+    align-content: end;
+}

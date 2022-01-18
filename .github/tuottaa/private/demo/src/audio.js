@@ -9,31 +9,30 @@ audioDestination.connect(audioContext.destination);
  * @param velocity Volume of the note
  * @param panning Panning of the note
  * @param pitch Pitch of the note
+ * @return {void}
  */
-function playNote(key, instrument, velocity, panning, pitch) {
+function playNote(key, instrument, velocity, panning, pitch, clamp) {
     if (!instrument) {
         return;
     }
 
-    velocity = velocity / 100;
-    const playbackRate = 2 ** (((key + pitch) - 45) / 12);
-
     let source = audioContext.createBufferSource();
-    source.playbackRate.value = playbackRate;
-
     source.buffer = instrument.audioBuffer;
     source.start(0);
 
-    if (velocity !== 100) {
-        const gainNode = audioContext.createGain();
-        gainNode.gain.value = velocity;
-        source.connect(gainNode);
-        source = gainNode;
-    }
+    // Process pitch
+    source.playbackRate.value = 2 ** (((key + pitch) - 45) / 12);
 
+    // Process gain
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = (velocity / 2) / 100; // Decrease volume to avoid peaking
+    source.connect(gainNode);
+    source = gainNode;
+
+    // Process panning
     if (panning !== 0) {
         const panningNode = audioContext.createStereoPanner();
-        panningNode.pan.value = panning;
+        panningNode.pan.value = clamp ? panning.clamp(-0.5, 0.5) : panning; // ONBS clamps stereo to +-0.5
         source.connect(panningNode);
         source = panningNode;
     }
@@ -44,3 +43,14 @@ function playNote(key, instrument, velocity, panning, pitch) {
 function decodeAudioData(buffer) {
     return audioContext.decodeAudioData(buffer);
 }
+
+/**
+ * Returns a number whose value is limited to the given range.
+ * @param {number} min The lower boundary of the output range
+ * @param {number} max The upper boundary of the output range
+ * @returns {number} A number in the range [min, max]
+ * @author https://stackoverflow.com/a/11409944
+ */
+Number.prototype.clamp = function(min, max) {
+    return Math.min(Math.max(this, min), max);
+};
