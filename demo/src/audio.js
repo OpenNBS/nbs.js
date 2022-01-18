@@ -11,6 +11,10 @@ audioDestination.connect(audioContext.destination);
  * @param pitch Pitch of the note
  */
 function playNote(key, instrument, velocity, panning, pitch) {
+    if (!instrument) {
+        return;
+    }
+
     velocity = velocity / 100;
     const playbackRate = 2 ** (((key + pitch) - 45) / 12);
 

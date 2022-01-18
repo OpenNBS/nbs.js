@@ -118,11 +118,15 @@ function prepareResult(placeholder) {
 async function prepareSong() {
     // Load all instruments
     await Promise.all(instruments.map(instrument => {
-        return fetch(instrument.audioSrc)
-            .then(data => data.arrayBuffer())
-            .then(audioData => decodeAudioData(audioData))
-            .then(buffer => instrument.audioBuffer = buffer)
-            .then(instrumentMap.set(instrument.name, instrument));
+        if (instrument.builtIn) {
+            return fetch(instrument.audioSrc)
+                .then(data => data.arrayBuffer())
+                .then(audioData => decodeAudioData(audioData))
+                .then(buffer => instrument.audioBuffer = buffer)
+                .then(() => instrumentMap.set(instrument.name, instrument));
+        }
+
+        return null;
     }));
 
     // Play the song
