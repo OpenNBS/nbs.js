@@ -3,24 +3,40 @@ let instruments;
 let timePerTick;
 const instrumentMap = new Map();
 
-const elements = {
-    "button": {},
-    "toggle": {},
-    "text": {
-        "result": {}
-    }
-};
+let elements;
+let structureCode;
+let setStructureCode = false;
 
 window.addEventListener("load", () => {
-    elements.button.fileInput = document.getElementById("file-input");
-    elements.button.playback = document.getElementById("playback");
-    elements.button.restart = document.getElementById("restart");
-    elements.button.highlight = document.getElementById("highlight");
-    elements.toggle.looping = document.getElementById("toggle-looping");
-    elements.toggle.clamping = document.getElementById("toggle-clamping");
-    elements.text.highlighting = document.getElementById("highlight-status");
-    elements.text.result.structure = document.getElementById("result-structure");
-    elements.text.result.overview = document.getElementById("result-overview");
+    elements = {
+        "button": {
+            "fileInput": document.getElementById("file-input"),
+            "playback": {
+                "toggle": document.getElementById("playback"),
+                "restart": document.getElementById("restart")
+            },
+            "structure": {
+                "highlight": document.getElementById("highlight")
+            }
+        },
+        "toggle": {
+            "playback": {
+                "looping": document.getElementById("toggle-looping"),
+                "clamping": document.getElementById("toggle-clamping")
+            },
+            "structure": {
+                "highlight": document.getElementById("hide-structure")
+            }
+        },
+        "text": {
+            "overview": document.getElementById("result-overview"),
+            "structure": {
+                "parent": document.getElementById("structure"),
+                "code": document.getElementById("structure-code"),
+                "highlighting": document.getElementById("highlight-status")
+            }
+        }
+    };
 
     // Initial result state
     elements.button.fileInput.value = null;
@@ -28,12 +44,16 @@ window.addEventListener("load", () => {
     setReady(false);
 
     // Speed highlight does not work on firefox
-    if (!navigator.userAgent.indexOf("Firefox") > 0) {
-        elements.button.highlight.classList.add("visible");
-    }
+    //if (!navigator.userAgent.indexOf("Firefox") > 0) {
+        elements.button.structure.highlight.classList.add("visible");
+    //}
 
     // File is selected
     elements.button.fileInput.addEventListener("change",  event => {
+        if (event.target.files.length === 0) {
+            return;
+        }
+
         setReady(false);
         const worker = new Worker("src/worker/loadSong.js");
 
@@ -63,18 +83,18 @@ window.addEventListener("load", () => {
                 row.append(key);
                 row.append(value);
 
-                elements.text.result.overview.append(row);
+                elements.text.overview.append(row);
             }
 
             // Set structure text
-            elements.text.result.structure.innerHTML = event.data.structureText;
+            displayStructureCode(event.data.structureText);
         });
     });
 
     // Play button is pressed
-    elements.button.playback.addEventListener("click", () => {
+    elements.button.playback.toggle.addEventListener("click", () => {
         // Toggle playback of the song
-        if (elements.button.playback.dataset.toggled === "true") {
+        if (elements.button.playback.toggle.dataset.toggled === "true") {
             stopSong();
         } else {
             startSong();
@@ -82,31 +102,59 @@ window.addEventListener("load", () => {
     });
 
     // Restart button is pressed
-    elements.button.restart.addEventListener("click", () => {
+    elements.button.playback.restart.addEventListener("click", () => {
         // Restart the song
         resetSong();
     });
 
     // Highlight button is pressed
-    elements.button.highlight.addEventListener("click", () => {
+    elements.button.structure.highlight.addEventListener("click", () => {
         // Start highlighting
         const highlightWorker = new Worker("src/worker/highlight.js", {
             "type": "module"
         });
 
-        elements.text.highlighting.classList.add("visible");
+        elements.text.structure.highlighting.classList.add("visible");
 
         // Highlight the block
         highlightWorker.postMessage({
-            "code": elements.text.result.structure.innerHTML
+            "code": elements.text.structure.code.innerHTML
         });
 
         highlightWorker.addEventListener("message", highlightEvent => {
-            elements.text.result.structure.innerHTML = highlightEvent.data.code;
-            elements.text.highlighting.classList.remove("visible");
+            displayStructureCode(highlightEvent.data.code);
+            elements.text.structure.highlighting.classList.remove("visible");
         });
     });
+
+    // Ability to hide the structure code
+    elements.toggle.structure.highlight.addEventListener("change", event => {
+        if (event.target.checked) {
+            // Hide the code
+            elements.text.structure.parent.classList.remove("visible");
+        } else {
+            // Show the code
+            elements.text.structure.parent.classList.add("visible");
+
+            if (!setStructureCode) {
+                elements.text.structure.code.innerHTML = structureCode;
+            }
+        }
+    });
 });
+
+/**
+ * Display the stored structure code.
+ * @param code Code to override
+ */
+function displayStructureCode(code) {
+    structureCode = code || structureCode;
+
+    if (!elements.toggle.structure.highlight.checked) {
+        setStructureCode = true;
+        elements.text.structure.code.innerHTML = structureCode;
+    }
+}
 
 /**
  * Prepare the result code block with a placeholder message.
@@ -114,21 +162,22 @@ window.addEventListener("load", () => {
  * @return {void}
  */
 function prepareResult(placeholder) {
-    elements.text.result.overview.innerHTML = null;
-    elements.text.result.structure.innerHTML = placeholder;
+    elements.text.overview.innerHTML = null;
+    displayStructureCode(placeholder);
 }
 
 function setReady(isReady) {
     if (isReady) {
         prepareSong();
         resetSong();
-        elements.button.playback.disabled = false;
-        elements.button.restart.disabled = false;
-        elements.button.highlight.disabled = false;
+        elements.button.playback.toggle.disabled = false;
+        elements.button.playback.restart.disabled = false;
+        elements.button.structure.highlight.disabled = false;
     } else {
-        elements.button.playback.disabled = true;
-        elements.button.restart.disabled = true;
-        elements.button.highlight.disabled = true;
+        setStructureCode = false;
+        elements.button.playback.toggle.disabled = true;
+        elements.button.playback.restart.disabled = true;
+        elements.button.structure.highlight.disabled = true;
         stopSong();
     }
 }
@@ -158,7 +207,7 @@ async function prepareSong() {
  */
 function startSong() {
     stopPlaying = false;
-    elements.button.playback.dataset.toggled = "true";
+    elements.button.playback.toggle.dataset.toggled = "true";
     playSong(song, timePerTick);
 }
 
@@ -167,7 +216,7 @@ function startSong() {
  * @return {void}
  */
 function stopSong() {
-    elements.button.playback.dataset.toggled = "false";
+    elements.button.playback.toggle.dataset.toggled = "false";
     stopPlaying = true;
 }
 
@@ -218,7 +267,7 @@ async function playSong(song, timePerTick) {
                     (note.velocity * layer.velocity) / 100,
                     ((note.panning + layer.panning) / 100),
                     note.pitch / 100,
-                    elements.toggle.clamping.checked
+                    elements.toggle.playback.clamping.checked
                 );
             }
         }
@@ -231,7 +280,7 @@ async function playSong(song, timePerTick) {
         // Loop or stop song
         if (currentTick === song.size) {
             // Loop if available
-            if (elements.toggle.looping.checked && song.loopEnabled && (song.maxLoopCount === 0 || currentLoop < song.maxLoopCount)) {
+            if (elements.toggle.playback.looping.checked && song.loopEnabled && (song.maxLoopCount === 0 || currentLoop < song.maxLoopCount)) {
                 currentLoop++;
                 currentTick = song.loopStartTick;
             } else {
