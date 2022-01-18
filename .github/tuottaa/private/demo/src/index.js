@@ -1,5 +1,3 @@
-// todo: workers are firing twice on firefox
-
 let song;
 let instruments;
 let timePerTick;
