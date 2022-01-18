@@ -189,6 +189,19 @@ self.addEventListener("message", async event => {
 
     song.layers = newLayers;
 
+    const duration = {
+        "seconds": (song.timePerTick * song.size) / 1000,
+        get "s"() {
+            return (this.seconds % 60).toFixed(2);
+        },
+        get "m"() {
+            return Math.floor(this.seconds / 60);
+        },
+        get "format"() {
+            return `${prependZeros(this.m)}:${prependZeros(this.s)}`;
+        }
+    };
+
     // Display the instruments first
     data.structureText = `Instruments: ${JSON.stringify(song.instruments, null, 4)}\n\n`;
     data.overviews = [[
@@ -206,6 +219,9 @@ self.addEventListener("message", async event => {
     ], [
         "Song tick length",
         song.size
+    ], [
+        "Song duration",
+        duration.format
     ], [
         "Total layers",
         song.layers.length
@@ -246,3 +262,7 @@ self.addEventListener("message", async event => {
 
     postMessage(data);
 });
+
+function prependZeros(num) {
+    return Array.from({ "length": Math.max(3 - Math.floor(num).toString().length, 0) }).join("0") + num;
+}
