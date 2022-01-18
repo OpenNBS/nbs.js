@@ -113,6 +113,7 @@ window.addEventListener("load", () => {
 function prepareResult(placeholder) {
     elements.text.result.overview.innerHTML = null;
     elements.text.result.structure.innerHTML = placeholder;
+    currentTick = 0;
     stopSong();
 }
 
