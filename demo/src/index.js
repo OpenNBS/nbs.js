@@ -18,6 +18,7 @@ window.addEventListener("load", () => {
     elements.button.fileInput = document.getElementById("file-input");
     elements.button.playback = document.getElementById("playback");
     elements.button.restart = document.getElementById("restart");
+    elements.button.highlight = document.getElementById("highlight");
     elements.text.highlighting = document.getElementById("highlight-status");
     elements.text.result.structure = document.getElementById("result-structure");
     elements.text.result.overview = document.getElementById("result-overview");
@@ -30,6 +31,10 @@ window.addEventListener("load", () => {
 
     // Sneaky Firefox detection
     isFirefox = navigator.userAgent.indexOf("Firefox") > 0;
+
+    if (!isFirefox) {
+        elements.button.highlight.classList.add("visible");
+    }
 
     elements.button.fileInput.addEventListener("change",  event => {
         const worker = new Worker("src/worker/loadSong.js");
@@ -62,25 +67,7 @@ window.addEventListener("load", () => {
             }
 
             // Set structure text
-            if (isFirefox) {
-                elements.text.result.structure.innerHTML = event.data.structureText;
-            } else {
-                const highlightWorker = new Worker("src/worker/highlight.js", {
-                    "type": "module"
-                });
-
-                elements.text.highlighting.classList.add("visible");
-
-                // Highlight the block
-                highlightWorker.postMessage({
-                    "code": event.data.structureText
-                });
-
-                highlightWorker.addEventListener("message", highlightEvent => {
-                    elements.text.result.structure.innerHTML = highlightEvent.data.code;
-                    elements.text.highlighting.classList.remove("visible");
-                });
-            }
+            elements.text.result.structure.innerHTML = event.data.structureText;
         });
     });
 
@@ -99,6 +86,25 @@ window.addEventListener("load", () => {
     elements.button.restart.addEventListener("click", () => {
         // Restart the song
         currentTick = 0;
+    });
+
+    elements.button.highlight.addEventListener("click", () => {
+        // Start highlighting
+        const highlightWorker = new Worker("src/worker/highlight.js", {
+            "type": "module"
+        });
+
+        elements.text.highlighting.classList.add("visible");
+
+        // Highlight the block
+        highlightWorker.postMessage({
+            "code": elements.text.result.structure.innerHTML
+        });
+
+        highlightWorker.addEventListener("message", highlightEvent => {
+            elements.text.result.structure.innerHTML = highlightEvent.data.code;
+            elements.text.highlighting.classList.remove("visible");
+        });
     });
 });
 
