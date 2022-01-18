@@ -263,8 +263,8 @@ async function playSong(song, timePerTick) {
     // eslint-disable-next-line no-unmodified-loop-condition
     while (!stopPlaying) {
         // Iterate each layer
-        for (let j = 0; j < song.layers.length; j++) {
-            const layer = song.layers[j];
+        for (let i = 0; i < song.layers.length; i++) {
+            const layer = song.layers[i];
 
             // Skip locked layers
             if (layer.locked) {
@@ -295,7 +295,7 @@ async function playSong(song, timePerTick) {
         // Loop or stop song
         if (currentTick === song.size) {
             // Loop if available
-            if (elements.toggle.playback.looping.checked && song.loopEnabled && (song.maxLoopCount === 0 || currentLoop < song.maxLoopCount)) {
+            if (elements.toggle.playback.looping.checked && (song.maxLoopCount === 0 || currentLoop < song.maxLoopCount)) {
                 currentLoop++;
                 currentTick = song.loopStartTick;
             } else {
