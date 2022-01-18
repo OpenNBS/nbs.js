@@ -5,36 +5,36 @@ const instrumentMap = new Map();
 
 const elements = {
     "button": {},
+    "toggle": {},
     "text": {
         "result": {}
     }
 };
-
-let isFirefox;
 
 window.addEventListener("load", () => {
     elements.button.fileInput = document.getElementById("file-input");
     elements.button.playback = document.getElementById("playback");
     elements.button.restart = document.getElementById("restart");
     elements.button.highlight = document.getElementById("highlight");
+    elements.toggle.looping = document.getElementById("toggle-looping");
+    elements.toggle.clamping = document.getElementById("toggle-clamping");
     elements.text.highlighting = document.getElementById("highlight-status");
     elements.text.result.structure = document.getElementById("result-structure");
     elements.text.result.overview = document.getElementById("result-overview");
 
     // Initial result state
-    prepareResult("No file selected.");
-
-    // Initialize file input
     elements.button.fileInput.value = null;
+    prepareResult("No file selected.");
+    setReady(false);
 
-    // Sneaky Firefox detection
-    isFirefox = navigator.userAgent.indexOf("Firefox") > 0;
-
-    if (!isFirefox) {
+    // Speed highlight does not work on firefox
+    if (!navigator.userAgent.indexOf("Firefox") > 0) {
         elements.button.highlight.classList.add("visible");
     }
 
+    // File is selected
     elements.button.fileInput.addEventListener("change",  event => {
+        setReady(false);
         const worker = new Worker("src/worker/loadSong.js");
 
         // Load the song
@@ -47,6 +47,8 @@ window.addEventListener("load", () => {
             song = event.data.song;
             instruments = event.data.instruments;
             timePerTick = event.data.timePerTick;
+
+            setReady(true);
 
             // Fill result table
             for (const overview of event.data.overviews) {
@@ -69,23 +71,23 @@ window.addEventListener("load", () => {
         });
     });
 
+    // Play button is pressed
     elements.button.playback.addEventListener("click", () => {
-        // Ensure a song is loaded
-        if (song) {
-            // Start or stop the song
-            if (elements.button.playback.dataset.toggled === "true") {
-                stopSong();
-            } else {
-                prepareSong();
-            }
+        // Toggle playback of the song
+        if (elements.button.playback.dataset.toggled === "true") {
+            stopSong();
+        } else {
+            startSong();
         }
     });
 
+    // Restart button is pressed
     elements.button.restart.addEventListener("click", () => {
         // Restart the song
-        currentTick = 0;
+        resetSong();
     });
 
+    // Highlight button is pressed
     elements.button.highlight.addEventListener("click", () => {
         // Start highlighting
         const highlightWorker = new Worker("src/worker/highlight.js", {
@@ -109,16 +111,31 @@ window.addEventListener("load", () => {
 /**
  * Prepare the result code block with a placeholder message.
  * @param placeholder Message to display
+ * @return {void}
  */
 function prepareResult(placeholder) {
     elements.text.result.overview.innerHTML = null;
     elements.text.result.structure.innerHTML = placeholder;
-    currentTick = 0;
-    stopSong();
+}
+
+function setReady(isReady) {
+    if (isReady) {
+        prepareSong();
+        resetSong();
+        elements.button.playback.disabled = false;
+        elements.button.restart.disabled = false;
+        elements.button.highlight.disabled = false;
+    } else {
+        elements.button.playback.disabled = true;
+        elements.button.restart.disabled = true;
+        elements.button.highlight.disabled = true;
+        stopSong();
+    }
 }
 
 /**
  * Prepare and play the loaded song.
+ * @return {Promise<void>}
  */
 async function prepareSong() {
     // Load all instruments
@@ -133,52 +150,93 @@ async function prepareSong() {
 
         return null;
     }));
+}
 
-    // Play the song
+/**
+ * Start the currently loaded song.
+ * @return {void}
+ */
+function startSong() {
     stopPlaying = false;
     elements.button.playback.dataset.toggled = "true";
     playSong(song, timePerTick);
 }
 
 /**
- * Stop the currently playing song
+ * Stop the currently playing song.
+ * @return {void}
  */
 function stopSong() {
     elements.button.playback.dataset.toggled = "false";
     stopPlaying = true;
 }
 
+/**
+ * Reset the currently playing song.
+ * @return {void}
+ */
+function resetSong() {
+    stopSong();
+    currentTick = -1;
+    currentLoop = 0;
+}
+
 let stopPlaying = true;
-let currentTick = 0;
+let currentTick = -1;
+let currentLoop = 0;
 
 /**
  * Play a song.
  * @param song Song to play
  * @param timePerTick Time to wait between notes
+ * @return {void}
  */
 async function playSong(song, timePerTick) {
-    // Iterate each tick
-    for (currentTick; currentTick < song.size; currentTick++) {
-        if (stopPlaying) {
-            break;
-        }
+    if (!song) {
+        return;
+    }
 
+    // eslint-disable-next-line no-unmodified-loop-condition
+    while (!stopPlaying) {
         // Iterate each layer
         for (let j = 0; j < song.layers.length; j++) {
+            const layer = song.layers[j];
+
+            // Skip locked layers
+            if (layer.locked) {
+                continue;
+            }
+
+            const note = layer?.notes[currentTick];
+
             // Ensure a note is on the tick
-            if (song.layers[j]?.notes[currentTick]) {
+            if (note) {
                 // Play the note
                 playNote(
-                    song.layers[j].notes[currentTick].key,
-                    instrumentMap.get(song.layers[j].notes[currentTick].instrument.name),
-                    (song.layers[j].notes[currentTick].velocity * song.layers[j].velocity) / 100,
-                    (song.layers[j].panning + song.layers[j].notes[currentTick].panning) / 100,
-                    song.layers[j].notes[currentTick].pitch / 100
+                    note.key,
+                    instrumentMap.get(note.instrument.name),
+                    (note.velocity * layer.velocity) / 100,
+                    ((note.panning + layer.panning) / 100),
+                    note.pitch / 100,
+                    elements.toggle.clamping.checked
                 );
             }
         }
 
         // Wait until next tick
         await new Promise(resolve => setTimeout(resolve, timePerTick));
+
+        currentTick++;
+
+        // Loop or stop song
+        if (currentTick === song.size) {
+            // Loop if available
+            if (elements.toggle.looping.checked && song.loopEnabled && (song.maxLoopCount === 0 || currentLoop < song.maxLoopCount)) {
+                currentLoop++;
+                currentTick = song.loopStartTick;
+            } else {
+                resetSong();
+            }
+        }
     }
 }
