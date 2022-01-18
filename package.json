@@ -2,7 +2,7 @@
   "name": "@encode42/nbs.js",
   "description": "A versatile API for reading and writing OpenNBS files.",
   "homepage": "https://encode42.github.io/NBS.js/",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "keywords": [
     "api",
     "minecraft",
