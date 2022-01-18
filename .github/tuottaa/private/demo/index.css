@@ -2,10 +2,18 @@ h3 {
     border-bottom: 1px solid var(--slight-bright);
 }
 
-button[data-toggled="false"]::before {
+#playback[data-toggled="false"]::before {
     content: "Play";
 }
 
-button[data-toggled="true"]::before {
+#playback[data-toggled="true"]::before {
     content: "Pause";
+}
+
+#highlight {
+    display: none;
+}
+
+#highlight.visible {
+    display: unset;
 }
