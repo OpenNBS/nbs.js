@@ -143,8 +143,6 @@ window.addEventListener("load", () => {
 
             // Show the code
             elements.text.structure.parent.classList.add("visible");
-
-            // Let highlights happen
             elements.button.structure.highlight.disabled = false;
         }
     });
@@ -179,8 +177,11 @@ function setReady(isReady) {
         resetSong();
         elements.button.playback.toggle.disabled = false;
         elements.button.playback.restart.disabled = false;
-        elements.button.structure.highlight.disabled = false;
         elements.toggle.playback.clamping.disabled = false;
+
+        if (!elements.toggle.structure.highlight.checked) {
+            elements.button.structure.highlight.disabled = false;
+        }
     } else {
         setStructureCode = false;
         elements.button.playback.toggle.disabled = true;
