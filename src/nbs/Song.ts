@@ -315,7 +315,7 @@ export default class Song {
                     let pitch = 0;
                     if (song.nbsVersion >= 4) {
                         velocity = reader.readByte(); // Read velocity of note
-                        panning = reader.readUnsingedByte() - 200; // Read panning of note
+                        panning = reader.readUnsingedByte() - 100; // Read panning of note
                         pitch = reader.readShort(); // Read pitch of note
                     }
 
@@ -351,9 +351,9 @@ export default class Song {
 
                     layer.velocity = reader.readByte(); // Read layer velocity
 
-                    let panning = 100;
+                    let panning = 0;
                     if (song.nbsVersion >= 2) {
-                        panning = reader.readUnsingedByte() - 200; // Read layer panning
+                        panning = reader.readUnsingedByte() - 100; // Read layer panning
                     }
 
                     layer.panning = panning;

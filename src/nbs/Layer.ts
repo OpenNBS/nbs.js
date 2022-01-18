@@ -34,7 +34,7 @@ export default class Layer {
     /**
      * Panning of the layer.
      */
-    public panning = 100;
+    public panning = 0;
 
     /**
      * Whether the layer is locked or muted.
