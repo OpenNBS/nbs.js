@@ -22,7 +22,7 @@ function playNote(key, instrument, velocity, panning, pitch, clamp) {
     source.start(0);
 
     // Process pitch
-    source.playbackRate.value = 2 ** (((key + pitch) - 45) / 12);
+    source.playbackRate.value = 2 ** (((key + (pitch - 0.2)) - 45) / 12); // -0.2 for ONBS parity
 
     // Process gain
     const gainNode = audioContext.createGain();
@@ -33,7 +33,7 @@ function playNote(key, instrument, velocity, panning, pitch, clamp) {
     // Process panning
     if (panning !== 0) {
         const panningNode = audioContext.createStereoPanner();
-        panningNode.pan.value = clamp ? panning.clamp(-0.5, 0.5) : panning; // ONBS clamps stereo to +-0.5
+        panningNode.pan.value = clamp ? panning / 2 : panning; // ONBS clamps stereo to +-0.5
         source.connect(panningNode);
         source = panningNode;
     }
@@ -44,14 +44,3 @@ function playNote(key, instrument, velocity, panning, pitch, clamp) {
 function decodeAudioData(buffer) {
     return audioContext.decodeAudioData(buffer);
 }
-
-/**
- * Returns a number whose value is limited to the given range.
- * @param {number} min The lower boundary of the output range
- * @param {number} max The upper boundary of the output range
- * @returns {number} A number in the range [min, max]
- * @author https://stackoverflow.com/a/11409944
- */
-Number.prototype.clamp = function(min, max) {
-    return Math.min(Math.max(this, min), max);
-};
