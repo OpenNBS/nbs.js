@@ -51,7 +51,7 @@ window.addEventListener("load", () => {
     }
 
     // Workers do not work right on Safari
-    if (!navigator.userAgent.includes("Safari")) {
+    if (!(navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome"))) {
         elements.text.playback.classList.add("enabled");
     }
 
