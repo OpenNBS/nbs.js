@@ -11,11 +11,17 @@
 [Codacy]: https://app.codacy.com/gh/Encode42/NBS.js
 [Codacy Badge]: https://img.shields.io/codacy/grade/68f12c67186549b88ab7ada56ac83efc?color=172B4D&labelColor=172B4D&label=​&logo=codacy&style=flat-square
 
+
+<img src=".github/assets/badge-lq.png" align="left">
+
+<div align="right">
+
 # NBS.js
 **A versatile API for reading, manipulating, and writing [OpenNBS](https://opennbs.org) files, heavily inspired by [NBSEditor](https://github.com/TheGreatFoxxy/NBSEditor/blob/408e3e58058bd72286fc7e9740d62a39a0c919dd/src/NBS.js) and [NoteBlockAPI](https://github.com/koca2000/NoteBlockAPI).**
 
 [![Docs Badge]][Docs] [![NPM Badge]][NPM]  
 [![][Actions Badge]][Actions] [![][Codacy Badge]][Codacy] [![][Discord Badge]][Support]
+</div>
 
 **Note:** This API is still in early development. Writing NBS files is not yet supported. Report any bugs found!
 
@@ -36,7 +42,7 @@ npm i @encode42/nbs.js
 Is there a demo?
 </summary>
 
-Yes! A GitHub pages site is located [here](https://encode42.github.io/NBS.js/demo/). It contains a demonstration of how to read and process NBS files, and displays the song structure.
+Yes! A GitHub pages site is located [here](https://encode42.github.io/NBS.js/demo/). It contains a demonstration of how to read and process NBS files, displays the song structure, and plays the song through the browser.
 
 [![Demo Badge]][Demo]
 </details>
