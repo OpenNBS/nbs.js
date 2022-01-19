@@ -47,3 +47,7 @@ main input {
     width: 100%;
     color: var(--text-muted);
 }
+
+#header {
+    padding: 10px;
+}
