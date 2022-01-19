@@ -67,6 +67,7 @@ export async function playSong() {
         return;
     }
 
+    const hasSolo = getSong().song.hasSolo;
     const totalLayers = getSong().song.layers.length;
 
     // eslint-disable-next-line no-unmodified-loop-condition
@@ -74,6 +75,11 @@ export async function playSong() {
         // Iterate each layer
         for (let currentLayer = 0; currentLayer < totalLayers; currentLayer++) {
             const layer = getSong().song.layers[currentLayer];
+
+            // Skip non-solo layers
+            if (hasSolo && !layer.solo) {
+                continue;
+            }
 
             // Skip locked layers
             if (layer.locked) {

@@ -42,6 +42,11 @@ export default class Layer {
     public locked = false;
 
     /**
+     * Whether the layer is solo.
+     */
+    public solo = false;
+
+    /**
      * Notes within the layer.
      */
     public notes: Note[] = [];

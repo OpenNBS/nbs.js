@@ -172,7 +172,7 @@ export default class Song {
     public blocksAdded = 0;
 
     /**
-     * Total amount of blocks removed
+     * Total amount of blocks removed.
      *
      * **Does not automatically increment!**
      */
@@ -191,6 +191,11 @@ export default class Song {
      * @see {@linkcode Layer}
      */
     public layers: Layer[] = [];
+
+    /**
+     * Whether the song has at least one solo layer.
+     */
+    public hasSolo = false;
 
     /**
      * Errors occurred while loading, manipulating, or saving the nbs file.
@@ -346,7 +351,17 @@ export default class Song {
                     layer.name = reader.readString(); // Read layer name
 
                     if (song.nbsVersion >= 4) {
-                        layer.locked = Boolean(reader.readByte()); // Read layer lock status
+                        const lock = reader.readByte(); // Read layer lock status
+
+                        // Layer is locked
+                        if (lock === 1) {
+                            layer.locked = true;
+                        }
+
+                        // Layer is solo
+                        if (lock === 2) {
+                            layer.solo = song.hasSolo = true;
+                        }
                     }
 
                     layer.velocity = reader.readByte(); // Read layer velocity
