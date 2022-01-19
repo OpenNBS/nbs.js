@@ -1,14 +1,11 @@
-let song;
-let instruments;
-let timePerTick;
-const instrumentMap = new Map();
+import { getElements, setElements, setSong } from "./util/globals.js";
+import { prepareSong, resetSong, startSong, stopSong } from "./audio/playback.js";
 
-let elements;
 let structureCode;
 let setStructureCode = false;
 
 window.addEventListener("load", () => {
-    elements = {
+    setElements({
         "button": {
             "fileInput": document.getElementById("file-input"),
             "playback": {
@@ -37,26 +34,26 @@ window.addEventListener("load", () => {
                 "highlighting": document.getElementById("highlight-status")
             }
         }
-    };
+    });
 
     // Initial result state
-    elements.button.fileInput.value = null;
+    getElements().button.fileInput.value = null;
     prepareResult("No file selected.");
     setReady(false);
 
     // Speed highlight does not work on Firefox
     if (!navigator.userAgent.includes("Firefox")) {
-        elements.button.structure.highlight.classList.add("visible");
-        elements.text.structure.highlighting.classList.add("enabled");
+        getElements().button.structure.highlight.classList.add("visible");
+        getElements().text.structure.highlighting.classList.add("enabled");
     }
 
     // Workers do not work right on Safari
     if (!(navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome"))) {
-        elements.text.playback.classList.add("enabled");
+        getElements().text.playback.classList.add("enabled");
     }
 
     // File is selected
-    elements.button.fileInput.addEventListener("change",  event => {
+    getElements().button.fileInput.addEventListener("change",  event => {
         if (event.target.files.length === 0) {
             return;
         }
@@ -71,9 +68,11 @@ window.addEventListener("load", () => {
         });
 
         worker.addEventListener("message", async event => {
-            song = event.data.song;
-            instruments = event.data.instruments;
-            timePerTick = event.data.timePerTick;
+            setSong({
+                "song": event.data.song,
+                "instruments": event.data.instruments,
+                "timePerTick": event.data.timePerTick
+            });
 
             setReady(true);
 
@@ -90,7 +89,7 @@ window.addEventListener("load", () => {
                 row.append(key);
                 row.append(value);
 
-                elements.text.overview.append(row);
+                getElements().text.overview.append(row);
             }
 
             // Set structure text
@@ -99,9 +98,9 @@ window.addEventListener("load", () => {
     });
 
     // Play button is pressed
-    elements.button.playback.toggle.addEventListener("click", () => {
+    getElements().button.playback.toggle.addEventListener("click", () => {
         // Toggle playback of the song
-        if (elements.button.playback.toggle.dataset.toggled === "true") {
+        if (getElements().button.playback.toggle.dataset.toggled === "true") {
             stopSong();
         } else {
             startSong();
@@ -109,47 +108,47 @@ window.addEventListener("load", () => {
     });
 
     // Restart button is pressed
-    elements.button.playback.restart.addEventListener("click", () => {
+    getElements().button.playback.restart.addEventListener("click", () => {
         // Restart the song
         resetSong();
     });
 
     // Highlight button is pressed
-    elements.button.structure.highlight.addEventListener("click", () => {
+    getElements().button.structure.highlight.addEventListener("click", () => {
         // Start highlighting
         const highlightWorker = new Worker("src/worker/highlight.js", {
             "type": "module"
         });
 
-        elements.text.structure.highlighting.classList.add("visible");
+        getElements().text.structure.highlighting.classList.add("visible");
 
         // Highlight the block
         highlightWorker.postMessage({
-            "code": elements.text.structure.code.innerHTML
+            "code": getElements().text.structure.code.innerHTML
         });
 
         highlightWorker.addEventListener("message", highlightEvent => {
             displayStructureCode(highlightEvent.data.code);
-            elements.text.structure.highlighting.classList.remove("visible");
+            getElements().text.structure.highlighting.classList.remove("visible");
         });
     });
 
     // Ability to hide the structure code
-    elements.toggle.structure.highlight.addEventListener("change", event => {
+    getElements().toggle.structure.highlight.addEventListener("change", event => {
         if (event.target.checked) {
             // Hide the code
-            elements.text.structure.parent.classList.remove("visible");
+            getElements().text.structure.parent.classList.remove("visible");
 
             // Don't let highlights happen
-            elements.button.structure.highlight.disabled = true;
+            getElements().button.structure.highlight.disabled = true;
         } else {
             if (!setStructureCode) {
-                elements.text.structure.code.innerHTML = structureCode;
+                getElements().text.structure.code.innerHTML = structureCode;
             }
 
             // Show the code
-            elements.text.structure.parent.classList.add("visible");
-            elements.button.structure.highlight.disabled = false;
+            getElements().text.structure.parent.classList.add("visible");
+            getElements().button.structure.highlight.disabled = false;
         }
     });
 });
@@ -161,9 +160,9 @@ window.addEventListener("load", () => {
 function displayStructureCode(code) {
     structureCode = code || structureCode;
 
-    if (!elements.toggle.structure.highlight.checked) {
+    if (!getElements().toggle.structure.highlight.checked) {
         setStructureCode = true;
-        elements.text.structure.code.innerHTML = structureCode;
+        getElements().text.structure.code.innerHTML = structureCode;
     }
 }
 
@@ -173,7 +172,7 @@ function displayStructureCode(code) {
  * @return {void}
  */
 function prepareResult(placeholder) {
-    elements.text.overview.innerHTML = null;
+    getElements().text.overview.innerHTML = null;
     displayStructureCode(placeholder);
 }
 
@@ -181,141 +180,20 @@ function setReady(isReady) {
     if (isReady) {
         prepareSong();
         resetSong();
-        elements.button.playback.toggle.disabled = false;
-        elements.button.playback.restart.disabled = false;
-        elements.toggle.playback.parity.disabled = false;
+        getElements().button.playback.toggle.disabled = false;
+        getElements().button.playback.restart.disabled = false;
+        getElements().toggle.playback.parity.disabled = false;
 
-        if (!elements.toggle.structure.highlight.checked) {
-            elements.button.structure.highlight.disabled = false;
+        if (!getElements().toggle.structure.highlight.checked) {
+            getElements().button.structure.highlight.disabled = false;
         }
     } else {
         setStructureCode = false;
-        elements.button.playback.toggle.disabled = true;
-        elements.button.playback.restart.disabled = true;
-        elements.button.structure.highlight.disabled = true;
-        elements.toggle.playback.looping.disabled = true;
-        elements.toggle.playback.parity.disabled = true;
+        getElements().button.playback.toggle.disabled = true;
+        getElements().button.playback.restart.disabled = true;
+        getElements().button.structure.highlight.disabled = true;
+        getElements().toggle.playback.looping.disabled = true;
+        getElements().toggle.playback.parity.disabled = true;
         stopSong();
-    }
-}
-
-/**
- * Prepare and play the loaded song.
- * @return {Promise<void>}
- */
-async function prepareSong() {
-    // Load all instruments
-    await Promise.all(instruments.map(instrument => {
-        if (instrument.builtIn) {
-            return fetch(instrument.audioSrc)
-                .then(data => data.arrayBuffer())
-                .then(audioData => decodeAudioData(audioData))
-                .then(buffer => instrument.audioBuffer = buffer)
-                .then(() => instrumentMap.set(instrument.name, instrument));
-        }
-
-        return null;
-    }));
-
-    // Check looping toggle if available
-    elements.toggle.playback.looping.disabled = !song.loopEnabled;
-    elements.toggle.playback.looping.checked = song.loopEnabled;
-}
-
-/**
- * Start the currently loaded song.
- * @return {void}
- */
-function startSong() {
-    stopPlaying = false;
-    elements.button.playback.toggle.dataset.toggled = "true";
-    playSong(timePerTick);
-}
-
-/**
- * Stop the currently playing song.
- * @return {void}
- */
-function stopSong() {
-    elements.button.playback.toggle.dataset.toggled = "false";
-    stopPlaying = true;
-}
-
-/**
- * Reset the currently playing song.
- * @return {void}
- */
-function resetSong() {
-    stopSong();
-    currentTick = -1;
-    currentLoop = 0;
-}
-
-let stopPlaying = true;
-let currentTick = -1;
-let currentLoop = 0;
-
-/**
- * Play a song.
- * @param timePerTick Time to wait between notes
- * @return {void}
- */
-async function playSong(timePerTick) {
-    if (!song) {
-        return;
-    }
-
-    const totalLayers = song.layers.length;
-
-    // eslint-disable-next-line no-unmodified-loop-condition
-    while (!stopPlaying) {
-        // Iterate each layer
-        for (let currentLayer = 0; currentLayer < totalLayers; currentLayer++) {
-            const layer = song.layers[currentLayer];
-
-            // Skip locked layers
-            if (layer.locked) {
-                continue;
-            }
-
-            const note = layer?.notes[currentTick];
-
-            // Ensure a note is on the tick
-            if (note) {
-                let notePanning = (note.panning + layer.panning) / 2;
-                let notePitch = note.pitch;
-
-                // ONBS parity settings
-                if (elements.toggle.playback.parity.checked) {
-                    notePanning = layer.panning === 0 ? note.panning : notePanning;
-                    notePitch = notePitch - 20;
-                }
-
-                // Play the note
-                playNote(
-                    note.key,
-                    instrumentMap.get(note.instrument.name),
-                    (note.velocity * layer.velocity) / 100,
-                    notePanning,
-                    notePitch
-                );
-            }
-        }
-
-        // Wait until next tick
-        await new Promise(resolve => setTimeout(resolve, timePerTick));
-
-        currentTick++;
-
-        // Loop or stop song
-        if (currentTick === song.size) {
-            // Loop if available
-            if (elements.toggle.playback.looping.checked && (song.maxLoopCount === 0 || currentLoop < song.maxLoopCount)) {
-                currentLoop++;
-                currentTick = song.loopStartTick;
-            } else {
-                resetSong();
-            }
-        }
     }
 }

@@ -11,7 +11,7 @@ audioDestination.connect(audioContext.destination);
  * @param pitch Pitch of the note
  * @return {void}
  */
-function playNote(key, instrument, velocity, panning, pitch) {
+export function playNote(key, instrument, velocity, panning, pitch) {
     if (!instrument) {
         return;
     }
@@ -40,6 +40,11 @@ function playNote(key, instrument, velocity, panning, pitch) {
     source.connect(audioDestination);
 }
 
-function decodeAudioData(buffer) {
+/**
+ * Decode an audio buffer.
+ * @param buffer Buffer to decode
+ * @return {Promise<AudioBuffer>} Decoded audio buffer
+ */
+export function decodeAudioData(buffer) {
     return audioContext.decodeAudioData(buffer);
 }
