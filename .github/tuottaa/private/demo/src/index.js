@@ -22,7 +22,7 @@ window.addEventListener("load", () => {
         "toggle": {
             "playback": {
                 "looping": document.getElementById("toggle-looping"),
-                "clamping": document.getElementById("toggle-clamping")
+                "parity": document.getElementById("toggle-parity")
             },
             "structure": {
                 "highlight": document.getElementById("hide-structure")
@@ -183,7 +183,7 @@ function setReady(isReady) {
         resetSong();
         elements.button.playback.toggle.disabled = false;
         elements.button.playback.restart.disabled = false;
-        elements.toggle.playback.clamping.disabled = false;
+        elements.toggle.playback.parity.disabled = false;
 
         if (!elements.toggle.structure.highlight.checked) {
             elements.button.structure.highlight.disabled = false;
@@ -194,7 +194,7 @@ function setReady(isReady) {
         elements.button.playback.restart.disabled = true;
         elements.button.structure.highlight.disabled = true;
         elements.toggle.playback.looping.disabled = true;
-        elements.toggle.playback.clamping.disabled = true;
+        elements.toggle.playback.parity.disabled = true;
         stopSong();
     }
 }
@@ -282,14 +282,22 @@ async function playSong(timePerTick) {
 
             // Ensure a note is on the tick
             if (note) {
+                let notePanning = (note.panning + layer.panning) / 2;
+                let notePitch = note.pitch;
+
+                // ONBS parity settings
+                if (elements.toggle.playback.parity.checked) {
+                    notePanning = layer.panning === 0 ? note.panning : notePanning;
+                    notePitch = notePitch - 20;
+                }
+
                 // Play the note
                 playNote(
                     note.key,
                     instrumentMap.get(note.instrument.name),
                     (note.velocity * layer.velocity) / 100,
-                    ((note.panning + layer.panning) / 100),
-                    note.pitch / 100,
-                    elements.toggle.playback.clamping.checked
+                    notePanning,
+                    notePitch
                 );
             }
         }

@@ -9,10 +9,9 @@ audioDestination.connect(audioContext.destination);
  * @param velocity Volume of the note
  * @param panning Panning of the note
  * @param pitch Pitch of the note
- * @param clamp Whether to clamp the panning
  * @return {void}
  */
-function playNote(key, instrument, velocity, panning, pitch, clamp) {
+function playNote(key, instrument, velocity, panning, pitch) {
     if (!instrument) {
         return;
     }
@@ -22,7 +21,7 @@ function playNote(key, instrument, velocity, panning, pitch, clamp) {
     source.start(0);
 
     // Process pitch
-    source.playbackRate.value = 2 ** (((key + (pitch - 0.2)) - 45) / 12); // -0.2 for ONBS parity
+    source.playbackRate.value = 2 ** (((key + (pitch / 100)) - 45) / 12);
 
     // Process gain
     const gainNode = audioContext.createGain();
@@ -33,7 +32,7 @@ function playNote(key, instrument, velocity, panning, pitch, clamp) {
     // Process panning
     if (panning !== 0) {
         const panningNode = audioContext.createStereoPanner();
-        panningNode.pan.value = clamp ? panning / 2 : panning; // ONBS clamps stereo to +-0.5
+        panningNode.pan.value = panning / 100;
         source.connect(panningNode);
         source = panningNode;
     }

@@ -22,14 +22,21 @@
                     <p>Real-time playback of the song through the browser.</p>
                     <ul>
                         <li>Volume has been halved due to browser limitations.</li>
-                        <li>Stereo is clamped to ±50 to mimic ONBS behavior.</li>
-                        <li>Song loop settings are respected.</li>
+                        <li>Song loop and layer lock settings are respected.</li>
+                        <li>
+                            Parity option tunes playback closer to ONBS behavior.
+
+                            <ul>
+                                <li>Enables ONBS panning calculations.</li>
+                                <li>De-tunes the output by 20%.</li>
+                            </ul>
+                        </li>
                     </ul>
                     <div class="buttons-with-settings">
                         <button id="playback-button"></button> <button id="restart-button">Restart</button>
                         <div class="settings">
                             <label><input type="checkbox" id="toggle-looping"> Looping</label>
-                            <label><input type="checkbox" id="toggle-clamping" checked> Clamp Stereo</label>
+                            <label><input type="checkbox" id="toggle-parity" checked> Parity</label>
                         </div>
                     </div>
                 </div>
