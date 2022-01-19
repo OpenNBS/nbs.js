@@ -2,11 +2,19 @@ h3 {
     border-bottom: 1px solid var(--slight-bright);
 }
 
-#playback[data-toggled="false"]::before {
+#playback {
+    display: none;
+}
+
+#playback.enabled {
+    display: unset;
+}
+
+#playback-button[data-toggled="false"]::before {
     content: "Play";
 }
 
-#playback[data-toggled="true"]::before {
+#playback-button[data-toggled="true"]::before {
     content: "Pause";
 }
 

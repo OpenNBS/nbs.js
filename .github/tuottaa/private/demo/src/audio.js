@@ -9,6 +9,7 @@ audioDestination.connect(audioContext.destination);
  * @param velocity Volume of the note
  * @param panning Panning of the note
  * @param pitch Pitch of the note
+ * @param clamp Whether to clamp the panning
  * @return {void}
  */
 function playNote(key, instrument, velocity, panning, pitch, clamp) {

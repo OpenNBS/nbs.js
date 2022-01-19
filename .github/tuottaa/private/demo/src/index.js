@@ -12,8 +12,8 @@ window.addEventListener("load", () => {
         "button": {
             "fileInput": document.getElementById("file-input"),
             "playback": {
-                "toggle": document.getElementById("playback"),
-                "restart": document.getElementById("restart")
+                "toggle": document.getElementById("playback-button"),
+                "restart": document.getElementById("restart-button")
             },
             "structure": {
                 "highlight": document.getElementById("highlight")
@@ -29,6 +29,7 @@ window.addEventListener("load", () => {
             }
         },
         "text": {
+            "playback": document.getElementById("playback"),
             "overview": document.getElementById("result-overview"),
             "structure": {
                 "parent": document.getElementById("structure"),
@@ -43,10 +44,15 @@ window.addEventListener("load", () => {
     prepareResult("No file selected.");
     setReady(false);
 
-    // Speed highlight does not work on firefox
+    // Speed highlight does not work on Firefox
     if (!navigator.userAgent.includes("Firefox")) {
         elements.button.structure.highlight.classList.add("visible");
         elements.text.structure.highlighting.classList.add("enabled");
+    }
+
+    // Workers do not work right on Safari
+    if (!navigator.userAgent.includes("Safari")) {
+        elements.text.playback.classList.add("enabled");
     }
 
     // File is selected
