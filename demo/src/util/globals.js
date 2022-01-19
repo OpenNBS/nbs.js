@@ -1,0 +1,1 @@
+let elements,song;function getElements(){return elements}function setElements(e){elements=e}function getSong(){return song}function setSong(e){song=e}export{getElements,setElements,getSong,setSong};
