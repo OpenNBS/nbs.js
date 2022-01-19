@@ -229,7 +229,7 @@ async function prepareSong() {
 function startSong() {
     stopPlaying = false;
     elements.button.playback.toggle.dataset.toggled = "true";
-    playSong(song, timePerTick);
+    playSong(timePerTick);
 }
 
 /**
@@ -257,20 +257,21 @@ let currentLoop = 0;
 
 /**
  * Play a song.
- * @param song Song to play
  * @param timePerTick Time to wait between notes
  * @return {void}
  */
-async function playSong(song, timePerTick) {
+async function playSong(timePerTick) {
     if (!song) {
         return;
     }
 
+    const totalLayers = song.layers.length;
+
     // eslint-disable-next-line no-unmodified-loop-condition
     while (!stopPlaying) {
         // Iterate each layer
-        for (let i = 0; i < song.layers.length; i++) {
-            const layer = song.layers[i];
+        for (let currentLayer = 0; currentLayer < totalLayers; currentLayer++) {
+            const layer = song.layers[currentLayer];
 
             // Skip locked layers
             if (layer.locked) {

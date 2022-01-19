@@ -168,7 +168,8 @@ self.addEventListener("message", async event => {
 
     // Remove undefined notes and empty layers
     const newLayers = [];
-    for (let i = 0; i < song.layers.length; i++) {
+    const totalLayers = song.layers.length;
+    for (let i = 0; i < totalLayers; i++) {
         const layer = song.layers[i];
 
         // Check for empty notes
@@ -239,7 +240,7 @@ self.addEventListener("message", async event => {
 
     // Stringify the song structure
     const cache = [];
-    data.structureText += "Song: " + JSON.stringify(song, (key, value) => {
+    data.structureText = data.structureText.concat("Song: ", JSON.stringify(song, (key, value) => {
         // Decycle the object
         if (typeof value === "object" && value !== null) {
             if (key === "instrument") {
@@ -258,7 +259,7 @@ self.addEventListener("message", async event => {
         }
 
         return value;
-    }, 4);
+    }, 4));
 
     postMessage(data);
 });
