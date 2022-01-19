@@ -35,10 +35,10 @@ export default class Note {
      * @param pitch Pitch of the note
      */
     public constructor(instrument?: Instrument, key?: number, panning?: number, velocity?: number, pitch?: number) {
-        this.instrument = instrument || Instrument.builtIn[0];
-        this.key = key || 45;
-        this.panning = panning || 0;
-        this.velocity = velocity || 100;
-        this.pitch = pitch || 0;
+        this.instrument = instrument ?? Instrument.builtIn[0];
+        this.key = key ?? 45;
+        this.panning = panning ?? 0;
+        this.velocity = velocity ?? 100;
+        this.pitch = pitch ?? 0;
     }
 }

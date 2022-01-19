@@ -176,6 +176,6 @@ export default class Instrument {
         this.audioSrc = options?.audioSrc || "";
         this.pitch = options?.pitch === undefined ? 0 : options.pitch;
         this.key = options?.key === undefined ? 45 : options.key;
-        this.builtIn = options?.builtIn || false;
+        this.builtIn = options?.builtIn ?? false;
     }
 }
