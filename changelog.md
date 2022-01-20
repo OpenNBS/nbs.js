@@ -1,5 +1,3 @@
-[Unreleased]: https://github.com/Encode42/NBS.js/compare/v1.0.0...HEAD
-
 # Changelog
 All notable changes to this project will be documented in this file.
 

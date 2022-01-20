@@ -96,7 +96,7 @@ export async function playSong() {
                 // ONBS parity settings
                 if (getElements().toggle.playback.parity.checked) {
                     notePanning = layer.panning === 0 ? note.panning : notePanning;
-                    notePitch = notePitch - 20;
+                    notePitch = notePitch - 2;
                 }
 
                 // Play the note
