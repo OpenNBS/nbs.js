@@ -5,7 +5,9 @@ import toArrayBuffer from "./file/toArrayBuffer";
 import Instrument from "./Instrument";
 import Note from "./Note";
 
-// TODO: Functional example
+// TODO:
+// - Shrink song when removing notes
+// - Create field with loop tick (end of measure)
 
 /**
  * Represents a full NBS song file.
@@ -14,31 +16,40 @@ import Note from "./Note";
  *
  * @example
  * ```js
- * import { Song, Note, Instrument } from "@encode42/nbs.js;
+ * const fs = require("fs");
+ * const { Song, Note, Instrument } = require("@encode42/nbs.js");
  *
- * // Create a song
+ * // Create a new song
  * const song = new Song();
- * song.name = "Circles";
+ * song.name = "Triumph";
  * song.author = "Encode42";
+ * song.tempo = 20;
  *
- * // Construct the song
- * const layer = song.addLayer();
- * layer.name = "Harp";
+ * // Create 3 layers for 3 instruments
+ * for (let layerCount = 0; layerCount < 3; layerCount++) {
+ *     const instrument = Instrument.builtIn[layerCount];
  *
- * // Create the notes
- * const notes = [
- *   new Note(Instrument.builtIn[0], 40),
- *   new Note(Instrument.builtIn[1], 45),
- *   new Note(Instrument.builtIn[2], 50)
- * ];
+ *     // Create a layer for the instrument
+ *     const layer = song.addLayer();
+ *     layer.name = instrument.name;
  *
- * // Populate the layer
- * for (let i = 0; i < notes.length; i++) {
- *   layer.setNote(i + 5, notes[i]);
+ *     // Notes that will be placed
+ *     const notes = [
+ *         new Note(instrument, 40),
+ *         new Note(instrument, 45),
+ *         new Note(instrument, 50),
+ *         new Note(instrument, 45),
+ *         new Note(instrument, 57)
+ *     ];
+ *
+ *     // Place the notes
+ *     for (let i = 0; i < notes.length; i++) {
+ *         song.setNote(layer, i * 4, notes[i]);
+ *     }
  * }
  *
- * // Generate a file array buffer
- * const result = song.toArrayBuffer();
+ * // Write the song
+ * fs.writeFileSync("song.nbs", Buffer.from(song.toArrayBuffer()));
  * ```
  */
 export default class Song {
@@ -147,12 +158,12 @@ export default class Song {
      *
      * @see https://opennbs.org/nbs
      */
-    public nbsVersion = 0;
+    public nbsVersion = 5;
 
     /**
      * Index of the first custom instrument.
      */
-    public firstCustomIndex = 0;
+    public firstCustomIndex = this.instruments.length;
 
     /**
      * Layers within the song.
@@ -203,11 +214,32 @@ export default class Song {
         return layer;
     }
 
+    /**
+     * Set the note at a tick.
+     *
+     * @param layer Layer to set the note on
+     * @param tick Tick to set the note
+     * @param note Note to set
+     */
+    public setNote(layer: Layer, tick: number, note: Note): void {
+        this.expand(tick);
+
+        layer.setNote(tick, note);
+    }
+
+    /**
+     * Create and add a note to a tick.
+     *
+     * @param layer Layer to add the note to
+     * @param tick Tick to set the note
+     * @param instrument The note's instrument
+     * @param key The note's key
+     * @param panning The note's panning
+     * @param velocity The note's velocity
+     * @param pitch The note's pitch
+     */
     public addNote(layer: Layer, tick: number, instrument?: Instrument, key?: number, panning?: number, velocity?: number, pitch?: number): Note {
-        // Expand the song if required
-        if (tick + 1 > this.size) {
-            this.size = tick + 1;
-        }
+        this.expand(tick);
 
         // Construct the note
         return layer.addNote(tick, instrument, key, panning, velocity, pitch);
@@ -223,14 +255,13 @@ export default class Song {
     }
 
     /**
-     * Parse and return a song from a file array buffer.
+     * Generate and return an ArrayBuffer from this song.
      *
-     * @param buffer ArrayBuffer to parse from
-     * @return Parsed song
-     * Returns an empty song if an error occured
+     * @return Generated ArrayBuffer
+     * Returns an empty ArrayBuffer if an error occurred
      */
-    public static fromArrayBuffer(buffer: ArrayBuffer): Song {
-        return fromArrayBuffer(buffer);
+    public toArrayBuffer(): ArrayBuffer {
+        return toArrayBuffer(this);
     }
 
     /**
@@ -238,19 +269,32 @@ export default class Song {
      *
      * @param song Song to parse from
      * @return Generated ArrayBuffer
-     * Returns an empty ArrayBuffer if an error occured
+     * Returns an empty ArrayBuffer if an error occurred
      */
     public static toArrayBuffer(song: Song): ArrayBuffer {
         return toArrayBuffer(song);
     }
 
     /**
-     * Generate and return an ArrayBuffer from this song.
+     * Parse and return a song from a file array buffer.
      *
-     * @return Generated ArrayBuffer
-     * Returns an empty ArrayBuffer if an error occured
+     * @param buffer ArrayBuffer to parse from
+     * @return Parsed song
+     * Returns an empty song if an error occurred
      */
-    public toArrayBuffer(): ArrayBuffer {
-        return toArrayBuffer(this);
+    public static fromArrayBuffer(buffer: ArrayBuffer): Song {
+        return fromArrayBuffer(buffer);
+    }
+
+    /**
+     * Expand the song if required.
+     *
+     * @param tick Tick that is being added
+     */
+    private expand(tick: number): void {
+        // Expand the song if required
+        if (tick + 1 > this.size) {
+            this.size = tick + 1;
+        }
     }
 }

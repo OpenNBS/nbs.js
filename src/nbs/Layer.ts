@@ -54,6 +54,17 @@ export default class Layer {
     }
 
     /**
+     * Set the note at a tick.
+     *
+     * @param tick Tick to set the note on
+     * @param note Note to set on tick
+     */
+    public setNote(tick: number, note: Note): Note {
+        this.notes[tick] = note;
+        return note;
+    }
+
+    /**
      * Create and add a note to a tick.
      *
      * @param instrument The note's instrument
@@ -65,21 +76,9 @@ export default class Layer {
      */
     public addNote(tick: number, instrument?: Instrument, key?: number, panning?: number, velocity?: number, pitch?: number): Note {
         const note = new (getNoteClass())(instrument, key, panning, velocity, pitch);
-        this.notes[tick] = note;
-        return note;
+        return this.setNote(tick, note);
     }
 
-    /**
-     * Set a note at a tick.
-     *
-     * @param tick Tick to set note on
-     * @param note Note to set on tick
-     */
-    public setNote(tick: number, note: Note): void {
-        this.notes[tick] = note;
-    }
-
-    // TODO: Shrink song if available
     /**
      * Delete a note at a specified tick.
      *
