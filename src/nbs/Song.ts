@@ -154,6 +154,13 @@ export default class Song {
     public blocksRemoved = 0;
 
     /**
+     * Whether the song has at least one solo layer.
+     *
+     * @see {@linkcode Layer}
+     */
+    public hasSolo = false;
+
+    /**
      * Version of NBS the song has been saved to.
      *
      * @see https://opennbs.org/nbs
@@ -171,11 +178,6 @@ export default class Song {
      * @see {@linkcode Layer}
      */
     public layers: Layer[] = [];
-
-    /**
-     * Whether the song has at least one solo layer.
-     */
-    public hasSolo = false;
 
     /**
      * Errors occurred while loading, manipulating, or saving the nbs file.
