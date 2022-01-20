@@ -61,6 +61,15 @@ window.addEventListener("load", () => {
         "printMargin": false
     });
 
+    editor.commands.addCommand({
+        "name": "Save",
+        "bindKey": {
+            "win": "Ctrl-S",
+            "mac": "Command-S"
+        },
+        "exec": exportSong
+    });
+
     // File is selected
     getElements().button.file.input.addEventListener("change",  async event => {
         if (event.target.files.length === 0) {
@@ -104,31 +113,7 @@ window.addEventListener("load", () => {
     });
 
     // Export the displayed song
-    getElements().button.file.export.addEventListener("click", () => {
-        const value = editor.getValue();
-
-        // Ensure the new song can be parsed
-        if (canParse(value)) {
-            // Generate a new song
-            const newSong = new NBSjs.Song();
-            Object.assign(newSong, JSON.parse(editor.getValue()));
-
-            // Create and download the ArrayBuffer
-            const buffer = newSong.toArrayBuffer();
-            const blob = new Blob([new Uint8Array(buffer)]);
-
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = fileName;
-
-            document.body.append(link);
-
-            link.click();
-            link.remove();
-        } else {
-            editor.setValue(structureText, -1);
-        }
-    });
+    getElements().button.file.export.addEventListener("click", exportSong);
 
     // Hide checkbox
     getElements().toggle.structure.hide.addEventListener("change", event => {
@@ -202,5 +187,34 @@ function setReady(isReady) {
         getElements().toggle.playback.looping.disabled = true;
         getElements().toggle.playback.parity.disabled = true;
         getElements().text.structure.edit.value = "";
+    }
+}
+
+/**
+ * Export the song currently saved in the editor.
+ */
+function exportSong() {
+    const value = editor.getValue();
+
+    // Ensure the new song can be parsed
+    if (canParse(value)) {
+        // Generate a new song
+        const newSong = new NBSjs.Song();
+        Object.assign(newSong, JSON.parse(editor.getValue()));
+
+        // Create and download the ArrayBuffer
+        const buffer = newSong.toArrayBuffer();
+        const blob = new Blob([new Uint8Array(buffer)]);
+
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+
+        document.body.append(link);
+
+        link.click();
+        link.remove();
+    } else {
+        editor.setValue(structureText, -1);
     }
 }
