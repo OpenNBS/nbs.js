@@ -2,6 +2,10 @@ h3 {
     border-bottom: 1px solid var(--slight-bright);
 }
 
+::-webkit-scrollbar-track, ::-webkit-scrollbar-track-piece {
+    background: var(--background-body);
+}
+
 #playback-button::before {
     content: "Play";
 }
@@ -28,6 +32,10 @@ h3 {
 
 .ace_gutter-active-line, .ace_active-line {
     background: var(--background) !important;
+}
+
+.ace_scrollbar::-webkit-scrollbar-track, .ace_scrollbar::-webkit-scrollbar-track-piece {
+    background: var(--background);
 }
 
 .buttons-with-settings {

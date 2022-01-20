@@ -1,6 +1,6 @@
-import { getElements, getSong, setElements, setSong } from "./util/globals.js";
+import { getElements, setElements, setSong } from "./util/globals.js";
 import { prepareSong, resetSong, startSong, stopSong } from "./audio/playback.js";
-import { loadSong } from "./audio/loadSong.js";
+import { loadSong, generateOverviews } from "./audio/loadSong.js";
 import { canParse } from "./util/util.js";
 
 let editor;
@@ -8,10 +8,16 @@ let structureText;
 let fileName;
 
 window.addEventListener("load", () => {
-    // Check all "checked by default" checkboxes
+    // Reset all elements to their default state
     for (const element of document.getElementsByTagName("*")) {
+        // Checkboxes
         if (element.getAttribute("checked") === "") {
             element.checked = true;
+        }
+
+        // File inputs
+        if (element.getAttribute("type") === "file") {
+            element.value = null;
         }
     }
 
@@ -24,6 +30,9 @@ window.addEventListener("load", () => {
             "playback": {
                 "toggle": document.getElementById("playback-button"),
                 "restart": document.getElementById("restart-button")
+            },
+            "structure": {
+                "apply": document.getElementById("structure-apply")
             }
         },
         "toggle": {
@@ -46,17 +55,17 @@ window.addEventListener("load", () => {
     });
 
     // Initial result state
-    getElements().button.file.input.value = null;
     prepareResult("No file selected.");
     setReady(false);
 
+    // Ace editor setup
     ace.config.set("basePath", "https://cdn.jsdelivr.net/gh/ajaxorg/ace-builds@1.4.13/src-min/");
     ace.config.setModuleUrl("ace/theme/ayu-mirage", "https://cdn.jsdelivr.net/gh/ayu-theme/ayu-ace@2.0.4/mirage.min.js");
 
     editor = ace.edit(getElements().text.structure.edit, {
         "mode": "ace/mode/javascript",
         "theme": "ace/theme/ayu-mirage",
-        "maxLines": 60,
+        "maxLines": 25,
         "fontSize": "0.8em",
         "printMargin": false
     });
@@ -88,43 +97,12 @@ window.addEventListener("load", () => {
 
         const song = data.song;
 
-        setSong(song);
-
-        // Fill result table
-        for (const overview of data.overviews) {
-            const row = document.createElement("tr");
-
-            const key = document.createElement("td");
-            key.innerHTML = `<strong>${overview[0]}</strong>`;
-
-            const value = document.createElement("td");
-            value.innerHTML = overview[1] === "" ? "None" : overview[1];
-
-            row.append(key);
-            row.append(value);
-
-            getElements().text.overview.append(row);
-        }
+        updateSong(song);
 
         // Set structure text
         displayStructureText(data.structureText);
 
         setReady(true);
-    });
-
-    // Export the displayed song
-    getElements().button.file.export.addEventListener("click", exportSong);
-
-    // Hide checkbox
-    getElements().toggle.structure.hide.addEventListener("change", event => {
-        if (event.target.checked) {
-            //  Hide the structure
-            getElements().text.structure.parent.classList.remove("visible");
-        } else {
-            // Show the structure
-            displayStructureText();
-            getElements().text.structure.parent.classList.add("visible");
-        }
     });
 
     // Play button is pressed
@@ -142,6 +120,29 @@ window.addEventListener("load", () => {
         // Restart the song
         resetSong();
     });
+
+    // Export the displayed song
+    getElements().button.file.export.addEventListener("click", exportSong);
+
+    // Apply button clicked
+    getElements().button.structure.apply.addEventListener("click", () => {
+        // Generate a new song
+        const song = generateSong(checkEditor());
+
+        updateSong(song);
+    });
+
+    // Hide checkbox
+    getElements().toggle.structure.hide.addEventListener("change", event => {
+        if (event.target.checked) {
+            //  Hide the structure
+            getElements().text.structure.parent.classList.remove("visible");
+        } else {
+            // Show the structure
+            displayStructureText();
+            getElements().text.structure.parent.classList.add("visible");
+        }
+    });
 });
 
 /**
@@ -153,6 +154,66 @@ window.addEventListener("load", () => {
 function prepareResult(placeholder) {
     getElements().text.overview.innerHTML = null;
     displayStructureText(placeholder);
+}
+
+/**
+ * @param isReady Whether the app is ready for interaction.
+ */
+function setReady(isReady) {
+    if (isReady) {
+        prepareSong();
+        resetSong();
+        getElements().button.file.export.disabled = false;
+        getElements().button.structure.apply.disabled = false;
+        getElements().button.playback.toggle.disabled = false;
+        getElements().button.playback.restart.disabled = false;
+        getElements().toggle.playback.parity.disabled = false;
+    } else {
+        stopSong();
+        getElements().button.file.export.disabled = true;
+        getElements().button.structure.apply.disabled = true;
+        getElements().button.playback.toggle.disabled = true;
+        getElements().button.playback.restart.disabled = true;
+        getElements().toggle.playback.looping.disabled = true;
+        getElements().toggle.playback.parity.disabled = true;
+        getElements().text.structure.edit.value = "";
+    }
+}
+
+/**
+ * Update the overviews for a song.
+ *
+ * @param song Song to update overviews with
+ */
+function updateOverviews(song) {
+    getElements().text.overview.innerHTML = "";
+
+    const overviews = generateOverviews(song);
+
+    for (const overview of overviews) {
+        const row = document.createElement("tr");
+
+        const key = document.createElement("td");
+        key.innerHTML = `<strong>${overview[0]}</strong>`;
+
+        const value = document.createElement("td");
+        value.innerHTML = overview[1] === "" ? "None" : overview[1];
+
+        row.append(key);
+        row.append(value);
+
+        getElements().text.overview.append(row);
+    }
+}
+
+/**
+ * Update the loaded song.
+ *
+ * @param song Song to update with
+ */
+function updateSong(song) {
+    setSong(song);
+    updateOverviews(song);
 }
 
 /**
@@ -169,52 +230,56 @@ function displayStructureText(code) {
 }
 
 /**
- * @param isReady Whether the app is ready for interaction.
+ * Check whether the editor state is valid.
+ *
+ * @return {Object} Content of the editor or last valid state
  */
-function setReady(isReady) {
-    if (isReady) {
-        prepareSong();
-        resetSong();
-        getElements().button.file.export.disabled = false;
-        getElements().button.playback.toggle.disabled = false;
-        getElements().button.playback.restart.disabled = false;
-        getElements().toggle.playback.parity.disabled = false;
+function checkEditor() {
+    const value = editor.getValue() || structureText;
+
+    // Ensure the new song can be parsed
+    if (canParse(value)) {
+        structureText = value;
+        return value;
     } else {
-        stopSong();
-        getElements().button.file.export.disabled = true;
-        getElements().button.playback.toggle.disabled = true;
-        getElements().button.playback.restart.disabled = true;
-        getElements().toggle.playback.looping.disabled = true;
-        getElements().toggle.playback.parity.disabled = true;
-        getElements().text.structure.edit.value = "";
+        displayStructureText(structureText);
+        return structureText;
     }
+}
+
+/**
+ * Generate a Song from an object.
+ *
+ * @param obj Object to parse.
+ * @return {*}
+ */
+function generateSong(obj) {
+    if (typeof obj !== "object" && canParse(obj)) {
+        obj = JSON.parse(obj);
+    }
+
+    const newSong = new NBSjs.Song();
+    Object.assign(newSong, obj);
+
+    return newSong;
 }
 
 /**
  * Export the song currently saved in the editor.
  */
 function exportSong() {
-    const value = editor.getValue();
+    const newSong = generateSong(checkEditor());
 
-    // Ensure the new song can be parsed
-    if (canParse(value)) {
-        // Generate a new song
-        const newSong = new NBSjs.Song();
-        Object.assign(newSong, JSON.parse(editor.getValue()));
+    // Create and download the ArrayBuffer
+    const buffer = newSong.toArrayBuffer();
+    const blob = new Blob([new Uint8Array(buffer)]);
 
-        // Create and download the ArrayBuffer
-        const buffer = newSong.toArrayBuffer();
-        const blob = new Blob([new Uint8Array(buffer)]);
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
 
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = fileName;
+    document.body.append(link);
 
-        document.body.append(link);
-
-        link.click();
-        link.remove();
-    } else {
-        editor.setValue(structureText, -1);
-    }
+    link.click();
+    link.remove();
 }

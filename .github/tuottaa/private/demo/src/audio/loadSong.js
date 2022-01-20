@@ -155,14 +155,30 @@ Instrument.builtIn = [
 
 NBSjs.setInstrumentClass(Instrument);
 
+/**
+ * Load a song from a file.
+ *
+ * @param data Data to receive
+ * @return Generated song data
+ */
 export async function loadSong(data) {
     // Load the song
     const song = NBSjs.Song.fromArrayBuffer(await data.file.arrayBuffer());
 
-    const returnData = {
-        song
+    // Send the loaded data back
+    return {
+        song,
+        "structureText": JSON.stringify(song, undefined, 4)
     };
+}
 
+/**
+ * Generate the overviews for a song.
+ *
+ * @param song Song to generate from
+ * @return Generated overviews
+ */
+export function generateOverviews(song) {
     const duration = {
         "seconds": (song.timePerTick * song.size) / 1000,
         get "s"() {
@@ -176,8 +192,7 @@ export async function loadSong(data) {
         }
     };
 
-    // Display the instruments first
-    returnData.overviews = [[
+    return [[
         "NBS version",
         song.nbsVersion
     ], [
@@ -209,11 +224,6 @@ export async function loadSong(data) {
         }).filter(Boolean)
             .join(", ")
     ]];
-
-    // Stringify the song structure
-    returnData.structureText = JSON.stringify(song, undefined, 4);
-
-    return returnData;
 }
 
 function prependZeros(num) {
