@@ -1,6 +1,3 @@
-self.importScripts("../NBS.js");
-self.importScripts("https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js");
-
 /**
  * Represents an instrument
  */
@@ -30,7 +27,8 @@ Instrument.builtIn = [
         0,
         {
             "audioSrc": "./assets/harp.ogg",
-            "builtIn": true
+            "builtIn": true,
+            "pressKey": true
         }
     ),
     new Instrument(
@@ -157,20 +155,20 @@ Instrument.builtIn = [
 
 NBSjs.setInstrumentClass(Instrument);
 
-self.addEventListener("message", async event => {
-    const data = {};
-
+export async function loadSong(data) {
     // Load the song
-    const song = NBSjs.Song.fromArrayBuffer(await event.data.file.arrayBuffer());
-    data.song = _.cloneDeep(song);
-    data.timePerTick = song.timePerTick;
-    data.instruments = song.instruments;
+    const song = NBSjs.Song.fromArrayBuffer(await data.file.arrayBuffer());
+    const modSong = _.cloneDeep(song);
+
+    const returnData = {
+        song
+    };
 
     // Remove undefined notes and empty layers
     const newLayers = [];
-    const totalLayers = song.layers.length;
+    const totalLayers = modSong.layers.length;
     for (let i = 0; i < totalLayers; i++) {
-        const layer = song.layers[i];
+        const layer = modSong.layers[i];
 
         // Check for empty notes
         const newNotes = [];
@@ -188,10 +186,10 @@ self.addEventListener("message", async event => {
         }
     }
 
-    song.layers = newLayers;
+    modSong.layers = newLayers;
 
     const duration = {
-        "seconds": (song.timePerTick * song.size) / 1000,
+        "seconds": (modSong.timePerTick * modSong.size) / 1000,
         get "s"() {
             return (this.seconds % 60).toFixed(2);
         },
@@ -204,31 +202,30 @@ self.addEventListener("message", async event => {
     };
 
     // Display the instruments first
-    data.structureText = `Instruments: ${JSON.stringify(song.instruments, null, 4)}\n\n`;
-    data.overviews = [[
+    returnData.overviews = [[
         "NBS version",
-        song.nbsVersion
+        modSong.nbsVersion
     ], [
         "Song name",
-        song.name
+        modSong.name
     ], [
         "Song author",
-        song.author
+        modSong.author
     ], [
         "Song description",
-        song.description
+        modSong.description
     ], [
         "Song tick length",
-        song.size
+        modSong.size
     ], [
         "Song duration",
         duration.format
     ], [
         "Total layers",
-        song.layers.length
+        modSong.layers.length
     ], [
         "Custom instruments",
-        song.instruments.map(i => {
+        modSong.instruments.map(i => {
             if (!i.builtIn) {
                 return i.name;
             }
@@ -239,30 +236,10 @@ self.addEventListener("message", async event => {
     ]];
 
     // Stringify the song structure
-    const cache = [];
-    data.structureText = data.structureText.concat("Song: ", JSON.stringify(song, (key, value) => {
-        // Decycle the object
-        if (typeof value === "object" && value !== null) {
-            if (key === "instrument") {
-                return `[${key} ${value.name}]`;
-            }
+    returnData.structureText = JSON.stringify(modSong, undefined, 4);
 
-            if (key === "song") {
-                return `[this]`;
-            }
-
-            if (cache.includes(value)) {
-                return `[${key}]`;
-            }
-
-            cache.push(value);
-        }
-
-        return value;
-    }, 4));
-
-    postMessage(data);
-});
+    return returnData;
+}
 
 function prependZeros(num) {
     return Array.from({ "length": Math.max(3 - Math.floor(num).toString().length, 0) }).join("0") + num;

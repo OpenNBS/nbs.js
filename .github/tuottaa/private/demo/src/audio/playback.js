@@ -25,8 +25,8 @@ export async function prepareSong() {
     }));
 
     // Check looping toggle if available
-    getElements().toggle.playback.looping.disabled = !getSong().song.loopEnabled;
-    getElements().toggle.playback.looping.checked = getSong().song.loopEnabled;
+    getElements().toggle.playback.looping.disabled = !getSong().loopEnabled;
+    getElements().toggle.playback.looping.checked = getSong().loopEnabled;
 }
 
 /**
@@ -67,14 +67,14 @@ export async function playSong() {
         return;
     }
 
-    const hasSolo = getSong().song.hasSolo;
-    const totalLayers = getSong().song.layers.length;
+    const hasSolo = getSong().hasSolo;
+    const totalLayers = getSong().layers.length;
 
     // eslint-disable-next-line no-unmodified-loop-condition
     while (!stopPlaying) {
         // Iterate each layer
         for (let currentLayer = 0; currentLayer < totalLayers; currentLayer++) {
-            const layer = getSong().song.layers[currentLayer];
+            const layer = getSong().layers[currentLayer];
 
             // Skip non-solo layers
             if (hasSolo && !layer.solo) {
@@ -116,11 +116,11 @@ export async function playSong() {
         currentTick++;
 
         // Loop or stop song
-        if (currentTick === getSong().song.size) {
+        if (currentTick === getSong().size) {
             // Loop if available
-            if (getElements().toggle.playback.looping.checked && (getSong().song.maxLoopCount === 0 || currentLoop < getSong().song.maxLoopCount)) {
+            if (getElements().toggle.playback.looping.checked && (getSong().maxLoopCount === 0 || currentLoop < getSong().maxLoopCount)) {
                 currentLoop++;
-                currentTick = getSong().song.loopStartTick;
+                currentTick = getSong().loopStartTick;
             } else {
                 resetSong();
             }

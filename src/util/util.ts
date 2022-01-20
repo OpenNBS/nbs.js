@@ -2,16 +2,18 @@ import Instrument from "../nbs/Instrument";
 import Note from "../nbs/Note";
 import Layer from "../nbs/Layer";
 
-export class BufferReader {
+class Buffer {
     public buffer: ArrayBuffer;
-    public viewer: DataView;
+    protected viewer: DataView;
     public currentByte = 0;
 
     constructor(buffer: ArrayBuffer) {
         this.buffer = buffer;
         this.viewer = new DataView(buffer);
     }
+}
 
+export class BufferReader extends Buffer {
     public readByte(): number {
         const result = this.viewer.getInt8(this.currentByte);
         this.currentByte += 1;
@@ -44,6 +46,56 @@ export class BufferReader {
             result += String.fromCodePoint(byte);
         }
         return result;
+    }
+}
+
+export class BufferWriter extends Buffer {
+    private dry: boolean;
+
+    constructor(buffer: ArrayBuffer, dry = false) {
+        super(buffer);
+
+        this.dry = dry;
+    }
+
+    public writeByte(val: number): void {
+        if (!this.dry) {
+            this.viewer.setInt8(this.currentByte, Math.floor(val));
+        }
+
+        this.currentByte += 1;
+    }
+
+    public writeUnsignedByte(val: number): void {
+        if (!this.dry) {
+            this.viewer.setUint8(this.currentByte, val);
+        }
+
+        this.currentByte += 1;
+    }
+
+    public writeShort(val: number): void {
+        if (!this.dry) {
+            this.viewer.setInt16(this.currentByte, val, true);
+        }
+
+        this.currentByte += 2;
+    }
+
+    public writeInt(val: number): void {
+        if (!this.dry) {
+            this.viewer.setInt32(this.currentByte, val, true);
+        }
+
+        this.currentByte += 4;
+    }
+
+    public writeString(val: string): void {
+        this.writeInt(val.length);
+        for (const i of val) {
+            // eslint-disable-next-line unicorn/prefer-code-point
+            this.writeUnsignedByte(i.charCodeAt(0));
+        }
     }
 }
 

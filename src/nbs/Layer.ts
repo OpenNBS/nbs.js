@@ -8,13 +8,6 @@ import { getNoteClass } from "../util/util";
  */
 export default class Layer {
     /**
-     * Song instance this layer is attached to.
-     *
-     * @internal
-     */
-    private song: Song;
-
-    /**
      * Name of the layer.
      */
     public name = "";
@@ -54,11 +47,9 @@ export default class Layer {
     /**
      * Construct a layer.
      *
-     * @param song Song the layer is attached to
      * @param id ID of the layer
      */
-    public constructor(song: Song, id: number) {
-        this.song = song;
+    public constructor(id: number) {
         this.id = id;
     }
 
@@ -73,12 +64,6 @@ export default class Layer {
      * @param pitch The note's pitch
      */
     public addNote(tick: number, instrument?: Instrument, key?: number, panning?: number, velocity?: number, pitch?: number): Note {
-        // Expand the song if required
-        if (tick + 1 > this.song.size) {
-            this.song.size = tick + 1;
-        }
-
-        // Construct the note
         const note = new (getNoteClass())(instrument, key, panning, velocity, pitch);
         this.notes[tick] = note;
         return note;
@@ -92,13 +77,6 @@ export default class Layer {
      */
     public setNote(tick: number, note: Note): void {
         this.notes[tick] = note;
-    }
-
-    /**
-     * Delete the layer from the song.
-     */
-    public delete(): void {
-        this.song.deleteLayer(this);
     }
 
     // TODO: Shrink song if available

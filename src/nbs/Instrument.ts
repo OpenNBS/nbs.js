@@ -24,11 +24,6 @@ export default class Instrument {
     public audioSrc = "";
 
     /**
-     * Pitch of the instrument.
-     */
-    public pitch = 0;
-
-    /**
      * Key of the instrument.
      *
      * @example E = 44, F = 45
@@ -39,6 +34,11 @@ export default class Instrument {
      * Whether the instrument is a built-in instrument.
      */
     public builtIn = false;
+
+    /**
+     * Whether the instrument should press the keys on a keyboard.
+     */
+    public pressKey = false;
 
     /**
      * The built-in instruments.
@@ -174,8 +174,8 @@ export default class Instrument {
 
         // Parse options
         this.audioSrc = options?.audioSrc || "";
-        this.pitch = options?.pitch === undefined ? 0 : options.pitch;
         this.key = options?.key === undefined ? 45 : options.key;
         this.builtIn = options?.builtIn ?? false;
+        this.pressKey = options?.pressKey ?? false;
     }
 }

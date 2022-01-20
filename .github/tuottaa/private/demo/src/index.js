@@ -1,13 +1,28 @@
-import { getElements, setElements, setSong } from "./util/globals.js";
+import { getElements, getSong, setElements, setSong } from "./util/globals.js";
 import { prepareSong, resetSong, startSong, stopSong } from "./audio/playback.js";
+import { loadSong } from "./audio/loadSong.js";
+
+// TODO: Set checkboxes to their default state
 
 let structureCode;
 let setStructureCode = false;
 
+let fileName;
+
 window.addEventListener("load", () => {
+    // Check all "checked by default" checkboxes
+    for (const element of document.getElementsByTagName("*")) {
+        if (element.getAttribute("checked") === "") {
+            element.checked = true;
+        }
+    }
+
     setElements({
         "button": {
-            "fileInput": document.getElementById("file-input"),
+            "file": {
+                "input": document.getElementById("file-input"),
+                "export": document.getElementById("file-export")
+            },
             "playback": {
                 "toggle": document.getElementById("playback-button"),
                 "restart": document.getElementById("restart-button")
@@ -37,7 +52,7 @@ window.addEventListener("load", () => {
     });
 
     // Initial result state
-    getElements().button.fileInput.value = null;
+    getElements().button.file.input.value = null;
     prepareResult("No file selected.");
     setReady(false);
 
@@ -53,48 +68,61 @@ window.addEventListener("load", () => {
     }
 
     // File is selected
-    getElements().button.fileInput.addEventListener("change",  event => {
+    getElements().button.file.input.addEventListener("change",  async event => {
         if (event.target.files.length === 0) {
             return;
         }
 
+        fileName = event.target.files[0].name;
+
         setReady(false);
-        const worker = new Worker("src/worker/loadSong.js");
 
         // Load the song
         prepareResult("Loading...");
-        worker.postMessage({
+        const data = await loadSong({
             "file": event.target.files[0]
         });
 
-        worker.addEventListener("message", async event => {
-            setSong({
-                "song": event.data.song,
-                "instruments": event.data.instruments,
-                "timePerTick": event.data.timePerTick
-            });
+        const song = data.song;
 
-            setReady(true);
+        setSong(song);
 
-            // Fill result table
-            for (const overview of event.data.overviews) {
-                const row = document.createElement("tr");
+        // Fill result table
+        for (const overview of data.overviews) {
+            const row = document.createElement("tr");
 
-                const key = document.createElement("td");
-                key.innerHTML = `<strong>${overview[0]}</strong>`;
+            const key = document.createElement("td");
+            key.innerHTML = `<strong>${overview[0]}</strong>`;
 
-                const value = document.createElement("td");
-                value.innerHTML = overview[1] === "" ? "None" : overview[1];
+            const value = document.createElement("td");
+            value.innerHTML = overview[1] === "" ? "None" : overview[1];
 
-                row.append(key);
-                row.append(value);
+            row.append(key);
+            row.append(value);
 
-                getElements().text.overview.append(row);
-            }
+            getElements().text.overview.append(row);
+        }
 
-            // Set structure text
-            displayStructureCode(event.data.structureText);
-        });
+        // Set structure text
+        displayStructureCode(data.structureText);
+
+        setReady(true);
+    });
+
+    getElements().button.file.export.addEventListener("click", () => {
+        if (getSong()) {
+            const buffer = getSong().toArrayBuffer();
+            const blob = new Blob([new Uint8Array(buffer)]);
+
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+
+            document.body.append(link);
+
+            link.click();
+            link.remove();
+        }
     });
 
     // Play button is pressed
@@ -180,6 +208,7 @@ function setReady(isReady) {
     if (isReady) {
         prepareSong();
         resetSong();
+        getElements().button.file.export.disabled = false;
         getElements().button.playback.toggle.disabled = false;
         getElements().button.playback.restart.disabled = false;
         getElements().toggle.playback.parity.disabled = false;
@@ -189,6 +218,7 @@ function setReady(isReady) {
         }
     } else {
         setStructureCode = false;
+        getElements().button.file.export.disabled = true;
         getElements().button.playback.toggle.disabled = true;
         getElements().button.playback.restart.disabled = true;
         getElements().button.structure.highlight.disabled = true;

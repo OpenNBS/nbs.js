@@ -23,8 +23,6 @@
 [![][Actions Badge]][Actions] [![][Codacy Badge]][Codacy] [![][Discord Badge]][Support]
 </div>
 
-**Note:** This API is still in early development. Writing NBS files is not yet supported. Report any bugs found!
-
 ### 🔧 Including
 🌐 **Browser**
 ```html

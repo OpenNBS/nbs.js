@@ -19,7 +19,7 @@ export function setElements(toSet) {
 
 /**
  * Get the currently stored song.
- * @return {{song: Object, instruments: Object, timePerTick: number}}
+ * @return {NBSjs.Song}
  */
 export function getSong() {
     return song;

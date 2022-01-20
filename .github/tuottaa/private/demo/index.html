@@ -14,6 +14,7 @@
             <h1>NBS.js Demo</h1>
             <p>Select a <code>.nbs</code> file via the input below.</p>
             <input type="file" id="file-input">
+            <button id="file-export" disabled>Export</button>
 
             <div>
                 <h1>Result</h1>
@@ -33,10 +34,10 @@
                         </li>
                     </ul>
                     <div class="buttons-with-settings">
-                        <button id="playback-button"></button> <button id="restart-button">Restart</button>
+                        <button id="playback-button" disabled></button> <button id="restart-button" disabled>Restart</button>
                         <div class="settings">
-                            <label><input type="checkbox" id="toggle-looping"> Looping</label>
-                            <label><input type="checkbox" id="toggle-parity" checked> Parity</label>
+                            <label><input type="checkbox" id="toggle-looping" disabled> Looping</label>
+                            <label><input type="checkbox" id="toggle-parity" disabled checked> Parity</label>
                         </div>
                     </div>
                 </div>
@@ -50,8 +51,7 @@
                     <p>The resulting song structure will be displayed here.</p>
                     <ul>
                         <li>Empty notes and layers have been removed for improved rendering speed.</li>
-                        <li>Instrument objects have been separated from the song object.</li>
-                        <li>Circular references have been shortened.</li>
+                        <li>Class methods have been removed due to the nature of <code>JSON.stringify()</code>'s structured clone.</li>
                     </ul>
                     <div class="buttons-with-settings">
                         <button id="highlight" disabled>Highlight</button>
@@ -67,6 +67,8 @@
             </div>
         </main>
 
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+        <script src="src/NBS.js"></script>
         <script async src="src/index.js" type="module"></script>
     </body>
 </html>

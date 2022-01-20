@@ -10,13 +10,6 @@ export interface InstrumentOptions {
     "audioSrc"?: string,
 
     /**
-     * Pitch of the instrument.
-     *
-     * @see {@linkcode Instrument.pitch}
-     */
-    "pitch"?: number,
-
-    /**
      * Key of the instrument.
      *
      * @see {@linkcode Instrument.key}
@@ -28,5 +21,12 @@ export interface InstrumentOptions {
      *
      * @see {@linkcode Instrument.builtIn}
      */
-    "builtIn"?: boolean
+    "builtIn"?: boolean,
+
+    /**
+     * Whether the instrument should press the keys on a keyboard.
+     *
+     * @see {@linkcode Instrument.pressKey}
+     */
+    "pressKey"?: boolean
 }
