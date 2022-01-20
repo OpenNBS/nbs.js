@@ -156,7 +156,7 @@ export default class Song {
     /**
      * Whether the song has at least one solo layer.
      *
-     * @see {@linkcode Layer}
+     * @see {@linkcode Layer.solo}
      */
     public hasSolo = false;
 
