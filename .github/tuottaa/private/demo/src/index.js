@@ -3,9 +3,9 @@ import { prepareSong, resetSong, startSong, stopSong } from "./audio/playback.js
 import { loadSong, generateOverviews } from "./audio/loadSong.js";
 import { canParse } from "./util/util.js";
 
-let editor;
-let structureText;
-let fileName;
+let editor = null;
+let structureText = null;
+let fileName = null;
 
 window.addEventListener("load", () => {
     // Reset all elements to their default state
