@@ -126,10 +126,14 @@ window.addEventListener("load", () => {
 
     // Apply button clicked
     getElements().button.structure.apply.addEventListener("click", () => {
-        // Generate a new song
-        const song = generateSong(checkEditor());
+        const result = checkEditor();
 
-        updateSong(song);
+        if (result.changed) {
+            // Generate a new song
+            const song = generateSong(result.value);
+
+            updateSong(song);
+        }
     });
 
     // Hide checkbox
@@ -224,7 +228,7 @@ function updateSong(song) {
 function displayStructureText(code) {
     structureText = code || structureText;
 
-    if (!getElements().toggle.structure.hide.checked) {
+    if (!getElements().toggle.structure.hide.checked && editor.getValue() !== structureText) {
         editor.setValue(structureText, -1);
     }
 }
@@ -235,15 +239,21 @@ function displayStructureText(code) {
  * @return {Object} Content of the editor or last valid state
  */
 function checkEditor() {
-    const value = editor.getValue() || structureText;
+    const value = editor.getValue();
 
     // Ensure the new song can be parsed
-    if (canParse(value)) {
+    if (value !== structureText && canParse(value)) {
         structureText = value;
-        return value;
+        return {
+            "changed": true,
+            value
+        };
     } else {
         displayStructureText(structureText);
-        return structureText;
+        return {
+            "changed": false,
+            "value": structureText
+        };
     }
 }
 
@@ -268,7 +278,7 @@ function generateSong(obj) {
  * Export the song currently saved in the editor.
  */
 function exportSong() {
-    const newSong = generateSong(checkEditor());
+    const newSong = generateSong(checkEditor().value);
 
     // Create and download the ArrayBuffer
     const buffer = newSong.toArrayBuffer();
