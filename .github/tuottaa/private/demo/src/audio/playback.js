@@ -44,7 +44,7 @@ export function startSong() {
  * @return {void}
  */
 export function stopSong() {
-    getElements().button.playback.toggle.dataset.toggled = "false";
+    delete getElements().button.playback.toggle.dataset.toggled;
     stopPlaying = true;
 }
 

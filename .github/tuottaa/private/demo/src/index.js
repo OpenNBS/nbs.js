@@ -1,12 +1,10 @@
 import { getElements, getSong, setElements, setSong } from "./util/globals.js";
 import { prepareSong, resetSong, startSong, stopSong } from "./audio/playback.js";
 import { loadSong } from "./audio/loadSong.js";
+import { canParse } from "./util/util.js";
 
-// TODO: Set checkboxes to their default state
-
-let structureCode;
-let setStructureCode = false;
-
+let editor;
+let structureText;
 let fileName;
 
 window.addEventListener("load", () => {
@@ -26,9 +24,6 @@ window.addEventListener("load", () => {
             "playback": {
                 "toggle": document.getElementById("playback-button"),
                 "restart": document.getElementById("restart-button")
-            },
-            "structure": {
-                "highlight": document.getElementById("highlight")
             }
         },
         "toggle": {
@@ -37,7 +32,7 @@ window.addEventListener("load", () => {
                 "parity": document.getElementById("toggle-parity")
             },
             "structure": {
-                "highlight": document.getElementById("hide-structure")
+                "hide": document.getElementById("structure-hide")
             }
         },
         "text": {
@@ -45,8 +40,7 @@ window.addEventListener("load", () => {
             "overview": document.getElementById("result-overview"),
             "structure": {
                 "parent": document.getElementById("structure"),
-                "code": document.getElementById("structure-code"),
-                "highlighting": document.getElementById("highlight-status")
+                "edit": document.getElementById("structure-editor")
             }
         }
     });
@@ -56,16 +50,16 @@ window.addEventListener("load", () => {
     prepareResult("No file selected.");
     setReady(false);
 
-    // Speed highlight does not work on Firefox
-    if (!navigator.userAgent.includes("Firefox")) {
-        getElements().button.structure.highlight.classList.add("visible");
-        getElements().text.structure.highlighting.classList.add("enabled");
-    }
+    ace.config.set("basePath", "https://cdn.jsdelivr.net/gh/ajaxorg/ace-builds@1.4.13/src-min/");
+    ace.config.setModuleUrl("ace/theme/ayu-mirage", "https://cdn.jsdelivr.net/gh/ayu-theme/ayu-ace@2.0.4/mirage.min.js");
 
-    // Workers do not work right on Safari
-    if (!(navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome"))) {
-        getElements().text.playback.classList.add("enabled");
-    }
+    editor = ace.edit(getElements().text.structure.edit, {
+        "mode": "ace/mode/javascript",
+        "theme": "ace/theme/ayu-mirage",
+        "maxLines": 60,
+        "fontSize": "0.8em",
+        "printMargin": false
+    });
 
     // File is selected
     getElements().button.file.input.addEventListener("change",  async event => {
@@ -104,14 +98,23 @@ window.addEventListener("load", () => {
         }
 
         // Set structure text
-        displayStructureCode(data.structureText);
+        displayStructureText(data.structureText);
 
         setReady(true);
     });
 
+    // Export the displayed song
     getElements().button.file.export.addEventListener("click", () => {
-        if (getSong()) {
-            const buffer = getSong().toArrayBuffer();
+        const value = editor.getValue();
+
+        // Ensure the new song can be parsed
+        if (canParse(value)) {
+            // Generate a new song
+            const newSong = new NBSjs.Song();
+            Object.assign(newSong, JSON.parse(editor.getValue()));
+
+            // Create and download the ArrayBuffer
+            const buffer = newSong.toArrayBuffer();
             const blob = new Blob([new Uint8Array(buffer)]);
 
             const link = document.createElement("a");
@@ -122,6 +125,20 @@ window.addEventListener("load", () => {
 
             link.click();
             link.remove();
+        } else {
+            editor.setValue(structureText, -1);
+        }
+    });
+
+    // Hide checkbox
+    getElements().toggle.structure.hide.addEventListener("change", event => {
+        if (event.target.checked) {
+            //  Hide the structure
+            getElements().text.structure.parent.classList.remove("visible");
+        } else {
+            // Show the structure
+            displayStructureText();
+            getElements().text.structure.parent.classList.add("visible");
         }
     });
 
@@ -140,70 +157,35 @@ window.addEventListener("load", () => {
         // Restart the song
         resetSong();
     });
-
-    // Highlight button is pressed
-    getElements().button.structure.highlight.addEventListener("click", () => {
-        // Start highlighting
-        const highlightWorker = new Worker("src/worker/highlight.js", {
-            "type": "module"
-        });
-
-        getElements().text.structure.highlighting.classList.add("visible");
-
-        // Highlight the block
-        highlightWorker.postMessage({
-            "code": getElements().text.structure.code.innerHTML
-        });
-
-        highlightWorker.addEventListener("message", highlightEvent => {
-            displayStructureCode(highlightEvent.data.code);
-            getElements().text.structure.highlighting.classList.remove("visible");
-        });
-    });
-
-    // Ability to hide the structure code
-    getElements().toggle.structure.highlight.addEventListener("change", event => {
-        if (event.target.checked) {
-            // Hide the code
-            getElements().text.structure.parent.classList.remove("visible");
-
-            // Don't let highlights happen
-            getElements().button.structure.highlight.disabled = true;
-        } else {
-            if (!setStructureCode) {
-                getElements().text.structure.code.innerHTML = structureCode;
-            }
-
-            // Show the code
-            getElements().text.structure.parent.classList.add("visible");
-            getElements().button.structure.highlight.disabled = false;
-        }
-    });
 });
 
 /**
- * Display the stored structure code.
- * @param code Code to override
- */
-function displayStructureCode(code) {
-    structureCode = code || structureCode;
-
-    if (!getElements().toggle.structure.highlight.checked) {
-        setStructureCode = true;
-        getElements().text.structure.code.innerHTML = structureCode;
-    }
-}
-
-/**
  * Prepare the result code block with a placeholder message.
+ *
  * @param placeholder Message to display
  * @return {void}
  */
 function prepareResult(placeholder) {
     getElements().text.overview.innerHTML = null;
-    displayStructureCode(placeholder);
+    displayStructureText(placeholder);
 }
 
+/**
+ * Display the stored structure code.
+ *
+ * @param code Code to override
+ */
+function displayStructureText(code) {
+    structureText = code || structureText;
+
+    if (!getElements().toggle.structure.hide.checked) {
+        editor.setValue(structureText, -1);
+    }
+}
+
+/**
+ * @param isReady Whether the app is ready for interaction.
+ */
 function setReady(isReady) {
     if (isReady) {
         prepareSong();
@@ -212,18 +194,13 @@ function setReady(isReady) {
         getElements().button.playback.toggle.disabled = false;
         getElements().button.playback.restart.disabled = false;
         getElements().toggle.playback.parity.disabled = false;
-
-        if (!getElements().toggle.structure.highlight.checked) {
-            getElements().button.structure.highlight.disabled = false;
-        }
     } else {
-        setStructureCode = false;
+        stopSong();
         getElements().button.file.export.disabled = true;
         getElements().button.playback.toggle.disabled = true;
         getElements().button.playback.restart.disabled = true;
-        getElements().button.structure.highlight.disabled = true;
         getElements().toggle.playback.looping.disabled = true;
         getElements().toggle.playback.parity.disabled = true;
-        stopSong();
+        getElements().text.structure.edit.value = "";
     }
 }

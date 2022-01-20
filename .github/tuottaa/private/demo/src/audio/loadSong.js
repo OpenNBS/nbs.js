@@ -158,38 +158,13 @@ NBSjs.setInstrumentClass(Instrument);
 export async function loadSong(data) {
     // Load the song
     const song = NBSjs.Song.fromArrayBuffer(await data.file.arrayBuffer());
-    const modSong = _.cloneDeep(song);
 
     const returnData = {
         song
     };
 
-    // Remove undefined notes and empty layers
-    const newLayers = [];
-    const totalLayers = modSong.layers.length;
-    for (let i = 0; i < totalLayers; i++) {
-        const layer = modSong.layers[i];
-
-        // Check for empty notes
-        const newNotes = [];
-        for (const note of layer.notes) {
-            if (note !== undefined) {
-                newNotes.push(note);
-            }
-        }
-
-        layer.notes = newNotes;
-
-        // Check for empty layers
-        if (layer.notes.length > 0) {
-            newLayers.push(layer);
-        }
-    }
-
-    modSong.layers = newLayers;
-
     const duration = {
-        "seconds": (modSong.timePerTick * modSong.size) / 1000,
+        "seconds": (song.timePerTick * song.size) / 1000,
         get "s"() {
             return (this.seconds % 60).toFixed(2);
         },
@@ -204,28 +179,28 @@ export async function loadSong(data) {
     // Display the instruments first
     returnData.overviews = [[
         "NBS version",
-        modSong.nbsVersion
+        song.nbsVersion
     ], [
         "Song name",
-        modSong.name
+        song.name
     ], [
         "Song author",
-        modSong.author
+        song.author
     ], [
         "Song description",
-        modSong.description
+        song.description
     ], [
         "Song tick length",
-        modSong.size
+        song.size
     ], [
         "Song duration",
         duration.format
     ], [
         "Total layers",
-        modSong.layers.length
+        song.layers.length
     ], [
         "Custom instruments",
-        modSong.instruments.map(i => {
+        song.instruments.map(i => {
             if (!i.builtIn) {
                 return i.name;
             }
@@ -236,7 +211,7 @@ export async function loadSong(data) {
     ]];
 
     // Stringify the song structure
-    returnData.structureText = JSON.stringify(modSong, undefined, 4);
+    returnData.structureText = JSON.stringify(song, undefined, 4);
 
     return returnData;
 }
