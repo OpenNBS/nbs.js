@@ -1,0 +1,1 @@
+function canParse(r){let a=!1;try{JSON.parse(r),a=!0}catch{}return a}export{canParse};

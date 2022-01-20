@@ -1,1 +1,0 @@
-import{highlightText}from"https://cdn.jsdelivr.net/gh/speed-highlight/core@1.1.4/dist/index.js";self.addEventListener("message",async e=>{e=await highlightText(e.data.code,"json",!1);postMessage({code:e})});
