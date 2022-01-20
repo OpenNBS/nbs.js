@@ -3,9 +3,9 @@ import { prepareSong, resetSong, startSong, stopSong } from "./audio/playback.js
 import { loadSong, generateOverviews } from "./audio/loadSong.js";
 import { canParse } from "./util/util.js";
 
-let editor = null;
-let structureText = null;
-let fileName = null;
+let editor;
+let structureText;
+let fileName;
 
 window.addEventListener("load", () => {
     // Reset all elements to their default state
@@ -54,10 +54,6 @@ window.addEventListener("load", () => {
         }
     });
 
-    // Initial result state
-    prepareResult("No file selected.");
-    setReady(false);
-
     // Ace editor setup
     ace.config.set("basePath", "https://cdn.jsdelivr.net/gh/ajaxorg/ace-builds@1.4.13/src-min/");
     ace.config.setModuleUrl("ace/theme/ayu-mirage", "https://cdn.jsdelivr.net/gh/ayu-theme/ayu-ace@2.0.4/mirage.min.js");
@@ -78,6 +74,10 @@ window.addEventListener("load", () => {
         },
         "exec": exportSong
     });
+
+    // Initial result state
+    prepareResult("No file selected.");
+    setReady(false);
 
     // File is selected
     getElements().button.file.input.addEventListener("change",  async event => {
