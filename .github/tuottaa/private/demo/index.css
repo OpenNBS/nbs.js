@@ -6,6 +6,14 @@ h3 {
     background: var(--background-body);
 }
 
+#instruments {
+    display: none;
+}
+
+#instruments.visible {
+    display: unset;
+}
+
 #playback-button::before {
     content: "Play";
 }

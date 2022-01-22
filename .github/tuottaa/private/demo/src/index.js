@@ -1,4 +1,11 @@
-import { getElements, setElements, setSong } from "./util/globals.js";
+import {
+    getElements,
+    getLoadedInstruments,
+    pushLoadedInstruments,
+    getSong,
+    setElements,
+    setSong, getInstruments
+} from "./util/globals.js";
 import { prepareSong, resetSong, startSong, stopSong } from "./audio/playback.js";
 import { loadSong, generateOverviews } from "./audio/loadSong.js";
 import { canParse } from "./util/util.js";
@@ -25,7 +32,8 @@ window.addEventListener("load", () => {
         "button": {
             "file": {
                 "input": document.getElementById("file-input"),
-                "export": document.getElementById("file-export")
+                "export": document.getElementById("file-export"),
+                "instruments": document.getElementById("instruments")
             },
             "playback": {
                 "toggle": document.getElementById("playback-button"),
@@ -54,6 +62,14 @@ window.addEventListener("load", () => {
         }
     });
 
+    // Safari does not support OGG files
+    if (!(navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome"))) {
+        getElements().button.file.instruments.classList.add("visible");
+    }
+
+    // Initial state
+    setReady(false);
+
     // Ace editor setup
     ace.config.set("basePath", "https://cdn.jsdelivr.net/gh/ajaxorg/ace-builds@1.4.13/src-min/");
     ace.config.setModuleUrl("ace/theme/ayu-mirage", "https://cdn.jsdelivr.net/gh/ayu-theme/ayu-ace@2.0.4/mirage.min.js");
@@ -75,34 +91,63 @@ window.addEventListener("load", () => {
         "exec": exportSong
     });
 
-    // Initial result state
     prepareResult("No file selected.");
-    setReady(false);
 
-    // File is selected
+    // Song file is selected
     getElements().button.file.input.addEventListener("change",  async event => {
         if (event.target.files.length === 0) {
             return;
         }
 
-        fileName = event.target.files[0].name;
-
         setReady(false);
 
         // Load the song
         prepareResult("Loading...");
+        fileName = event.target.files[0].name;
         const data = await loadSong({
             "file": event.target.files[0]
         });
 
-        const song = data.song;
-
-        updateSong(song);
-
-        // Set structure text
+        // Song has been loaded
+        await updateSong(data.song);
         displayStructureText(data.structureText);
 
         setReady(true);
+    });
+
+    // Instruments file is selected
+    getElements().button.file.instruments.addEventListener("change", async event => {
+        if (event.target.files.length === 0) {
+            return;
+        }
+
+        setReady(false);
+
+        // Read the zip file
+        const blobReader = new zip.BlobReader(event.target.files[0]);
+        const zipReader = new zip.ZipReader(blobReader);
+        const entries = await zipReader.getEntries();
+
+        const loadedInstruments = getLoadedInstruments();
+
+        for (const entry of entries) {
+            // Read each ogg file
+            if (!entry.directory && entry.filename.match(".ogg$")) {
+                const data = await entry.getData(new zip.Uint8ArrayWriter());
+                const buffer = data.buffer;
+
+                // Push to loaded instruments
+                if (loadedInstruments.get(entry.filename) !== buffer) {
+                    pushLoadedInstruments(entry.filename, buffer);
+                }
+            }
+        }
+
+        // Update the song if available
+        if (getSong()) {
+            await updateSong();
+            setReady(true);
+        }
     });
 
     // Play button is pressed
@@ -117,8 +162,19 @@ window.addEventListener("load", () => {
 
     // Restart button is pressed
     getElements().button.playback.restart.addEventListener("click", () => {
-        // Restart the song
         resetSong();
+    });
+
+    // Hide checkbox
+    getElements().toggle.structure.hide.addEventListener("change", event => {
+        if (event.target.checked) {
+            //  Hide the structure
+            getElements().text.structure.parent.classList.remove("visible");
+        } else {
+            // Show the structure
+            displayStructureText();
+            getElements().text.structure.parent.classList.add("visible");
+        }
     });
 
     // Export the displayed song
@@ -133,18 +189,6 @@ window.addEventListener("load", () => {
             const song = generateSong(result.value);
 
             updateSong(song);
-        }
-    });
-
-    // Hide checkbox
-    getElements().toggle.structure.hide.addEventListener("change", event => {
-        if (event.target.checked) {
-            //  Hide the structure
-            getElements().text.structure.parent.classList.remove("visible");
-        } else {
-            // Show the structure
-            displayStructureText();
-            getElements().text.structure.parent.classList.add("visible");
         }
     });
 });
@@ -165,7 +209,6 @@ function prepareResult(placeholder) {
  */
 function setReady(isReady) {
     if (isReady) {
-        prepareSong();
         resetSong();
         getElements().button.file.export.disabled = false;
         getElements().button.structure.apply.disabled = false;
@@ -186,13 +229,14 @@ function setReady(isReady) {
 
 /**
  * Update the overviews for a song.
- *
- * @param song Song to update overviews with
  */
-function updateOverviews(song) {
+function updateOverviews() {
     getElements().text.overview.innerHTML = "";
 
-    const overviews = generateOverviews(song);
+    const overviews = generateOverviews(
+        getSong(),
+        getInstruments()
+    );
 
     for (const overview of overviews) {
         const row = document.createElement("tr");
@@ -201,7 +245,7 @@ function updateOverviews(song) {
         key.innerHTML = `<strong>${overview[0]}</strong>`;
 
         const value = document.createElement("td");
-        value.innerHTML = overview[1] === "" ? "None" : overview[1];
+        value.innerHTML = (overview[1] === "" || overview[1] === undefined) ? "None" : overview[1];
 
         row.append(key);
         row.append(value);
@@ -215,9 +259,15 @@ function updateOverviews(song) {
  *
  * @param song Song to update with
  */
-function updateSong(song) {
-    setSong(song);
-    updateOverviews(song);
+async function updateSong(song) {
+    song = song || getSong();
+
+    // Ensure a song is loaded
+    if (song) {
+        setSong(song);
+        await prepareSong();
+        updateOverviews();
+    }
 }
 
 /**

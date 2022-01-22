@@ -14,6 +14,9 @@
             <p>Select a <code>.nbs</code> file via the input below.</p>
             <input type="file" id="file-input">
 
+            <p>Upload an instruments <code>.zip</code> file via the input below.</p>
+            <input type="file" id="instruments">
+
             <div>
                 <h1>Result</h1>
                 <div id="playback">
@@ -66,6 +69,7 @@
         </main>
 
         <script src="https://cdn.jsdelivr.net/gh/ajaxorg/ace-builds@1.4.13/src-min/ace.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/gildas-lormeau/zip.js@2.3.24/dist/zip.min.js"></script>
         <script src="src/NBS.js"></script>
         <script async src="src/index.js" type="module"></script>
     </body>

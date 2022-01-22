@@ -176,9 +176,10 @@ export async function loadSong(data) {
  * Generate the overviews for a song.
  *
  * @param song Song to generate from
+ * @param loadedInstruments Instruments that are currently loaded
  * @return Generated overviews
  */
-export function generateOverviews(song) {
+export function generateOverviews(song, loadedInstruments) {
     const duration = {
         "seconds": (song.timePerTick * song.size) / 1000,
         get "s"() {
@@ -191,6 +192,14 @@ export function generateOverviews(song) {
             return `${prependZeros(this.m)}:${prependZeros(this.s)}`;
         }
     };
+
+    // Iterate each loaded instrument
+    const availableInstruments = [];
+    if (loadedInstruments) {
+        for (const [key, value] of loadedInstruments) {
+            availableInstruments.push(value.name);
+        }
+    }
 
     return [[
         "NBS version",
@@ -223,6 +232,9 @@ export function generateOverviews(song) {
             return null;
         }).filter(Boolean)
             .join(", ")
+    ], [
+        "Available instruments",
+        availableInstruments.join(", ")
     ]];
 }
 

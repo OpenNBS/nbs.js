@@ -1,7 +1,12 @@
-import { getElements, getSong } from "../util/globals.js";
+import {
+    getElements,
+    getInstruments,
+    getLoadedInstruments,
+    pushLoadedInstruments,
+    getSong, setInstruments
+} from "../util/globals.js";
 import { decodeAudioData, playNote } from "./audio.js";
 
-const instrumentMap = new Map();
 let stopPlaying = true;
 let currentTick = -1;
 let currentLoop = 0;
@@ -11,18 +16,39 @@ let currentLoop = 0;
  * @return {Promise<void>}
  */
 export async function prepareSong() {
+    const loadedInstruments = getLoadedInstruments() || new Map();
+    const instruments = getSong().instruments;
+
     // Load all instruments
-    await Promise.all(getSong().instruments.map(instrument => {
-        if (instrument.builtIn) {
-            return fetch(instrument.audioSrc)
-                .then(data => data.arrayBuffer())
-                .then(audioData => decodeAudioData(audioData))
-                .then(buffer => instrument.audioBuffer = buffer)
-                .then(() => instrumentMap.set(instrument.name, instrument));
+    const instrumentMap = new Map();
+    for (const instrument of instruments) {
+        let cantLoad = false;
+
+        if (!instrument.audioBuffer) {
+            // Get the loaded instruments
+            const loadedInstrument = loadedInstruments.get(instrument.audioSrc);
+
+            if (loadedInstrument) {
+                instrument.audioBuffer = loadedInstrument;
+            } else if (instrument.builtIn) {
+                // Load built-in instruments
+                const data = await fetch(instrument.audioSrc);
+                const buffer = await data.arrayBuffer();
+                instrument.audioBuffer = await decodeAudioData(buffer);
+
+                pushLoadedInstruments(instrument.audioSrc, buffer);
+            } else {
+                cantLoad = true;
+            }
         }
 
-        return null;
-    }));
+        // Add to the song instrument map
+        if (!cantLoad) {
+            instrumentMap.set(instrument.name, instrument);
+        }
+    }
+
+    setInstruments(instrumentMap);
 
     // Check looping toggle if available
     getElements().toggle.playback.looping.disabled = !getSong().loopEnabled;
@@ -67,6 +93,7 @@ export async function playSong() {
         return;
     }
 
+    const instruments = getInstruments();
     const hasSolo = getSong().hasSolo;
     const totalLayers = getSong().layers.length;
 
@@ -102,7 +129,7 @@ export async function playSong() {
                 // Play the note
                 playNote(
                     note.key,
-                    instrumentMap.get(note.instrument.name),
+                    instruments.get(note.instrument.name),
                     (note.velocity * layer.velocity) / 100,
                     notePanning,
                     notePitch
