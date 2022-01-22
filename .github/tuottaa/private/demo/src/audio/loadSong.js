@@ -26,7 +26,7 @@ Instrument.builtIn = [
         "Harp",
         0,
         {
-            "audioSrc": "./assets/harp.ogg",
+            "audioSrc": "assets/harp.mp3",
             "builtIn": true,
             "pressKey": true
         }
@@ -35,7 +35,7 @@ Instrument.builtIn = [
         "Double Bass",
         1,
         {
-            "audioSrc": "./assets/dbass.ogg",
+            "audioSrc": "assets/dbass.mp3",
             "builtIn": true
         }
     ),
@@ -43,7 +43,7 @@ Instrument.builtIn = [
         "Bass Drum",
         2,
         {
-            "audioSrc": "./assets/bdrum.ogg",
+            "audioSrc": "assets/bdrum.mp3",
             "builtIn": true
         }
     ),
@@ -51,7 +51,7 @@ Instrument.builtIn = [
         "Snare Drum",
         3,
         {
-            "audioSrc": "./assets/sdrum.ogg",
+            "audioSrc": "assets/sdrum.mp3",
             "builtIn": true
         }
     ),
@@ -59,7 +59,7 @@ Instrument.builtIn = [
         "Click",
         4,
         {
-            "audioSrc": "./assets/click.ogg",
+            "audioSrc": "assets/click.mp3",
             "builtIn": true
         }
     ),
@@ -67,7 +67,7 @@ Instrument.builtIn = [
         "Guitar",
         5,
         {
-            "audioSrc": "./assets/guitar.ogg",
+            "audioSrc": "assets/guitar.mp3",
             "builtIn": true
         }
     ),
@@ -75,7 +75,7 @@ Instrument.builtIn = [
         "Flute",
         6,
         {
-            "audioSrc": "./assets/flute.ogg",
+            "audioSrc": "assets/flute.mp3",
             "builtIn": true
         }
     ),
@@ -83,7 +83,7 @@ Instrument.builtIn = [
         "Bell",
         7,
         {
-            "audioSrc": "./assets/bell.ogg",
+            "audioSrc": "assets/bell.mp3",
             "builtIn": true
         }
     ),
@@ -91,7 +91,7 @@ Instrument.builtIn = [
         "Chime",
         8,
         {
-            "audioSrc": "./assets/chime.ogg",
+            "audioSrc": "assets/chime.mp3",
             "builtIn": true
         }
     ),
@@ -99,7 +99,7 @@ Instrument.builtIn = [
         "Xylophone",
         9,
         {
-            "audioSrc": "./assets/xylophone.ogg",
+            "audioSrc": "assets/xylophone.mp3",
             "builtIn": true
         }
     ),
@@ -107,7 +107,7 @@ Instrument.builtIn = [
         "Iron Xylophone",
         10,
         {
-            "audioSrc": "./assets/iron_xylophone.ogg",
+            "audioSrc": "assets/iron_xylophone.mp3",
             "builtIn": true
         }
     ),
@@ -115,7 +115,7 @@ Instrument.builtIn = [
         "Cow Bell",
         11,
         {
-            "audioSrc": "./assets/cow_bell.ogg",
+            "audioSrc": "assets/cow_bell.mp3",
             "builtIn": true
         }
     ),
@@ -123,7 +123,7 @@ Instrument.builtIn = [
         "Didgeridoo",
         12,
         {
-            "audioSrc": "./assets/didgeridoo.ogg",
+            "audioSrc": "assets/didgeridoo.mp3",
             "builtIn": true
         }
     ),
@@ -131,7 +131,7 @@ Instrument.builtIn = [
         "Bit",
         13,
         {
-            "audioSrc": "./assets/bit.ogg",
+            "audioSrc": "assets/bit.mp3",
             "builtIn": true
         }
     ),
@@ -139,7 +139,7 @@ Instrument.builtIn = [
         "Banjo",
         14,
         {
-            "audioSrc": "./assets/banjo.ogg",
+            "audioSrc": "assets/banjo.mp3",
             "builtIn": true
         }
     ),
@@ -147,7 +147,7 @@ Instrument.builtIn = [
         "Pling",
         15,
         {
-            "audioSrc": "./assets/pling.ogg",
+            "audioSrc": "assets/pling.mp3",
             "builtIn": true
         }
     )
