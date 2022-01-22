@@ -9,6 +9,7 @@ import {
 import { prepareSong, resetSong, startSong, stopSong } from "./audio/playback.js";
 import { loadSong, generateOverviews } from "./audio/loadSong.js";
 import { canParse } from "./util/util.js";
+import { decodeAudioData } from "./audio/audio.js";
 
 let editor;
 let structureText;
@@ -138,7 +139,7 @@ window.addEventListener("load", () => {
 
                 // Push to loaded instruments
                 if (loadedInstruments.get(entry.filename) !== buffer) {
-                    pushLoadedInstruments(entry.filename, buffer);
+                    pushLoadedInstruments(entry.filename, await decodeAudioData(buffer));
                 }
             }
         }
@@ -181,14 +182,14 @@ window.addEventListener("load", () => {
     getElements().button.file.export.addEventListener("click", exportSong);
 
     // Apply button clicked
-    getElements().button.structure.apply.addEventListener("click", () => {
+    getElements().button.structure.apply.addEventListener("click", async () => {
         const result = checkEditor();
 
         if (result.changed) {
             // Generate a new song
             const song = generateSong(result.value);
 
-            updateSong(song);
+            await updateSong(song);
         }
     });
 });
