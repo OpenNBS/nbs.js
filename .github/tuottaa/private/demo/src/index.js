@@ -68,9 +68,6 @@ window.addEventListener("load", () => {
         getElements().button.file.instruments.classList.add("visible");
     }
 
-    // Initial state
-    setReady(false);
-
     // Ace editor setup
     ace.config.set("basePath", "https://cdn.jsdelivr.net/gh/ajaxorg/ace-builds@1.4.13/src-min/");
     ace.config.setModuleUrl("ace/theme/ayu-mirage", "https://cdn.jsdelivr.net/gh/ayu-theme/ayu-ace@2.0.4/mirage.min.js");
@@ -92,7 +89,8 @@ window.addEventListener("load", () => {
         "exec": exportSong
     });
 
-    prepareResult("No file selected.");
+    // Initial state
+    setReady(false);
 
     // Song file is selected
     getElements().button.file.input.addEventListener("change",  async event => {
@@ -103,7 +101,6 @@ window.addEventListener("load", () => {
         setReady(false);
 
         // Load the song
-        prepareResult("Loading...");
         fileName = event.target.files[0].name;
         const data = await loadSong({
             "file": event.target.files[0]
@@ -195,17 +192,6 @@ window.addEventListener("load", () => {
 });
 
 /**
- * Prepare the result code block with a placeholder message.
- *
- * @param placeholder Message to display
- * @return {void}
- */
-function prepareResult(placeholder) {
-    getElements().text.overview.innerHTML = null;
-    displayStructureText(placeholder);
-}
-
-/**
  * @param isReady Whether the app is ready for interaction.
  */
 function setReady(isReady) {
@@ -216,6 +202,7 @@ function setReady(isReady) {
         getElements().button.playback.toggle.disabled = false;
         getElements().button.playback.restart.disabled = false;
         getElements().toggle.playback.parity.disabled = false;
+        editor.setReadOnly(false);
     } else {
         stopSong();
         getElements().button.file.export.disabled = true;
@@ -224,7 +211,8 @@ function setReady(isReady) {
         getElements().button.playback.restart.disabled = true;
         getElements().toggle.playback.looping.disabled = true;
         getElements().toggle.playback.parity.disabled = true;
-        getElements().text.structure.edit.value = "";
+        getElements().text.overview.innerHTML = null;
+        editor.setReadOnly(true);
     }
 }
 
@@ -279,7 +267,7 @@ async function updateSong(song) {
 function displayStructureText(code) {
     structureText = code || structureText;
 
-    if (!getElements().toggle.structure.hide.checked && editor.getValue() !== structureText) {
+    if (structureText && !getElements().toggle.structure.hide.checked && editor.getValue() !== structureText) {
         editor.setValue(structureText, -1);
     }
 }
