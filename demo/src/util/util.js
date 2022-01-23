@@ -1,1 +1,1 @@
-function canParse(r){let a=!1;try{JSON.parse(r),a=!0}catch{}return a}export{canParse};
+import{getElements}from"./globals.js";function canParse(e){let r=!1;try{JSON.parse(e),r=!0}catch{}return r}function displayProgress(e){const r=getElements().text.file.progress;r.innerHTML=e}export{canParse,displayProgress};
