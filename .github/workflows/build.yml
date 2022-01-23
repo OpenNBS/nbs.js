@@ -1,7 +1,8 @@
 name: Build
 on:
   push:
-  pull_request:
+    branches:
+    - "main"
   workflow_dispatch:
 jobs:
   run:
@@ -19,20 +20,21 @@ jobs:
     - name: Build
       run: |
         yarn install
+        yarn run build:bundle
         yarn run docs
 
-    - name: Commit files
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add dist/* -f # build/*
-        git commit -m "Push build changes" || echo "No changes were found."
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+#    - name: Commit files
+#      run: |
+#        git config --local user.email "action@github.com"
+#        git config --local user.name "GitHub Action"
+#        git add dist/* -f # build/*
+#        git commit -m "Push build changes" || echo "No changes were found."
+#
+#    - name: Push changes
+#      uses: ad-m/github-push-action@master
+#      with:
+#        github_token: ${{ secrets.GITHUB_TOKEN }}
+#        branch: ${{ github.ref }}
 
     - name: Prepare deploy pages
       run: |
