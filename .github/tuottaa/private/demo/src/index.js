@@ -121,25 +121,27 @@ window.addEventListener("load", () => {
 
         setReady(false);
 
-        // Read the zip file
-        const blobReader = new zip.BlobReader(event.target.files[0]);
-        const zipReader = new zip.ZipReader(blobReader);
-        const entries = await zipReader.getEntries();
+        try {
+            // Read the zip file
+            const blobReader = new zip.BlobReader(event.target.files[0]);
+            const zipReader = new zip.ZipReader(blobReader);
+            const entries = await zipReader.getEntries();
 
-        const loadedInstruments = getLoadedInstruments();
+            const loadedInstruments = getLoadedInstruments();
 
-        for (const entry of entries) {
-            // Read each ogg file
-            if (!entry.directory && entry.filename.match(".ogg$")) {
-                const data = await entry.getData(new zip.Uint8ArrayWriter());
-                const buffer = data.buffer;
+            for (const entry of entries) {
+                // Read each ogg file
+                if (!entry.directory && entry.filename.match(".ogg$")) {
+                    const data = await entry.getData(new zip.Uint8ArrayWriter());
+                    const buffer = data.buffer;
 
-                // Push to loaded instruments
-                if (loadedInstruments.get(entry.filename) !== buffer) {
-                    pushLoadedInstruments(entry.filename, await decodeAudioData(buffer));
+                    // Push to loaded instruments
+                    if (loadedInstruments.get(entry.filename) !== buffer) {
+                        pushLoadedInstruments(entry.filename, await decodeAudioData(buffer));
+                    }
                 }
             }
-        }
+        } catch {}
 
         // Update the song if available
         if (getSong()) {
