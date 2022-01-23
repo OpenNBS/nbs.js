@@ -1,14 +1,7 @@
-import {
-    getElements,
-    getLoadedInstruments,
-    pushLoadedInstruments,
-    getSong,
-    setElements,
-    setSong, getInstruments
-} from "./util/globals.js";
-import { prepareSong, resetSong, startSong, stopSong } from "./audio/playback.js";
-import { loadSong, generateOverviews } from "./audio/loadSong.js";
-import { canParse } from "./util/util.js";
+import { getElements, getLoadedInstruments, pushLoadedInstruments, getSong, setElements, setSong, getInstruments } from "./util/globals.js";
+import { resetSong, startSong, stopSong } from "./audio/playback.js";
+import { prepareSong, loadSong, generateOverviews } from "./audio/loadSong.js";
+import { canParse, displayProgress } from "./util/util.js";
 import { decodeAudioData } from "./audio/audio.js";
 
 let editor;
@@ -29,7 +22,7 @@ window.addEventListener("load", () => {
         }
     }
 
-    setElements({
+    const elements = {
         "button": {
             "file": {
                 "input": document.getElementById("file-input"),
@@ -54,6 +47,9 @@ window.addEventListener("load", () => {
             }
         },
         "text": {
+            "file": {
+                "progress": document.getElementById("progress")
+            },
             "playback": document.getElementById("playback"),
             "overview": document.getElementById("result-overview"),
             "structure": {
@@ -61,15 +57,17 @@ window.addEventListener("load", () => {
                 "edit": document.getElementById("structure-editor")
             }
         }
-    });
+    };
+
+    setElements(elements);
+
+    // Initial state
+    setReady(false);
 
     // Safari does not support OGG files
     if (!(navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome"))) {
         getElements().button.file.instruments.classList.add("visible");
     }
-
-    // Initial state
-    setReady(false);
 
     // Ace editor setup
     ace.config.set("basePath", "https://cdn.jsdelivr.net/gh/ajaxorg/ace-builds@1.4.13/src-min/");
@@ -92,7 +90,7 @@ window.addEventListener("load", () => {
         "exec": exportSong
     });
 
-    prepareResult("No file selected.");
+    displayProgress("Select a file.")
 
     // Song file is selected
     getElements().button.file.input.addEventListener("change",  async event => {
@@ -103,7 +101,7 @@ window.addEventListener("load", () => {
         setReady(false);
 
         // Load the song
-        prepareResult("Loading...");
+        displayProgress("Loading song...");
         fileName = event.target.files[0].name;
         const data = await loadSong({
             "file": event.target.files[0]
@@ -111,6 +109,8 @@ window.addEventListener("load", () => {
 
         // Song has been loaded
         await updateSong(data.song);
+
+        displayProgress("Finishing...");
         displayStructureText(data.structureText);
 
         setReady(true);
@@ -195,17 +195,6 @@ window.addEventListener("load", () => {
 });
 
 /**
- * Prepare the result code block with a placeholder message.
- *
- * @param placeholder Message to display
- * @return {void}
- */
-function prepareResult(placeholder) {
-    getElements().text.overview.innerHTML = null;
-    displayStructureText(placeholder);
-}
-
-/**
  * @param isReady Whether the app is ready for interaction.
  */
 function setReady(isReady) {
@@ -216,8 +205,11 @@ function setReady(isReady) {
         getElements().button.playback.toggle.disabled = false;
         getElements().button.playback.restart.disabled = false;
         getElements().toggle.playback.parity.disabled = false;
+        displayProgress("Done!");
     } else {
         stopSong();
+        displayProgress("");
+        getElements().text.overview.innerHTML = null;
         getElements().button.file.export.disabled = true;
         getElements().button.structure.apply.disabled = true;
         getElements().button.playback.toggle.disabled = true;
@@ -265,8 +257,11 @@ async function updateSong(song) {
 
     // Ensure a song is loaded
     if (song) {
+        displayProgress("Initializing song...");
         setSong(song);
         await prepareSong();
+
+        displayProgress("Updating overviews...");
         updateOverviews();
     }
 }

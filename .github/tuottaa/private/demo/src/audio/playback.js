@@ -12,50 +12,6 @@ let currentTick = -1;
 let currentLoop = 0;
 
 /**
- * Prepare and play the loaded song.
- * @return {Promise<void>}
- */
-export async function prepareSong() {
-    const loadedInstruments = getLoadedInstruments() || new Map();
-    const instruments = getSong().instruments;
-
-    // Load all instruments
-    const instrumentMap = new Map();
-    for (const instrument of instruments) {
-        let cantLoad = false;
-
-        if (!instrument.audioBuffer) {
-            // Get the loaded instruments
-            const loadedInstrument = loadedInstruments.get(instrument.audioSrc);
-
-            if (loadedInstrument) {
-                instrument.audioBuffer = loadedInstrument;
-            } else if (instrument.builtIn) {
-                // Load built-in instruments
-                const data = await fetch(instrument.audioSrc);
-                const buffer = await data.arrayBuffer();
-                instrument.audioBuffer = await decodeAudioData(buffer);
-
-                pushLoadedInstruments(instrument.audioSrc, buffer);
-            } else {
-                cantLoad = true;
-            }
-        }
-
-        // Add to the song instrument map
-        if (!cantLoad) {
-            instrumentMap.set(instrument.name, instrument);
-        }
-    }
-
-    setInstruments(instrumentMap);
-
-    // Check looping toggle if available
-    getElements().toggle.playback.looping.disabled = !getSong().loopEnabled;
-    getElements().toggle.playback.looping.checked = getSong().loopEnabled;
-}
-
-/**
  * Start the currently loaded song.
  * @return {void}
  */
