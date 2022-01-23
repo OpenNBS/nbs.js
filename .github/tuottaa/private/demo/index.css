@@ -2,10 +2,6 @@ h3 {
     border-bottom: 1px solid var(--slight-bright);
 }
 
-::-webkit-scrollbar-track, ::-webkit-scrollbar-track-piece {
-    background: var(--background-body);
-}
-
 #instruments {
     display: none;
 }
@@ -44,19 +40,4 @@ h3 {
 
 .ace_scrollbar::-webkit-scrollbar-track, .ace_scrollbar::-webkit-scrollbar-track-piece {
     background: var(--background);
-}
-
-.buttons-with-settings {
-    display: flex;
-    align-items: center;
-}
-
-.buttons-with-settings .settings {
-    display: flex;
-    flex-direction: column;
-}
-
-.text-small {
-    font-size: 0.8em;
-    margin: 0;
 }

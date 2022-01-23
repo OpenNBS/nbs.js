@@ -1,17 +1,11 @@
-import {
-    getElements,
-    getLoadedInstruments,
-    pushLoadedInstruments,
-    getSong,
-    setElements,
-    setSong, getInstruments
-} from "./util/globals.js";
-import { prepareSong, resetSong, startSong, stopSong } from "./audio/playback.js";
-import { loadSong, generateOverviews } from "./audio/loadSong.js";
-import { canParse } from "./util/util.js";
+import { getElements, getLoadedInstruments, pushLoadedInstruments, getSong, setElements, setSong, getInstruments } from "./util/globals.js";
+import { resetSong, startSong, stopSong } from "./audio/playback.js";
+import { prepareSong, loadSong, generateOverviews } from "./audio/loadSong.js";
+import { canParse, displayProgress } from "./util/util.js";
 import { decodeAudioData } from "./audio/audio.js";
 
 let editor;
+let lastLoad;
 let structureText;
 let fileName;
 
@@ -29,7 +23,7 @@ window.addEventListener("load", () => {
         }
     }
 
-    setElements({
+    const elements = {
         "button": {
             "file": {
                 "input": document.getElementById("file-input"),
@@ -54,6 +48,9 @@ window.addEventListener("load", () => {
             }
         },
         "text": {
+            "file": {
+                "progress": document.getElementById("load-progress")
+            },
             "playback": document.getElementById("playback"),
             "overview": document.getElementById("result-overview"),
             "structure": {
@@ -61,7 +58,9 @@ window.addEventListener("load", () => {
                 "edit": document.getElementById("structure-editor")
             }
         }
-    });
+    };
+
+    setElements(elements);
 
     // Safari does not support OGG files
     if (!(navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome"))) {
@@ -91,6 +90,7 @@ window.addEventListener("load", () => {
 
     // Initial state
     setReady(false);
+    displayProgress("Select a file.");
 
     // Song file is selected
     getElements().button.file.input.addEventListener("change",  async event => {
@@ -101,16 +101,19 @@ window.addEventListener("load", () => {
         setReady(false);
 
         // Load the song
+        displayProgress("Loading song...");
         fileName = event.target.files[0].name;
         const data = await loadSong({
             "file": event.target.files[0]
         });
 
         // Song has been loaded
-        await updateSong(data.song);
+        data.prepareTime = await updateSong(data.song);
         displayStructureText(data.structureText);
-
         setReady(true);
+
+        lastLoad = `Done! Loaded song in ${Math.floor(data.loadTime) / 1000} seconds, instruments in ${Math.floor(data.prepareTime) / 1000} seconds`;
+        displayProgress(lastLoad);
     });
 
     // Instruments file is selected
@@ -147,6 +150,7 @@ window.addEventListener("load", () => {
         if (getSong()) {
             await updateSong();
             setReady(true);
+            displayProgress(lastLoad);
         }
     });
 
@@ -207,6 +211,8 @@ function setReady(isReady) {
         editor.setReadOnly(false);
     } else {
         stopSong();
+        displayProgress("");
+        getElements().text.overview.innerHTML = null;
         getElements().button.file.export.disabled = true;
         getElements().button.structure.apply.disabled = true;
         getElements().button.playback.toggle.disabled = true;
@@ -251,14 +257,22 @@ function updateOverviews() {
  * @param song Song to update with
  */
 async function updateSong(song) {
+    let prepareTime = 0;
     song = song || getSong();
 
     // Ensure a song is loaded
     if (song) {
         setSong(song);
+
+        const t1 = performance.now();
         await prepareSong();
+        const t2 = performance.now();
+        prepareTime = t2 - t1;
+
         updateOverviews();
     }
+
+    return prepareTime;
 }
 
 /**

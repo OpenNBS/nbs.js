@@ -1,3 +1,7 @@
+import { getElements, getLoadedInstruments, getSong, pushLoadedInstruments, setInstruments } from "../util/globals.js";
+import { decodeAudioData } from "./audio.js";
+import { displayProgress } from "../util/util.js";
+
 /**
  * Represents an instrument
  */
@@ -163,11 +167,16 @@ NBSjs.setInstrumentClass(Instrument);
  */
 export async function loadSong(data) {
     // Load the song
+    // TODO: Potential issue loading custom instruments
+    // It appears the custom instruments are stacking each time a song is loaded
+    const t1 = performance.now();
     const song = NBSjs.Song.fromArrayBuffer(await data.file.arrayBuffer());
+    const t2 = performance.now();
 
     // Send the loaded data back
     return {
         song,
+        "loadTime": t2 - t1,
         "structureText": JSON.stringify(song, undefined, 4)
     };
 }
@@ -238,6 +247,61 @@ export function generateOverviews(song, loadedInstruments) {
     ]];
 }
 
+/**
+ * Load the instruments for a song.
+ *
+ * @return {Promise<void>}
+ */
+export async function prepareSong() {
+    displayProgress("Loading instruments...");
+
+    const loadedInstruments = getLoadedInstruments() || new Map();
+    const instruments = getSong().instruments;
+    const totalInstruments = instruments.length;
+
+    // Load all instruments
+    const instrumentMap = new Map();
+    for (let i = 0; i < totalInstruments; i++) {
+        const instrument = instruments[i];
+        let cantLoad = false;
+
+        if (!instrument.audioBuffer) {
+            // Get the loaded instruments
+            const loadedInstrument = loadedInstruments.get(instrument.audioSrc);
+
+            if (loadedInstrument) {
+                instrument.audioBuffer = loadedInstrument;
+            } else if (instrument.builtIn) {
+                // Load built-in instruments
+                const data = await fetch(instrument.audioSrc);
+                const buffer = await data.arrayBuffer();
+                instrument.audioBuffer = await decodeAudioData(buffer);
+
+                pushLoadedInstruments(instrument.audioSrc, buffer);
+            } else {
+                cantLoad = true;
+            }
+        }
+
+        // Add to the song instrument map
+        if (!cantLoad) {
+            instrumentMap.set(instrument.name, instrument);
+        }
+    }
+
+    setInstruments(instrumentMap);
+
+    // Check looping toggle if available
+    getElements().toggle.playback.looping.disabled = !getSong().loopEnabled;
+    getElements().toggle.playback.looping.checked = getSong().loopEnabled;
+}
+
+/**
+ * Prepend a number with zeros if required.
+ *
+ * @param num Number to prepend
+ * @returns {string}
+ */
 function prependZeros(num) {
     return Array.from({ "length": Math.max(3 - Math.floor(num).toString().length, 0) }).join("0") + num;
 }
