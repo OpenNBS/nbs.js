@@ -1,40 +1,55 @@
 /* eslint-disable @typescript-eslint/no-var-requires, unicorn/prefer-module */
 const path = require("path");
-const TerserPlugin = require("terser-webpack-plugin");
 
-module.exports = {
-    "mode": "development",
-    "context": path.resolve(__dirname, "./src"),
-    "entry": {
-        "main": "./app.ts"
-    },
-    "output": {
-        "path": path.resolve(__dirname, "./dist"),
-        "filename": "index.js",
-        "library": {
-            "name": "NBSjs",
-            "type": "global",
-            "export": "default"
-        }
-    },
-    "resolve": {
-        "extensions": [".ts", ".js"]
-    },
-    "module": {
-        "rules": [
-            {
-                "test": /\.ts$/,
-                "loader": "ts-loader"
+module.exports = env => {
+    const mode = env?.mode ?? "production";
+    const isProduction = mode === "production";
+
+    const environments = {
+        "production": {
+            "output": {
+                "path": path.resolve(__dirname, "./dist"),
+                "filename": "index.js",
+                "library": {
+                    "name": "NBSjs",
+                    "type": "global",
+                    "export": "default"
+                }
             }
-        ]
-    },
-    "optimization": {
-        "minimize": true,
-        "minimizer": [
-            new TerserPlugin({
-                "minify": TerserPlugin.uglifyJsMinify,
-                "extractComments": false
-            })
-        ]
-    }
+        },
+        "development": {
+            "output": {
+                "path": path.resolve(__dirname, "./.github/tuottaa/private/demo/src"),
+                "filename": "NBS.js",
+                "library": {
+                    "name": "NBSjs",
+                    "type": "global",
+                    "export": "default"
+                }
+            }
+        }
+    };
+
+    const options = {
+        "mode": isProduction ? "production" : "development",
+        "context": path.resolve(__dirname, "./src"),
+        "entry": {
+            "main": "./app.ts"
+        },
+        "resolve": {
+            "extensions": [".ts", ".js"]
+        },
+        "module": {
+            "rules": [
+                {
+                    "test": /\.ts$/,
+                    "loader": "ts-loader"
+                }
+            ]
+        }
+    };
+
+    Object.assign(options, environments[mode]);
+
+    return options;
 };
