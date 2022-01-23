@@ -26,7 +26,7 @@
 ### 🔧 Including
 🌐 **Browser**
 ```html
-<script src="https://cdn.jsdelivr.net/gh/Encode42/NBS.js@main/dist/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/index.js"></script>
 ```
 
 ⚙️ **Node.js**
@@ -62,7 +62,7 @@ Browser
 ```html
 <input type="file" id="file-input">
 
-<script src="https://cdn.jsdelivr.net/gh/Encode42/NBS.js@main/dist/index.js"></script> <!-- Import NBS.js -->
+<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/index.js"></script> <!-- Import NBS.js -->
 <script>
 window.addEventListener("load", () => {
   // Initialize file input

@@ -68,8 +68,8 @@ window.addEventListener("load", () => {
     }
 
     // Ace editor setup
-    ace.config.set("basePath", "https://cdn.jsdelivr.net/gh/ajaxorg/ace-builds@1.4.13/src-min/");
-    ace.config.setModuleUrl("ace/theme/ayu-mirage", "https://cdn.jsdelivr.net/gh/ayu-theme/ayu-ace@2.0.4/mirage.min.js");
+    ace.config.set("basePath", "https://cdn.jsdelivr.net/npm/ace-builds@1.4.13/src-min/");
+    ace.config.setModuleUrl("ace/theme/ayu-mirage", "https://cdn.jsdelivr.net/npm/ayu-ace@2.0.4/mirage.min.js");
 
     editor = ace.edit(getElements().text.structure.edit, {
         "mode": "ace/mode/javascript",
