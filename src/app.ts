@@ -2,14 +2,7 @@ import Song from "./nbs/Song";
 import Layer from "./nbs/Layer";
 import Note from "./nbs/Note";
 import Instrument from "./nbs/Instrument";
-import {
-    getInstrumentClass,
-    getLayerClass,
-    getNoteClass,
-    setInstrumentClass,
-    setLayerClass,
-    setNoteClass
-} from "./util/util";
+import { getInstrumentClass, getLayerClass, getNoteClass, setInstrumentClass, setLayerClass, setNoteClass } from "./util/util";
 
 export default function NBSjs() {}
 
