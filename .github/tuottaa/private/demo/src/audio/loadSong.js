@@ -169,11 +169,14 @@ export async function loadSong(data) {
     // Load the song
     // TODO: Potential issue loading custom instruments
     // It appears the custom instruments are stacking each time a song is loaded
+    const t1 = performance.now();
     const song = NBSjs.Song.fromArrayBuffer(await data.file.arrayBuffer());
+    const t2 = performance.now();
 
     // Send the loaded data back
     return {
         song,
+        "loadTime": t2 - t1,
         "structureText": JSON.stringify(song, undefined, 4)
     };
 }

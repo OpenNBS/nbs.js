@@ -5,6 +5,7 @@ import { canParse, displayProgress } from "./util/util.js";
 import { decodeAudioData } from "./audio/audio.js";
 
 let editor;
+let lastLoad;
 let structureText;
 let fileName;
 
@@ -48,7 +49,7 @@ window.addEventListener("load", () => {
         },
         "text": {
             "file": {
-                "progress": document.getElementById("progress")
+                "progress": document.getElementById("load-progress")
             },
             "playback": document.getElementById("playback"),
             "overview": document.getElementById("result-overview"),
@@ -107,12 +108,12 @@ window.addEventListener("load", () => {
         });
 
         // Song has been loaded
-        await updateSong(data.song);
-
-        displayProgress("Finishing...");
+        data.prepareTime = await updateSong(data.song);
         displayStructureText(data.structureText);
-
         setReady(true);
+
+        lastLoad = `Done! Loaded song in ${Math.floor(data.loadTime) / 1000} seconds, instruments in ${Math.floor(data.prepareTime) / 1000} seconds`;
+        displayProgress(lastLoad);
     });
 
     // Instruments file is selected
@@ -149,6 +150,7 @@ window.addEventListener("load", () => {
         if (getSong()) {
             await updateSong();
             setReady(true);
+            displayProgress(lastLoad);
         }
     });
 
@@ -207,7 +209,6 @@ function setReady(isReady) {
         getElements().button.playback.restart.disabled = false;
         getElements().toggle.playback.parity.disabled = false;
         editor.setReadOnly(false);
-        displayProgress("Done!");
     } else {
         stopSong();
         displayProgress("");
@@ -256,17 +257,22 @@ function updateOverviews() {
  * @param song Song to update with
  */
 async function updateSong(song) {
+    let prepareTime = 0;
     song = song || getSong();
 
     // Ensure a song is loaded
     if (song) {
-        displayProgress("Initializing song...");
         setSong(song);
-        await prepareSong();
 
-        displayProgress("Updating overviews...");
+        const t1 = performance.now();
+        await prepareSong();
+        const t2 = performance.now();
+        prepareTime = t2 - t1;
+
         updateOverviews();
     }
+
+    return prepareTime;
 }
 
 /**

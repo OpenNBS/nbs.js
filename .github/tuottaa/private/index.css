@@ -35,6 +35,23 @@ table td {
     width: min-content;
 }
 
+input {
+    box-sizing: border-box;
+}
+
+main input {
+    width: 100%;
+    color: var(--text-muted);
+}
+
+::-webkit-scrollbar-track, ::-webkit-scrollbar-track-piece {
+    background: var(--background-body);
+}
+
+#header {
+    padding: 10px;
+}
+
 code.block {
     width: 100%;
     padding: 10px;
@@ -43,11 +60,17 @@ code.block {
     text-rendering: optimizeSpeed;
 }
 
-main input {
-    width: 100%;
-    color: var(--text-muted);
+.buttons-with-settings {
+    display: flex;
+    align-items: center;
 }
 
-#header {
-    padding: 10px;
+.buttons-with-settings .settings {
+    display: flex;
+    flex-direction: column;
+}
+
+.text-small {
+    font-size: 0.8em;
+    margin: 0;
 }

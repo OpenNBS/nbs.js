@@ -24,6 +24,5 @@ export function canParse(json) {
  * @returns {void}
  */
 export function displayProgress(message) {
-    const progressBar = getElements().text.file.progress;
-    progressBar.innerHTML = message;
+    getElements().text.file.progress.innerHTML = message;
 }
