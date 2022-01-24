@@ -168,6 +168,11 @@ export default class Song {
     public nbsVersion = 5;
 
     /**
+     * Instruments of the song.
+     */
+    public instruments = [...getInstrumentClass().builtIn];
+
+    /**
      * Index of the first custom instrument.
      */
     public firstCustomIndex = this.instruments.length;
@@ -185,13 +190,6 @@ export default class Song {
      * Returns an empty array if no errors occurred.
      */
     public errors: string[] = [];
-
-    /**
-     * Instruments of the song.
-     */
-    public get instruments() {
-        return getInstrumentClass().builtIn;
-    }
 
     /**
      * Amount of milliseconds each tick takes.
