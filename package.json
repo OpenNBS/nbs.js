@@ -1,7 +1,7 @@
 {
   "name": "@encode42/nbs.js",
   "description": "A versatile API for reading and writing OpenNBS files.",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "author": {
     "name": "Encode42",
     "email": "me@encode42.dev",
@@ -32,7 +32,7 @@
     "build:module": "tsc --build",
     "build:bundle": "webpack",
     "build:bundle:dev": "webpack --env mode=development",
-    "publish": "npm run build && npm publish",
+    "build:publish": "npm run build && npm publish",
     "docs": "npx typedoc"
   },
   "devDependencies": {
