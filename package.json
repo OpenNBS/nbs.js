@@ -35,14 +35,15 @@
     "build:publish": "npm run build && npm publish",
     "docs": "npx typedoc"
   },
-  "devDependencies": {
-    "@rollup/plugin-typescript": "^8.3.0",
-    "rollup": "^2.67.0",
-    "typedoc": "^0.22.11",
-    "typescript": "^4.5.4"
-  },
   "files": [
     "dist",
     "changelog.md"
-  ]
+  ],
+  "dependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
+    "rollup": "^2.67.0",
+    "typedoc": "^0.22.11",
+    "typescript": "^4.5.4",
+    "tslib": "^2.3.1"
+  }
 }

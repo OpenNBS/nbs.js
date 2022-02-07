@@ -20,7 +20,7 @@ jobs:
     - name: Build
       run: |
         yarn install
-        yarn run build:bundle
+        yarn run build
         yarn run docs
 
 #    - name: Commit files
