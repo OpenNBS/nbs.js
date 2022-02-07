@@ -26,19 +26,19 @@
 ### 🔧 Including
 🌐 **Browser**
 
+> It's recommended to use a versioned link, e.g. `@encode42/nbs.js@2.1.0`
+
 Script
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js"></script>
 ```
+<sub>Minified: https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/umd.min.js</sub>
 
 Module
 ```js
 import { Song } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js";
 ```
-
-Minified library is available by inserting `.min` before `.js`.
-
-It's recommended to use a versioned link, e.g. `https://cdn.jsdelivr.net/npm/@encode42/nbs.js@2.0.1/dist/esm.js`
+<sub>Minified: https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.min.js</sub>
 
 ⚙️ **Node.js**
 ```bash

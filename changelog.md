@@ -18,12 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `defaultSongStats#hasSolo` default value.
 
 # 2.0.2
-### Changed
-- Updated `README.md`.
-
-# 2.0.1
 ### Added
 - Minified bundles (`cjs.min.js`, `esm.min.js`, and `umd.min.js`).
+
+### Changed
+- Updated `README.md`.
 
 # 2.0.0
 ### Added
