@@ -36,10 +36,6 @@ jobs:
 #        github_token: ${{ secrets.GITHUB_TOKEN }}
 #        branch: ${{ github.ref }}
 
-    - name: Prepare deploy pages
-      run: |
-        cp dist/index.js .github/tuottaa/private/demo/src/NBS.js
-
     - name: Build pages
       working-directory: .github/tuottaa
       run: |
