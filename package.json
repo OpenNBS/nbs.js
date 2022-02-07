@@ -1,7 +1,7 @@
 {
   "name": "@encode42/nbs.js",
   "description": "A versatile API for reading and writing OpenNBS files.",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "author": {
     "name": "Encode42",
     "email": "me@encode42.dev",

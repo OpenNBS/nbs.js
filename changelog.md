@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# 2.1.0
+### Added
+- The `Song#arrayBuffer` field.
+- The `SongStats#lastMeasure` getter.
+
+### Changed
+- The `defaultSongStats#duration` getter is now defined after song instantiation.
+- The `defaultSongStats#hasSolo` getter is now defined after song instantiation.
+
+### Removed
+- The `defaultSongStats#duration` default value.
+- The `defaultSongStats#hasSolo` default value.
+
 # 2.0.2
 ### Changed
 - Updated `README.md`.
