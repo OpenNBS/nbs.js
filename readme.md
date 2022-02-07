@@ -24,17 +24,21 @@
 </div>
 
 ### 🔧 Including
-🌐 **Browser (Script)**
+🌐 **Browser**
+
+Script
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/umd.js"></script>
 ```
 
-🌐 **Browser (Module)**
+Module
 ```js
 import { Song } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js";
 ```
 
-It's recommended to use a versioned link, e.g. `https://cdn.jsdelivr.net/npm/@encode42/nbs.js@2.0.0/dist/index.js`
+Minified library is available by inserting `.min` before `.js`.
+
+It's recommended to use a versioned link, e.g. `https://cdn.jsdelivr.net/npm/@encode42/nbs.js@2.0.1/dist/esm.js`
 
 ⚙️ **Node.js**
 ```bash
@@ -51,7 +55,7 @@ Is there a demo?
 
 The demo is currently under development. Check [NBSPlayer](https://github.com/Encode42/NBSPlayer) for a working example!
 
-[![Demo Badge]][Demo]
+<!-- [![Demo Badge]][Demo] -->
 </details>
 
 <details>
@@ -59,7 +63,7 @@ The demo is currently under development. Check [NBSPlayer](https://github.com/En
 How do I use this?
 </summary>
 
-[Install NBS.js for your platform](#-setup), then refer to the [documentation][Docs] and examples below.
+[Install NBS.js for your platform](#-including), then refer to the [documentation][Docs] and examples below.
 
 [![Docs Badge]][Docs]
 
@@ -161,8 +165,13 @@ I don't create GitHub releases, but I do keep a changelog [here][Changelog]!
 ### 🔨 Building
 Ensure [Yarn](https://yarnpkg.com/) and [Node.js](https://nodejs.org/en/) are installed.
 
-1. Enter the directory containing the NBS.js source code in a terminal window.
+1. Enter the directory containing the NBS.js source code in your terminal.
 2. Install the build dependencies via `yarn install`.
-3. Run `yarn run build` to generate the Node.js module and webpack bundle.
+3. Run `yarn run build` to generate the Node.js and browser modules.
 
-Node.js module can be found in the `build` directory, and the wepback bundle is stored at `dist/index.js`.
+Generated files:
+- `dist/cjs.js`: CommonJS bundle, used by Node.js.
+- `dist/esm.js`: ES module for browser script modules.
+- `dist/umd.js`: UMD bundle for browser scripts.
+- `dist/*.min.js`: Minified bundle.
+- `build/`: Built ESNext JS files from TS.
