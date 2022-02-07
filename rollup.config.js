@@ -1,9 +1,52 @@
 const typescript = require("@rollup/plugin-typescript");
+const minify = require("rollup-plugin-uglify");
+
+/**
+ * The target output directory.
+ *
+ * @type {string}
+ */
+const outDir = "dist";
+
+/**
+ * Get an output configuration.
+ *
+ * @param {string} type Type to get output for
+ * @param {boolean} [toMinify=false] Whether to create minified output
+ * @return {Object}
+ */
+function getOutput(type, toMinify = false) {
+    return {
+        "file": `${outDir}/${type}${toMinify ? ".min" : ""}.js`,
+        "name": type === "umd" ? "NBSjs" : undefined,
+        "format": type,
+        "plugins": toMinify ? [minify.uglify()] : undefined
+    };
+}
+
+/**
+ * Get a base configuration
+ *
+ * @param {string} type Type to get base for
+ * @return {Object}
+ */
+function getBase(type) {
+    return  {
+        "input": "src/index.ts",
+        "output": [
+            getOutput(type, false),
+            getOutput(type, true)
+        ],
+        "plugins": [typescript({
+            "outDir": "dist"
+        })]
+    };
+};
 
 /**
  * Get the config for a build type.
  *
- * @param {String} types Types to build.
+ * @param {string} types Types to build
  * @return {Object[]}
  */
 function getConfig(...types) {
@@ -11,23 +54,7 @@ function getConfig(...types) {
 
     // Generate config for each type
     for (const type of types) {
-        const config = {
-            "input": "src/index.ts",
-            "output": {
-                "file": `dist/${type}.js`,
-                "format": type
-            },
-            "plugins": [typescript({
-                "outDir": "dist"
-            })]
-        };
-
-        // Name UMD modules
-        if (type === "umd") {
-            config.output.name = "NBSjs";
-        }
-
-        configs.push(config);
+        configs.push(getBase(type));
     }
 
     return configs;

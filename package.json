@@ -1,7 +1,7 @@
 {
   "name": "@encode42/nbs.js",
   "description": "A versatile API for reading and writing OpenNBS files.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": {
     "name": "Encode42",
     "email": "me@encode42.dev",
@@ -42,8 +42,9 @@
   "dependencies": {
     "@rollup/plugin-typescript": "^8.3.0",
     "rollup": "^2.67.0",
+    "rollup-plugin-uglify": "^6.0.4",
+    "tslib": "^2.3.1",
     "typedoc": "^0.22.11",
-    "typescript": "^4.5.4",
-    "tslib": "^2.3.1"
+    "typescript": "^4.5.4"
   }
 }
