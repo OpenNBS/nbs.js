@@ -1,43 +1,44 @@
-import Song from "./Song";
 import Note from "./Note";
-import Instrument from "./Instrument";
+import Instrument from "./instrument/Instrument";
 import { getNoteClass } from "../util/util";
+import { defaultLayerMeta } from "./interfaces/layer/LayerMeta";
+import NoteOptions, { defaultNoteOptions } from "./interfaces/note/NoteOptions";
 
 /**
  * Represents a layer of a song instance.
  */
 export default class Layer {
     /**
-     * Name of the layer.
-     */
-    public name = "";
-
-    /**
-     * ID (index) of the layer.
-     *
-     * Used internally to order lists.
+     * ID of the layer.
      */
     public id: number;
 
     /**
-     * Velocity (volume) of the layer.
+     * Meta information for the layer.
+     *
+     * @see {@linkcode LayerMeta}
      */
-    public velocity = 100;
+    public meta = defaultLayerMeta;
 
     /**
-     * Panning of the layer.
+     * Whether or not this layer has been marked as locked.
      */
-    public panning = 0;
+    public isLocked = false;
 
     /**
-     * Whether the layer is locked or muted.
+     * Whether or not this layer has been marked as solo.
      */
-    public locked = false;
+    public isSolo = false;
 
     /**
-     * Whether the layer is solo.
+     * The volume of the layer (percentage).
      */
-    public solo = false;
+    public volume = 100;
+
+    /**
+     * How much this layer is panned to the left/right. 0 is 2 blocks right, 100 is center, 200 is 2 blocks left.
+     */
+    public stereo = 0;
 
     /**
      * Notes within the layer.
@@ -67,15 +68,12 @@ export default class Layer {
     /**
      * Create and add a note to a tick.
      *
-     * @param instrument The note's instrument
      * @param tick Tick to set the note
-     * @param key The note's key
-     * @param panning The note's panning
-     * @param velocity The note's velocity
-     * @param pitch The note's pitch
+     * @param instrument The note's instrument
+     * @param options Options for the note
      */
-    public addNote(tick: number, instrument?: Instrument, key?: number, panning?: number, velocity?: number, pitch?: number): Note {
-        const note = new (getNoteClass())(instrument, key, panning, velocity, pitch);
+    public addNote(tick: number, instrument: Instrument | number = 0, options: NoteOptions = defaultNoteOptions): Note {
+        const note = new (getNoteClass())(instrument, options);
         return this.setNote(tick, note);
     }
 

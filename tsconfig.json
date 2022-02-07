@@ -2,9 +2,9 @@
     "compilerOptions": {
         "rootDir": "src",
         "outDir": "build",
-        "target": "ES6",
-        "lib": ["ES6"],
-        "module": "CommonJS",
+        "target": "ESNext",
+        "lib": ["ESNext"],
+        "module": "ESNext",
         "moduleResolution": "Node",
         "esModuleInterop": true,
         "isolatedModules": true,
@@ -33,6 +33,6 @@
     "exclude": [
         "node_modules",
         "build",
-        "src/app.ts"
+        "dist"
     ]
 }

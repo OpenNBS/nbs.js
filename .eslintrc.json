@@ -69,6 +69,7 @@
         "unicorn/no-null": "off",
         "unicorn/no-process-exit": "off",
         "unicorn/numeric-separators-style": "off",
+        "unicorn/prefer-code-point": "off",
         "unicorn/prefer-node-protocol": "off",
         "unicorn/prefer-number-properties": "off",
         "unicorn/prefer-query-selector": "off",

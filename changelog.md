@@ -4,6 +4,108 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# 2.0.0
+### Added
+- The `Song#meta` field.
+- The `Song#loop` field.
+- The `Song#autosave` field.
+- The `Song#stats` field.
+- The `options` argument in `Song#addNote`.
+- The `Layer#meta` field.
+- The `options` argument in `Layer#addNote`.
+- The `Note#meta` field.
+- The `options` argument in `Note`.
+- The `Instrument#meta` field.
+- The `SongInstrument` class.
+- The `SongMeta` interface.
+- The `SongStats` interface.
+- The `SongAutosaveOptions` interface.
+- The `SongLoopOptions` interface.
+- The `LayerMeta` interface.
+- The `NoteOptions` interface.
+- The `InstrumentMeta` interface.
+- The `InstrumentOptions` interface.
+- The `defaultSongMeta` object.
+- The `defaultSongStats` object.
+- The `defaultSongAutosaveOptions` object.
+- The `defaultSongLoopOptions` object.
+- The `defaultLayerMeta` object.
+- The `defaultNoteOptions` object.
+- The `defaultInstrumentMeta` object.
+- The `defaultInstrumentOptions` object.
+
+### Changed
+- Renamed `Song#size` to `Song#length`.
+- Renamed `Song#addLayer` to `Song#createLayer`.
+- Swapped `layer` and `tick` arguments in `Song#setNote`.
+- Moved various fields from `Song` to `Song#meta`
+  - The `Song#name` field.
+  - The `Song#author` field.
+  - The `Song#originalAuthor` field.
+  - The `Song#description` field.
+  - The `Song#midiName` field.
+    - Renamed to `SongMeta#importName`.
+- Moved various fields from `Song` to `Song#loop`
+  - The `Song#loopEnabled` field.
+    - Renamed to `SongLoopOptions#enabled`.
+  - The `Song#loopStartTick` field.
+    - Renamed to `SongLoopOptions#startTick`.
+  - The `Song#maxLoopCount` field.
+    - Renamed to `SongLoopOptions#totalLoops`.
+- Moved various fields from `Song` to `Song#autosave`
+  - The `Song#autoSaveEnabled` field.
+    - Renamed to `SongAutosaveOptions#enabled`.
+  - The `Song#autoSaveDuration` field.
+    - Renamed to `SongAutosaveOptions#interval`.
+- Moved various fields from `Song` to `Song#stats`
+  - The `Song#minutesSpent` field.
+  - The `Song#leftClicks` field.
+  - The `Song#rightClicks` field.
+  - The `Song#blocksAdded` field.
+  - The `Song#blocksRemoved` field.
+  - The `Song#hasSolo` field.
+    - Checks for `Layer#isSolo` on get.
+  - The `Song#endTime` field.
+    - Renamed to `SongStates#duration`.
+- Moved various fields from `Song` to `Song#instruments`
+  - The `Song#firstCustomIndex` field.
+  - The `Song#instruments` field.
+    - Renamed to `SongInstrument#loaded`.
+- Moved various fields from `Layer` to `Layer#meta`
+  - The `Layer#name` field.
+- Renamed `Layer#locked` to `Layer#isLocked`.
+- Renamed `Layer#solo` to `Layer#isSolo`.
+- Renamed `Layer#velocity` to `Layer#volume`.
+- Renamed `Layer#panning` to `Layer#stereo`.
+- `Note#instrument` now stores an instrument ID.
+- Moved various fields from `Instrument` to `Instrument#meta`
+  - The `Instrument#name` field.
+  - The `Instrument#audioSrc` field.
+    - Renamed to `InstrumentOptions#soundFile`.
+- Replaced `static Song#fromArrayBuffer` with `Util#fromArrayBuffer`.
+- Replaced `static Song#toArrayBuffer` with `Util#toArrayBuffer`.
+- Typescript now compiles to ESNext rather than CommonJS.
+- Switched from Webpack to Rollup for CommonJS and ESM modules.
+- CommonJS and ESM modules are now stored in `dist`. `package.json` should handle this.
+- Improved documentation in `util.ts`.
+- Adjusted documentation everywhere to match [the official documentation](https://opennbs.org/nbs).
+- Made `Buffer#buffer` readonly.
+
+### Removed
+- The `key` argument in `Song#addNote`.
+- The `panning` argument in `Song#addNote`.
+- The `velocity` argument in `Song#addNote`.
+- The `pitch` argument in `Song#addNote`.
+- The `key` argument in `Layer#addNote`.
+- The `panning` argument in `Layer#addNote`.
+- The `velocity` argument in `Layer#addNote`.
+- The `pitch` argument in `Layer#addNote`.
+- The `key` argument in `Note`.
+- The `panning` argument in `Note`.
+- The `velocity` argument in `Note`.
+- The `pitch` argument in `Note`.
+- The `name` argument in `Instrument`.
+
 # 1.2.3
 ### Changed
 - Bumped webpack version from `5.65.0` to `5.67.0`.

@@ -1,9 +1,14 @@
-import Layer from "./Layer";
-import { getInstrumentClass, getLayerClass } from "../util/util";
-import fromArrayBuffer from "./file/fromArrayBuffer";
 import toArrayBuffer from "./file/toArrayBuffer";
-import Instrument from "./Instrument";
+import Layer from "./Layer";
+import { getLayerClass } from "../util/util";
+import { defaultSongMeta } from "./interfaces/song/SongMeta";
+import { defaultSongStats } from "./interfaces/song/SongStats";
+import { defaultLoopOptions } from "./interfaces/song/SongLoopOptions";
+import { defaultAutosaveOptions } from "./interfaces/song/SongAutosaveOptions";
+import NoteOptions, { defaultNoteOptions } from "./interfaces/note/NoteOptions";
 import Note from "./Note";
+import SongInstrument from "./instrument/SongInstrument";
+import Instrument from "./instrument/Instrument";
 
 // TODO:
 // - Shrink song when removing notes
@@ -21,8 +26,8 @@ import Note from "./Note";
  *
  * // Create a new song
  * const song = new Song();
- * song.name = "Triumph";
- * song.author = "Encode42";
+ * song.meta.name = "Triumph";
+ * song.meta.author = "Encode42";
  * song.tempo = 20;
  *
  * // Create 3 layers for 3 instruments
@@ -30,21 +35,21 @@ import Note from "./Note";
  *     const instrument = Instrument.builtIn[layerCount];
  *
  *     // Create a layer for the instrument
- *     const layer = song.addLayer();
- *     layer.name = instrument.name;
+ *     const layer = song.createLayer();
+ *     layer.meta.name = instrument.meta.name;
  *
  *     // Notes that will be placed
  *     const notes = [
- *         new Note(instrument, 40),
- *         new Note(instrument, 45),
- *         new Note(instrument, 50),
- *         new Note(instrument, 45),
- *         new Note(instrument, 57)
+ *         new Note(instrument, { "key": 40 }),
+ *         new Note(instrument, { "key": 45 }),
+ *         new Note(instrument, { "key": 50 }),
+ *         new Note(instrument, { "key": 45 }),
+ *         new Note(instrument, { "key": 57 })
  *     ];
  *
  *     // Place the notes
  *     for (let i = 0; i < notes.length; i++) {
- *         song.setNote(layer, i * 4, notes[i]);
+ *         song.setNote(i * 4, layer, notes[i]);
  *     }
  * }
  *
@@ -54,111 +59,9 @@ import Note from "./Note";
  */
 export default class Song {
     /**
-     * Size of the song in ticks.
+     * Length of the song in ticks.
      */
-    public size = 0;
-
-    /**
-     * Name of the song.
-     */
-    public name = "";
-
-    /**
-     * Author of the song.
-     */
-    public author = "";
-
-    /**
-     * Original author of the song.
-     */
-    public originalAuthor = "";
-
-    /**
-     * Description of the song.
-     */
-    public description = "";
-
-    /**
-     * Name of the imported MIDI file.
-     */
-    public midiName = "";
-
-    /**
-     * Tempo (ticks per second) of the song.
-     */
-    public tempo = 10;
-
-    /**
-     * Time signature of the song.
-     */
-    public timeSignature = 4;
-
-    /**
-     * Whether looping is enabled.
-     */
-    public loopEnabled = false;
-
-    /**
-     * Maximum times to loop the song.
-     */
-    public maxLoopCount = 0;
-
-    /**
-     * Which tick to loop the song on.
-     */
-    public loopStartTick = 0;
-
-    /**
-     * Whether auto-save is enabled.
-     */
-    public autoSaveEnabled = false;
-
-    /**
-     * Duration of minutes between auto-saves.
-     */
-    public autoSaveDuration = 5;
-
-    /**
-     * Minutes spent with the song open.
-     *
-     * **Does not automatically increment!**
-     */
-    public minutesSpent = 0;
-
-    /**
-     * Times the song has received left-clicks.
-     *
-     * **Does not automatically increment!**
-     */
-    public leftClicks = 0;
-
-    /**
-     * Times the song has received right-clicks.
-     *
-     * **Does not automatically increment!**
-     */
-    public rightClicks = 0;
-
-    /**
-     * Total amount of blocks added.
-     *
-     * **Does not automatically increment!**
-     */
-    public blocksAdded = 0;
-
-    /**
-     * Total amount of blocks removed.
-     *
-     * **Does not automatically increment!**
-     */
-    public blocksRemoved = 0;
-
-    /**
-     * Whether the song has at least one solo layer.
-     *
-     * @see {@linkcode Layer.solo}
-     */
-    public hasSolo = false;
+    public length = 0;
 
     /**
      * Version of NBS the song has been saved to.
@@ -168,14 +71,58 @@ export default class Song {
     public nbsVersion = 5;
 
     /**
-     * Instruments of the song.
+     * Meta information for the song.
+     *
+     * @see {@linkcode SongMeta}
      */
-    public instruments = [...getInstrumentClass().builtIn];
+    public meta = defaultSongMeta;
 
     /**
-     * Index of the first custom instrument.
+     * Tempo (ticks per second) of the song.
      */
-    public firstCustomIndex = this.instruments.length;
+    public tempo = 10;
+
+    /**
+     * Amount of milliseconds each tick takes.
+     */
+    public get timePerTick(): number {
+        return 20 / this.tempo * 50;
+    }
+
+    /**
+     * Time signature of the song.
+     *
+     * If this is 3, then the signature is 3/4. This value ranges from 2-8.
+     */
+    public timeSignature = 4;
+
+    /**
+     * Looping options for the song.
+     *
+     * @see {@linkcode SongLoopOptions}
+     */
+    public loop = defaultLoopOptions;
+
+    /**
+     * Auto-save options for the song.
+     *
+     * @see {@linkcode SongAutosaveOptions}
+     */
+    public autosave = defaultAutosaveOptions;
+
+    /**
+     * Statistics for the song.
+     *
+     * @see {@linkcode SongStats}
+     */
+    public stats = defaultSongStats;
+
+    /**
+     * Instruments of the song.
+     *
+     * @see {@linkcode SongInstrument}
+     */
+    public instruments = new SongInstrument();
 
     /**
      * Layers within the song.
@@ -191,24 +138,34 @@ export default class Song {
      */
     public errors: string[] = [];
 
-    /**
-     * Amount of milliseconds each tick takes.
-     */
-    public get timePerTick(): number {
-        return 20 / this.tempo * 50;
+    constructor() {
+        Object.defineProperties(this.stats, {
+            "hasSolo": {
+                "get": () => {
+                    let found = false;
+
+                    for (const layer of this.layers) {
+                        if (layer.isSolo) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    return found;
+                }
+            },
+            "duration": {
+                "get": () => {
+                    return this.length * this.timePerTick;
+                }
+            }
+        });
     }
 
     /**
-     * Length of the song in milliseconds.
+     * Create and add a new blank layer to the song.
      */
-    public get endTime(): number {
-        return this.size * this.timePerTick;
-    }
-
-    /**
-     * Create and add a new layer to the song.
-     */
-    public addLayer(): Layer {
+    public createLayer(): Layer {
         const layer = new (getLayerClass())(this.layers.length + 1);
         this.layers.push(layer);
         return layer;
@@ -217,11 +174,11 @@ export default class Song {
     /**
      * Set the note at a tick.
      *
-     * @param layer Layer to set the note on
      * @param tick Tick to set the note
+     * @param layer Layer to set the note on
      * @param note Note to set
      */
-    public setNote(layer: Layer, tick: number, note: Note): void {
+    public setNote(tick: number, layer: Layer, note: Note): void {
         this.expand(tick);
 
         layer.setNote(tick, note);
@@ -233,16 +190,13 @@ export default class Song {
      * @param layer Layer to add the note to
      * @param tick Tick to set the note
      * @param instrument The note's instrument
-     * @param key The note's key
-     * @param panning The note's panning
-     * @param velocity The note's velocity
-     * @param pitch The note's pitch
+     * @param options Options for the note
      */
-    public addNote(layer: Layer, tick: number, instrument?: Instrument, key?: number, panning?: number, velocity?: number, pitch?: number): Note {
+    public addNote(layer: Layer, tick: number, instrument: Instrument | number = 0, options: NoteOptions = defaultNoteOptions): Note {
         this.expand(tick);
 
         // Construct the note
-        return layer.addNote(tick, instrument, key, panning, velocity, pitch);
+        return layer.addNote(tick, instrument, options);
     }
 
     /**
@@ -255,6 +209,18 @@ export default class Song {
     }
 
     /**
+     * Expand the song if required.
+     *
+     * @param tick Tick that is being added
+     */
+    private expand(tick: number): void {
+        // Expand the song if required
+        if (tick + 1 > this.length) {
+            this.length = tick + 1;
+        }
+    }
+
+    /**
      * Generate and return an ArrayBuffer from this song.
      *
      * @return Generated ArrayBuffer
@@ -262,39 +228,5 @@ export default class Song {
      */
     public toArrayBuffer(): ArrayBuffer {
         return toArrayBuffer(this);
-    }
-
-    /**
-     * Generate and return an ArrayBuffer from a song.
-     *
-     * @param song Song to parse from
-     * @return Generated ArrayBuffer
-     * Returns an empty ArrayBuffer if an error occurred
-     */
-    public static toArrayBuffer(song: Song): ArrayBuffer {
-        return toArrayBuffer(song);
-    }
-
-    /**
-     * Parse and return a song from a file array buffer.
-     *
-     * @param buffer ArrayBuffer to parse from
-     * @return Parsed song
-     * Returns an empty song if an error occurred
-     */
-    public static fromArrayBuffer(buffer: ArrayBuffer): Song {
-        return fromArrayBuffer(buffer);
-    }
-
-    /**
-     * Expand the song if required.
-     *
-     * @param tick Tick that is being added
-     */
-    private expand(tick: number): void {
-        // Expand the song if required
-        if (tick + 1 > this.size) {
-            this.size = tick + 1;
-        }
     }
 }

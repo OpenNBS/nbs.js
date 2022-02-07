@@ -1,9 +1,16 @@
 import { BufferWriter } from "../../util/util";
 import Song from "../Song";
 
+/**
+ * Generate and return an ArrayBuffer from a song.
+ *
+ * @param song Song to parse from
+ * @return Generated ArrayBuffer
+ * Returns an empty ArrayBuffer if an error occurred
+ */
 export default function toArrayBuffer(song: Song): ArrayBuffer {
     // Dry run to get target size
-    const size = write(song, 0, true).currentByte;
+    const size = write(song, 0, true).nextByte;
 
     // Create the actual buffer
     return write(song, size).buffer;
@@ -16,40 +23,40 @@ function write(song: Song, size: number, dry = false): BufferWriter {
         if (song.nbsVersion >= 1) {
             writer.writeShort(0); // Write ONBS spec
             writer.writeByte(song.nbsVersion); // Write NBS version
-            writer.writeByte(song.firstCustomIndex); // First custom instrument index
+            writer.writeByte(song.instruments.firstCustomIndex); // First custom instrument index
         }
 
         if (song.nbsVersion === 0 || song.nbsVersion >= 3) {
-            writer.writeShort(song.size); // Write song size
+            writer.writeShort(song.length); // Write song size
         }
 
         writer.writeShort(song.layers.length); // Write total amount of layers
-        writer.writeString(song.name); // Write song name
-        writer.writeString(song.author); // Write song author
-        writer.writeString(song.originalAuthor); // Write song original author
-        writer.writeString(song.description); // Write song description
+        writer.writeString(song.meta.name); // Write song name
+        writer.writeString(song.meta.author); // Write song author
+        writer.writeString(song.meta.originalAuthor); // Write song original author
+        writer.writeString(song.meta.description); // Write song description
         writer.writeShort(song.tempo * 100); // Write song tempo
-        writer.writeByte(+song.autoSaveEnabled); // Write song auto-save status
-        writer.writeByte(song.autoSaveDuration); // Write auto-save interval
+        writer.writeByte(+song.autosave.enabled); // Write song auto-save status
+        writer.writeByte(song.autosave.interval); // Write auto-save interval
         writer.writeByte(song.timeSignature); // Write song time signature
-        writer.writeInt(Math.floor(song.minutesSpent)); // Write minutes spent in song
-        writer.writeInt(song.leftClicks); // Write left-clicks on song
-        writer.writeInt(song.rightClicks); // Write right-clicks on song
-        writer.writeInt(song.blocksAdded); // Write total blocks added to song
-        writer.writeInt(song.blocksRemoved); // Write total blocks removed from song
-        writer.writeString(song.midiName); // Write imported MIDI file name
+        writer.writeInt(Math.floor(song.stats.minutesSpent)); // Write minutes spent in song
+        writer.writeInt(song.stats.leftClicks); // Write left-clicks on song
+        writer.writeInt(song.stats.rightClicks); // Write right-clicks on song
+        writer.writeInt(song.stats.blocksAdded); // Write total blocks added to song
+        writer.writeInt(song.stats.blocksRemoved); // Write total blocks removed from song
+        writer.writeString(song.meta.importName); // Write imported MiDi/schematic file name
 
         if (song.nbsVersion >= 4) {
-            writer.writeByte(+song.loopEnabled); // Write loop status
-            writer.writeByte(song.maxLoopCount); // Write maximum loop count
-            writer.writeByte(song.loopStartTick); // Write loop start tick
+            writer.writeByte(+song.loop.enabled); // Write loop status
+            writer.writeByte(song.loop.totalLoops); // Write maximum loop count
+            writer.writeByte(song.loop.startTick); // Write loop start tick
         }
 
         writer.writeByte(0); // Write end of header
 
         // Iterate each tick
         let currentTick = -1;
-        for (let i = 0; i <= song.size; i++) {
+        for (let i = 0; i <= song.length; i++) {
             // Ensure the layer has notes at the tick
             let hasNotes = false;
             for (const layer of song.layers) {
@@ -81,12 +88,12 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 
                     writer.writeShort(jumpLayers); // Write amount of layers to jump
 
-                    writer.writeByte(note.instrument.id); // Write instrument of note
+                    writer.writeByte(note.instrument); // Write instrument ID of note
                     writer.writeByte(note.key); // Write key of note
 
                     if (song.nbsVersion >= 4) {
                         writer.writeByte(note.velocity); // Write velocity of note
-                        writer.writeUnsignedByte(note.panning + 100); // Write panning of note
+                        writer.writeUnsignedByte((note.panning ? note.panning : 0) + 100); // Write panning of note
                         writer.writeShort(note.pitch); // Write pitch of note
                     }
                 }
@@ -98,39 +105,39 @@ function write(song: Song, size: number, dry = false): BufferWriter {
         writer.writeShort(0); // Write end of notes
 
         for (const layer of song.layers) {
-            writer.writeString(layer.name); // Write layer name
+            writer.writeString(layer.meta.name); // Write layer name
 
             if (song.nbsVersion >= 4) {
                 let val = 0;
 
                 // Layer is locked
-                if (layer.locked) {
+                if (layer.isLocked) {
                     val = 1;
                 }
 
                 // Layer is solo
-                if (layer.solo) {
+                if (layer.isSolo) {
                     val = 2;
                 }
 
                 writer.writeByte(val); // Write layer lock status
             }
 
-            writer.writeByte(layer.velocity); // Write layer velocity
+            writer.writeByte(layer.volume); // Write layer velocity
 
             if (song.nbsVersion >= 2) {
-                writer.writeByte(layer.panning + 100); // Write layer panning
+                writer.writeByte(layer.stereo + 100); // Write layer panning
             }
         }
 
-        writer.writeByte(song.instruments.length - song.firstCustomIndex); // Write number of custom instruments
-        for (let i = 0; i < song.instruments.length; i++) {
-            const instrument = song.instruments[i];
+        writer.writeByte(song.instruments.loaded.length - song.instruments.firstCustomIndex); // Write number of custom instruments
+        for (let i = 0; i < song.instruments.loaded.length; i++) {
+            const instrument = song.instruments.loaded[i];
             if (!instrument.builtIn) {
-                writer.writeString(instrument.name); // Write instrument name
-                writer.writeString(instrument.audioSrc); // Write instrument filename
-                writer.writeByte(instrument.key); // Write instrument key
-                writer.writeByte(+instrument.pressKey); // Write press key status
+                writer.writeString(instrument.meta.name); // Write instrument name
+                writer.writeString(instrument.meta.soundFile); // Write instrument filename
+                writer.writeByte(instrument.pitch); // Write instrument key
+                writer.writeByte(+(instrument.pressKey ?? 0)); // Write press key status
             }
         }
     } catch (e) {

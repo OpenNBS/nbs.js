@@ -41,6 +41,13 @@ interface RawNote {
     "tick": number
 }
 
+/**
+ * Parse and return a song from a file array buffer.
+ *
+ * @param buffer ArrayBuffer to parse from
+ * @return Parsed song
+ * Returns an empty song if an error occurred
+ */
 export default function fromArrayBuffer(buffer: ArrayBuffer): Song {
     const song = new Song();
 
@@ -52,7 +59,7 @@ export default function fromArrayBuffer(buffer: ArrayBuffer): Song {
         // Check if NBS file is ONBS versioned
         if (size === 0) {
             song.nbsVersion = reader.readByte(); // Read NBS version
-            song.firstCustomIndex = reader.readByte(); // Read first custom instrument
+            song.instruments.firstCustomIndex = reader.readByte(); // Read first custom instrument
 
             if (song.nbsVersion >= 3) {
                 size = reader.readShort(); // Read real song size
@@ -60,25 +67,25 @@ export default function fromArrayBuffer(buffer: ArrayBuffer): Song {
         }
 
         const totalLayers = reader.readShort(); // Read total amount of layers
-        song.name = reader.readString(); // Read song name
-        song.author = reader.readString(); // Read song author
-        song.originalAuthor = reader.readString(); // Read song original author
-        song.description = reader.readString(); // Read song description
+        song.meta.name = reader.readString(); // Read song name
+        song.meta.author = reader.readString(); // Read song author
+        song.meta.originalAuthor = reader.readString(); // Read song original author
+        song.meta.description = reader.readString(); // Read song description
         song.tempo = reader.readShort() / 100; // Read song tempo
-        song.autoSaveEnabled = Boolean(reader.readByte()); // Read song auto-save status
-        song.autoSaveDuration = reader.readByte(); // Read song auto-save interval
+        song.autosave.enabled = Boolean(reader.readByte()); // Read song auto-save status
+        song.autosave.interval = reader.readByte(); // Read song auto-save interval
         song.timeSignature = reader.readByte(); // Read song time signature
-        song.minutesSpent = reader.readInt(); // Read minutes spent in song
-        song.leftClicks = reader.readInt(); // Read left-clicks on song
-        song.rightClicks = reader.readInt(); // Read right-clicks on song
-        song.blocksAdded = reader.readInt(); // Read total blocks added to song
-        song.blocksRemoved = reader.readInt(); // Read total blocks removed from song
-        song.midiName = reader.readString(); // Read imported MIDI file name
+        song.stats.minutesSpent = reader.readInt(); // Read minutes spent in song
+        song.stats.leftClicks = reader.readInt(); // Read left-clicks on song
+        song.stats.rightClicks = reader.readInt(); // Read right-clicks on song
+        song.stats.blocksAdded = reader.readInt(); // Read total blocks added to song
+        song.stats.blocksRemoved = reader.readInt(); // Read total blocks removed from song
+        song.meta.importName = reader.readString(); // Read imported MiDi/schematic file name
 
         if (song.nbsVersion >= 4) {
-            song.loopEnabled = Boolean(reader.readByte()); // Read loop status
-            song.maxLoopCount = reader.readByte(); // Read maximum loop count
-            song.loopStartTick = reader.readShort(); // Read loop start tick
+            song.loop.enabled = Boolean(reader.readByte()); // Read loop status
+            song.loop.totalLoops = reader.readByte(); // Read maximum loop count
+            song.loop.startTick = reader.readShort(); // Read loop start tick
         }
 
         // Read layer and note data
@@ -133,46 +140,46 @@ export default function fromArrayBuffer(buffer: ArrayBuffer): Song {
             size = tick;
         }
 
-        song.size = size;
+        song.length = size;
 
         // Add layers to song
-        if (buffer.byteLength > reader.currentByte) {
+        if (buffer.byteLength > reader.nextByte) {
             for (let i = 0; i < totalLayers; i++) {
-                const layer = song.addLayer();
-                layer.name = reader.readString(); // Read layer name
+                const layer = song.createLayer();
+                layer.meta.name = reader.readString(); // Read layer name
 
                 if (song.nbsVersion >= 4) {
                     const lock = reader.readByte(); // Read layer lock status
 
                     // Layer is locked
                     if (lock === 1) {
-                        layer.locked = true;
+                        layer.isLocked = true;
                     }
 
                     // Layer is solo
                     if (lock === 2) {
-                        layer.solo = song.hasSolo = true;
+                        layer.isSolo = true;
                     }
                 }
 
-                layer.velocity = reader.readByte(); // Read layer velocity
+                layer.volume = reader.readByte(); // Read layer velocity
 
                 let panning = 0;
                 if (song.nbsVersion >= 2) {
                     panning = reader.readUnsingedByte() - 100; // Read layer panning
                 }
 
-                layer.panning = panning;
+                layer.stereo = panning;
             }
         }
 
         // Parse custom instruments
         const customInstruments = reader.readByte(); // Read number of custom instruments
         for (let i = 0; i < customInstruments; i++) {
-            song.instruments.push(
+            song.instruments.loaded.push(
                 new (getInstrumentClass())(
                     reader.readString(), // Read instrument name
-                    song.instruments.length,
+                    song.instruments.loaded.length,
                     {
                         "audioSrc": reader.readString(), // Read instrument file
                         "key": reader.readByte(), // Read instrument key
@@ -186,7 +193,7 @@ export default function fromArrayBuffer(buffer: ArrayBuffer): Song {
         for (const rawNote of rawNotes) {
             // Create layer if non-existent
             if (rawNote.layer >= song.layers.length) {
-                song.addLayer();
+                song.createLayer();
             }
 
             // Add note to layer
@@ -194,11 +201,8 @@ export default function fromArrayBuffer(buffer: ArrayBuffer): Song {
             song.addNote(
                 layer,
                 rawNote.tick,
-                song.instruments[rawNote.instrument],
-                rawNote.key,
-                rawNote.panning,
-                rawNote.velocity,
-                rawNote.pitch
+                rawNote.instrument,
+                rawNote
             );
         }
     } catch (e) {

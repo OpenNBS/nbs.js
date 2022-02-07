@@ -24,10 +24,17 @@
 </div>
 
 ### 🔧 Including
-🌐 **Browser**
+🌐 **Browser (Script)**
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/umd.js"></script>
 ```
+
+🌐 **Browser (Module)**
+```js
+import { Song } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js";
+```
+
+It's recommended to use a versioned link, e.g. `https://cdn.jsdelivr.net/npm/@encode42/nbs.js@2.0.0/dist/index.js`
 
 ⚙️ **Node.js**
 ```bash
@@ -40,7 +47,9 @@ npm i @encode42/nbs.js
 Is there a demo?
 </summary>
 
-Yes! A GitHub pages site is located [here](https://encode42.github.io/NBS.js/demo/). It contains a demonstration of how to read and process NBS files, displays the song structure, and plays the song through the browser.
+~~Yes! A GitHub pages site is located [here](https://encode42.github.io/NBS.js/demo/). It contains a demonstration of how to read and process NBS files, displays the song structure, and plays the song through the browser.~~
+
+The demo is currently under development. Check [NBSPlayer](https://github.com/Encode42/NBSPlayer) for a working example!
 
 [![Demo Badge]][Demo]
 </details>
@@ -56,20 +65,25 @@ How do I use this?
 
 <details>
 <summary>
-Browser
+Browser (Script)
 </summary>
 
 ```html
 <input type="file" id="file-input">
 
-<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/index.js"></script> <!-- Import NBS.js -->
+<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/umd.js"></script> <!-- Import NBS.js -->
 <script>
 window.addEventListener("load", () => {
+  const input = document.getElementById("file-input");
+
+  // Clear the file input (QOL)
+  input.value = null;
+
   // Initialize file input
-  document.getElementById("file-input").addEventListener("change", event => {
-    const songFile = event.target.files[0]; // Read a NBS file
+  input.addEventListener("change", () => {
+    const songFile = input.files[0]; // Read a NBS file
     songFile.arrayBuffer().then(buffer => { // Create an ArrayBuffer
-      const song = NBSjs.Song.fromArrayBuffer(buffer); // Parse song from ArrayBuffer
+      const song = NBSjs.fromArrayBuffer(buffer); // Parse song from ArrayBuffer
 
       console.log(song);
     });
@@ -77,8 +91,41 @@ window.addEventListener("load", () => {
 });
 </script>
 ```
+</details>
 
-[![Demo Badge]][Demo]
+<details>
+<summary>
+Browser (Module)
+</summary>
+
+index.html
+```html
+<input type="file" id="file-input">
+
+<script src="index.js" type="module">
+```
+
+index.js
+```js
+import { fromArrayBuffer } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js"
+
+window.addEventListener("load", () => {
+  const input = document.getElementById("file-input");
+
+  // Clear the file input (QOL)
+  input.value = null;
+    
+  // Initialize file input
+  input.addEventListener("change", () => {
+    const songFile = input.files[0]; // Read a NBS file
+    songFile.arrayBuffer().then(buffer => { // Create an ArrayBuffer
+      const song = fromArrayBuffer(buffer); // Parse song from ArrayBuffer
+
+      console.log(song);
+    });
+  });
+});
+```
 </details>
 
 <details>
@@ -88,11 +135,11 @@ Node.js
 
 ```js
 const fs = require("fs");
-const { Song } = require("@encode42/nbs.js"); // Import NBS.js
+const { fromArrayBuffer } = require("@encode42/nbs.js"); // Import NBS.js
 
 const songFile = fs.readFileSync("song.nbs"); // Read a NBS file
 const buffer = new Uint8Array(songFile).buffer; // Create an ArrayBuffer
-const song = Song.fromArrayBuffer(buffer); // Parse song from ArrayBuffer
+const song = fromArrayBuffer(buffer); // Parse song from ArrayBuffer
 
 console.log(song);
 ```
