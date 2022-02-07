@@ -44,15 +44,15 @@ interface RawNote {
 /**
  * Parse and return a song from a file array buffer.
  *
- * @param buffer ArrayBuffer to parse from
+ * @param arrayBuffer ArrayBuffer to parse from
  * @return Parsed song
  * Returns an empty song if an error occurred
  */
-export default function fromArrayBuffer(buffer: ArrayBuffer): Song {
+export default function fromArrayBuffer(arrayBuffer: ArrayBuffer): Song {
     const song = new Song();
 
     try {
-        const reader = new BufferReader(buffer);
+        const reader = new BufferReader(arrayBuffer);
 
         let size = reader.readShort(); // Read song size
 
@@ -143,7 +143,7 @@ export default function fromArrayBuffer(buffer: ArrayBuffer): Song {
         song.length = size;
 
         // Add layers to song
-        if (buffer.byteLength > reader.nextByte) {
+        if (arrayBuffer.byteLength > reader.nextByte) {
             for (let i = 0; i < totalLayers; i++) {
                 const layer = song.createLayer();
                 layer.meta.name = reader.readString(); // Read layer name
@@ -205,6 +205,8 @@ export default function fromArrayBuffer(buffer: ArrayBuffer): Song {
                 rawNote
             );
         }
+
+        song.arrayBuffer = arrayBuffer;
     } catch (e) {
         song.errors.push(String(e));
     }

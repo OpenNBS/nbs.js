@@ -132,6 +132,11 @@ export default class Song {
     public layers: Layer[] = [];
 
     /**
+     * The `ArrayBuffer` used to load the song.
+     */
+    public arrayBuffer: ArrayBuffer | undefined = undefined;
+
+    /**
      * Errors occurred while loading, manipulating, or saving the nbs file.
      *
      * Returns an empty array if no errors occurred.
