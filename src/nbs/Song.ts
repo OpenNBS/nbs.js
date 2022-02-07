@@ -149,7 +149,9 @@ export default class Song {
                 "get": () => {
                     let found = false;
 
+                    // Iterate each layer
                     for (const layer of this.layers) {
+                        // Solo layer found
                         if (layer.isSolo) {
                             found = true;
                             break;
@@ -162,6 +164,18 @@ export default class Song {
             "duration": {
                 "get": () => {
                     return this.length * this.timePerTick;
+                }
+            },
+            "lastMeasure": {
+                "get": () => {
+                    let length = this.length;
+
+                    // Increase length until it lines up with measure
+                    while ((length / this.timeSignature) % 1 !== 0) {
+                        length++;
+                    }
+
+                    return length;
                 }
             }
         });

@@ -31,11 +31,22 @@ export default interface SongStats {
 
     /**
      * Playtime of the song in milliseconds.
+     *
+     * Getter; updates every reference.
      */
     "duration": number,
 
     /**
+     * The tick of the last measure of the song.
+     *
+     * Getter; updates every reference.
+     */
+    "lastMeasure": number,
+
+    /**
      * Whether the song has at least one solo layer.
+     *
+     * Getter; updates every reference.
      *
      * @see {@linkcode Layer.isSolo}
      */
@@ -52,5 +63,6 @@ export const defaultSongStats: SongStats = {
     "blocksAdded": 0,
     "blocksRemoved": 0,
     "duration": 0,
+    "lastMeasure": 0,
     "hasSolo": false
 };
