@@ -75,19 +75,33 @@ export default class Song {
      *
      * @see {@linkcode SongMeta}
      */
-    public meta = defaultSongMeta;
+    public meta = { ...defaultSongMeta };
+
+    /**
+     * Looping options for the song.
+     *
+     * @see {@linkcode SongLoopOptions}
+     */
+    public loop = { ...defaultLoopOptions };
+
+    /**
+     * Auto-save options for the song.
+     *
+     * @see {@linkcode SongAutosaveOptions}
+     */
+    public autosave = { ...defaultAutosaveOptions };
+
+    /**
+     * Statistics for the song.
+     *
+     * @see {@linkcode SongStats}
+     */
+    public stats = { ...defaultSongStats };
 
     /**
      * Tempo (ticks per second) of the song.
      */
     public tempo = 10;
-
-    /**
-     * Amount of milliseconds each tick takes.
-     */
-    public get timePerTick(): number {
-        return 20 / this.tempo * 50;
-    }
 
     /**
      * Time signature of the song.
@@ -97,25 +111,13 @@ export default class Song {
     public timeSignature = 4;
 
     /**
-     * Looping options for the song.
+     * Amount of milliseconds each tick takes.
      *
-     * @see {@linkcode SongLoopOptions}
+     * Getter; updates every reference.
      */
-    public loop = defaultLoopOptions;
-
-    /**
-     * Auto-save options for the song.
-     *
-     * @see {@linkcode SongAutosaveOptions}
-     */
-    public autosave = defaultAutosaveOptions;
-
-    /**
-     * Statistics for the song.
-     *
-     * @see {@linkcode SongStats}
-     */
-    public stats = defaultSongStats;
+    public get timePerTick(): number {
+        return 20 / this.tempo * 50;
+    }
 
     /**
      * Instruments of the song.

@@ -18,7 +18,7 @@ export default class Layer {
      *
      * @see {@linkcode LayerMeta}
      */
-    public meta = defaultLayerMeta;
+    public meta = { ...defaultLayerMeta };
 
     /**
      * Whether or not this layer has been marked as locked.

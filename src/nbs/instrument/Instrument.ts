@@ -153,7 +153,7 @@ export default class Instrument {
      *
      * @see {@linkcode InstrumentMeta}
      */
-    public meta = defaultInstrumentMeta;
+    public meta = { ...defaultInstrumentMeta };
 
     /**
      * The pitch of the sound file. Just like the note blocks, this ranges from 0-87.
