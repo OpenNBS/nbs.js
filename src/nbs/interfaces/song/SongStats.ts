@@ -34,14 +34,14 @@ export default interface SongStats {
      *
      * Getter; updates every reference.
      */
-    "duration": number,
+    "duration"?: number,
 
     /**
      * The tick of the last measure of the song.
      *
      * Getter; updates every reference.
      */
-    "lastMeasure": number,
+    "lastMeasure"?: number,
 
     /**
      * Whether the song has at least one solo layer.
@@ -50,7 +50,7 @@ export default interface SongStats {
      *
      * @see {@linkcode Layer.isSolo}
      */
-    "hasSolo": boolean
+    "hasSolo"?: boolean
 };
 
 /**
@@ -61,8 +61,5 @@ export const defaultSongStats: SongStats = {
     "leftClicks": 0,
     "rightClicks": 0,
     "blocksAdded": 0,
-    "blocksRemoved": 0,
-    "duration": 0,
-    "lastMeasure": 0,
-    "hasSolo": false
+    "blocksRemoved": 0
 };
