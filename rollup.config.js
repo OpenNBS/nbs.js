@@ -1,5 +1,5 @@
 const typescript = require("@rollup/plugin-typescript");
-const minify = require("rollup-plugin-uglify");
+const { terser } = require("rollup-plugin-terser");
 
 /**
  * The target output directory.
@@ -20,7 +20,7 @@ function getOutput(type, toMinify = false) {
         "file": `${outDir}/${type}${toMinify ? ".min" : ""}.js`,
         "name": type === "umd" ? "NBSjs" : undefined,
         "format": type,
-        "plugins": toMinify ? [minify.uglify()] : undefined
+        "plugins": toMinify ? [terser()] : undefined
     };
 }
 
