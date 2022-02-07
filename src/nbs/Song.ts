@@ -168,14 +168,7 @@ export default class Song {
             },
             "lastMeasure": {
                 "get": () => {
-                    let length = this.length;
-
-                    // Increase length until it lines up with measure
-                    while ((length / this.timeSignature) % 1 !== 0) {
-                        length++;
-                    }
-
-                    return length;
+                    return Math.ceil(this.length / this.timeSignature) * this.timeSignature;
                 }
             }
         });
