@@ -8,6 +8,9 @@
         "assets": [[
             ".github/assets", "assets"
         ]],
+        "additionalFiles": [[
+            "changelog.md"
+        ]],
         "output": "./public"
     },
     "private": {
