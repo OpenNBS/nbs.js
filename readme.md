@@ -60,19 +60,7 @@ yarn add @encode42/nbs.js
 ### ❔ FAQ
 <details>
 <summary>
-Is there a demo?
-</summary>
-
-~~Yes! A GitHub pages site is located [here](https://encode42.github.io/NBS.js/demo/). It contains a demonstration of how to read and process NBS files, displays the song structure, and plays the song through the browser.~~
-
-The demo is currently under development. Check [NBSPlayer](https://github.com/Encode42/NBSPlayer) for a working example!
-
-<!-- [![Demo Badge]][Demo] -->
-</details>
-
-<details>
-<summary>
-How do I use this?
+<b>How do I use this?</b>
 </summary>
 
 [Install NBS.js for your platform](#-including), then refer to the [documentation][Docs] and examples below.
@@ -182,7 +170,19 @@ console.log(song);
 
 <details>
 <summary>
-Where's the changelog?
+<b>Is there a demo?</b>
+</summary>
+
+~~Yes! A GitHub pages site is located [here](https://encode42.github.io/NBS.js/demo/). It contains a demonstration of how to read and process NBS files, displays the song structure, and plays the song through the browser.~~
+
+The demo is currently under development. Check [NBSPlayer](https://github.com/Encode42/NBSPlayer) for a working example!
+
+<!-- [![Demo Badge]][Demo] -->
+</details>
+
+<details>
+<summary>
+<b>Where's the changelog?</b>
 </summary>
 
 I don't create GitHub releases, but I do keep a changelog [here][Changelog]!
