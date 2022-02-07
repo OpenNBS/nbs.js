@@ -40,9 +40,21 @@ import { Song } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js"
 ```
 <sub>Minified: https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.min.js</sub>
 
+⚙️ **Deno**
+```js
+import { Song } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js";
+```
+
 ⚙️ **Node.js**
-```bash
+
+NPM
+```sh
 npm i @encode42/nbs.js
+```
+
+Yarn
+```sh
+yarn add @encode42/nbs.js
 ```
 
 ### ❔ FAQ
@@ -75,7 +87,7 @@ Browser (Script)
 ```html
 <input type="file" id="file-input">
 
-<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/umd.js"></script> <!-- Import NBS.js -->
+<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js"></script> <!-- Import NBS.js -->
 <script>
 window.addEventListener("load", () => {
   const input = document.getElementById("file-input");
@@ -129,6 +141,22 @@ window.addEventListener("load", () => {
     });
   });
 });
+```
+</details>
+
+<details>
+<summary>
+Deno
+</summary>
+
+```js
+import { fromArrayBuffer } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js";
+
+const songFile = await Deno.readFile("song.nbs"); // Read a NBS file
+const buffer = new Uint8Array(songFile).buffer; // Create an ArrayBuffer
+const song = fromArrayBuffer(buffer); // Parse song from ArrayBuffer
+
+console.log(song);
 ```
 </details>
 
