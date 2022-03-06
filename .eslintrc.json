@@ -16,12 +16,19 @@
     ],
     "extends": [
         "plugin:@typescript-eslint/recommended",
+        "plugin:jsdoc/recommended",
         "plugin:jsonc/auto-config",
         "plugin:markdown/recommended",
         "plugin:security/recommended",
         "plugin:sonarjs/recommended",
         "plugin:unicorn/recommended",
-        "standard"
+        "plugin:promise/recommended",
+        "plugin:jest/recommended",
+        "plugin:jsx-a11y/recommended",
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:import/recommended",
+        "plugin:ava/recommended"
     ],
     "rules": {
         "arrow-parens": ["error", "as-needed"],
@@ -38,7 +45,6 @@
         "multiline-ternary": "off",
         "no-case-declarations": "off",
         "no-console": "off",
-        "no-extend-native": "off",
         "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
         "no-multi-spaces": "off",
         "no-prototype-builtins": "off",
@@ -69,12 +75,37 @@
         "unicorn/no-null": "off",
         "unicorn/no-process-exit": "off",
         "unicorn/numeric-separators-style": "off",
-        "unicorn/prefer-code-point": "off",
         "unicorn/prefer-node-protocol": "off",
         "unicorn/prefer-number-properties": "off",
         "unicorn/prefer-query-selector": "off",
+        "unicorn/prefer-ternary": "warn",
         "unicorn/prevent-abbreviations": "off",
-        "unicorn/no-static-only-class": "off"
+        "unicorn/no-static-only-class": "off",
+        "react/react-in-jsx-scope": "off",
+        "jsdoc/require-param": "off",
+        "jsdoc/require-returns": "off",
+        "jsdoc/require-param-type": "off",
+        "jsdoc/require-jsdoc": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-extra-semi": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "react/no-unescaped-entities": "warn"
     },
-    "ignorePatterns": ["!.*", "!node_modules/*", "*.json"]
+    "settings": {
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
+    },
+    "ignorePatterns": [
+        "!.*",
+        "!node_modules/*",
+        "*.json",
+        "/build",
+        "/dist"
+    ]
 }
