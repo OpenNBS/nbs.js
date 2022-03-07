@@ -23,6 +23,8 @@
 [![][Actions Badge]][Actions] [![][Codacy Badge]][Codacy] [![][Support Badge]][Support]
 </div>
 
+*With the added bonus of no required dependencies!*
+
 ### 🔧 Including
 🌐 **Browser**
 
