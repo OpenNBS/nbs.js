@@ -38,7 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `InstrumentMeta.ts` interface file.
   - Moved to `Instrument.ts`.
 - The `InstrumentOptions.ts` interface file.
-  - Moved to `InstrumentOptions.ts`.
+  - Moved to `Instrument.ts`.
 
 # 2.1.2
 ### Changed

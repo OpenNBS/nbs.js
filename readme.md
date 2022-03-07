@@ -204,4 +204,4 @@ Generated files:
 - `dist/esm.js`: ES module for browser script modules.
 - `dist/umd.js`: UMD bundle for browser scripts.
 - `dist/*.min.js`: Minified bundle.
-- `build/`: Built ESNext JS files from TS.
+- `build/`: Built ES2015 files.
