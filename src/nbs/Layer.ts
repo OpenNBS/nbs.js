@@ -1,13 +1,28 @@
-import Note from "./Note";
-import Instrument from "./instrument/Instrument";
 import { getNoteClass } from "../util/util";
-import { defaultLayerMeta } from "./interfaces/layer/LayerMeta";
-import NoteOptions, { defaultNoteOptions } from "./interfaces/note/NoteOptions";
+import { defaultNoteOptions, Note, NoteOptions } from "./Note";
+import { Instrument } from "./instrument/Instrument";
+
+/**
+ * Meta information for a {@linkcode Layer}.
+ */
+export interface LayerMeta {
+    /**
+     * The name of the layer.
+     */
+    name: string
+}
+
+/**
+ * Default {@linkcode LayerMeta} values.
+ */
+export const defaultLayerMeta: LayerMeta = {
+    "name": ""
+};
 
 /**
  * Represents a layer of a song instance.
  */
-export default class Layer {
+export class Layer {
     /**
      * ID of the layer.
      */

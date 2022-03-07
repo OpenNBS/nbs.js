@@ -1,5 +1,5 @@
 import { BufferWriter } from "../../util/util";
-import Song from "../Song";
+import { Song } from "../Song";
 
 /**
  * Generate and return an ArrayBuffer from a song.
@@ -8,7 +8,7 @@ import Song from "../Song";
  * @return Generated ArrayBuffer
  * Returns an empty ArrayBuffer if an error occurred
  */
-export default function toArrayBuffer(song: Song): ArrayBuffer {
+export function toArrayBuffer(song: Song): ArrayBuffer {
     // Dry run to get target size
     const size = write(song, 0, true).nextByte;
 

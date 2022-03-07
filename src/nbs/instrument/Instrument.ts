@@ -1,10 +1,71 @@
-import InstrumentOptions, { defaultInstrumentOptions } from "../interfaces/instrument/InstrumentOptions";
-import { defaultInstrumentMeta } from "../interfaces/instrument/InstrumentMeta";
+/**
+ * Options available for an {@linkcode Instrument}.
+ */
+export interface InstrumentOptions {
+    /**
+     * The name of the instrument.
+     */
+    "name"?: string,
+
+    /**
+     * The sound file of the instrument (just the file name, not the path).
+     */
+    "soundFile"?: string,
+
+    /**
+     * The pitch of the sound file. Just like the note blocks, this ranges from 0-87.
+     */
+    "pitch"?: number,
+
+    /**
+     * Whether the piano should automatically press keys with this instrument when the marker passes them.
+     */
+    "pressKey"?: boolean
+
+    /**
+     * Whether the instrument is a built-in instrument.
+     */
+    "builtIn"?: boolean,
+}
+
+/**
+ * Meta information for an {@linkcode Instrument}.
+ */
+export interface InstrumentMeta {
+    /**
+     * The name of the instrument.
+     */
+    name: string | undefined,
+
+    /**
+     * The sound file of the instrument (just the file name, not the path).
+     */
+    soundFile: string | undefined
+}
+
+/**
+ * Default {@linkcode InstrumentOptions} values.
+ */
+export const defaultInstrumentOptions: InstrumentOptions = {
+    "name": "",
+    "soundFile": "",
+    "pitch": 45,
+    "pressKey": false,
+    "builtIn": false
+};
+
+/**
+ * Default {@linkcode InstrumentMeta} values.
+ */
+export const defaultInstrumentMeta: InstrumentMeta = {
+    "name": defaultInstrumentOptions.name,
+    "soundFile": defaultInstrumentOptions.soundFile
+};
 
 /**
  * Represents an instrument of a {@linkcode Note}.
  */
-export default class Instrument {
+export class Instrument {
     /**
      * The built-in instruments.
      *

@@ -1,18 +1,174 @@
-import toArrayBuffer from "./file/toArrayBuffer";
-import Layer from "./Layer";
+import { SongInstrument } from "./instrument/SongInstrument";
+import { Layer } from "./Layer";
 import { getLayerClass } from "../util/util";
-import { defaultSongMeta } from "./interfaces/song/SongMeta";
-import { defaultSongStats } from "./interfaces/song/SongStats";
-import { defaultLoopOptions } from "./interfaces/song/SongLoopOptions";
-import { defaultAutosaveOptions } from "./interfaces/song/SongAutosaveOptions";
-import NoteOptions, { defaultNoteOptions } from "./interfaces/note/NoteOptions";
-import Note from "./Note";
-import SongInstrument from "./instrument/SongInstrument";
-import Instrument from "./instrument/Instrument";
+import { defaultNoteOptions, Note, NoteOptions } from "./Note";
+import { Instrument } from "./instrument/Instrument";
+import { toArrayBuffer } from "./file/toArrayBuffer";
 
 // TODO:
 // - Shrink song when removing notes
 // - Create field with loop tick (end of measure)
+
+/**
+ * Options available for {@linkcode Song} auto-save.
+ */
+export interface SongAutosaveOptions {
+    /**
+     * Whether auto-saving has been enabled.
+     */
+    "enabled": boolean,
+
+    /**
+     * The amount of minutes between each auto-save. (1-60)
+     */
+    "interval": number
+}
+
+/**
+ * Options available for {@linkcode Song} looping.
+ */
+export interface SongLoopOptions {
+    /**
+     * Whether looping is enabled.
+     */
+    "enabled": boolean,
+
+    /**
+     * Determines which part of the song (in ticks) it loops back to.
+     */
+    "startTick": number,
+
+    /**
+     * The amount of times the song loops. (0 = infinite)
+     */
+    "totalLoops": number
+}
+
+/**
+ * Meta information for a {@linkcode Song}.
+ */
+export interface SongMeta {
+    /**
+     * The name of the song.
+     */
+    name: string,
+
+    /**
+     * The author of the song.
+     */
+    author: string,
+
+    /**
+     * The original author of the song.
+     */
+    originalAuthor: string,
+
+    /**
+     * The description of the song.
+     */
+    description: string,
+
+    /**
+     * Imported MIDI/Schematic file name.
+     *
+     * If the song has been imported from a .mid or .schematic file, that file name is stored here (only the name of the file, not the path).
+     */
+    importName: string
+}
+
+/**
+ * Statistics available for a {@linkcode Song}.
+ *
+ * Note: None of these values automatically increment. Functionality is implementation-dependant.
+ */
+export interface SongStats {
+    /**
+     * Amount of minutes spent on the song.
+     */
+    "minutesSpent": number,
+
+    /**
+     * Amount of times the user has left-clicked on the song.
+     */
+    "leftClicks": number,
+
+    /**
+     * Amount of times the user has right-clicked on the song.
+     */
+    "rightClicks": number,
+
+    /**
+     * Amount of times the user has added a note block.
+     */
+    "blocksAdded": number,
+
+    /**
+     * The amount of times the user have removed a note block.
+     */
+    "blocksRemoved": number,
+
+    /**
+     * Playtime of the song in milliseconds.
+     *
+     * Getter; updates every reference.
+     */
+    "duration"?: number,
+
+    /**
+     * The tick of the last measure of the song.
+     *
+     * Getter; updates every reference.
+     */
+    "lastMeasure"?: number,
+
+    /**
+     * Whether the song has at least one solo layer.
+     *
+     * Getter; updates every reference.
+     *
+     * @see {@linkcode Layer.isSolo}
+     */
+    "hasSolo"?: boolean
+}
+
+/**
+ * Default {@linkcode SongAutosaveOptions} values.
+ */
+export const defaultAutosaveOptions: SongAutosaveOptions = {
+    "enabled": false,
+    "interval": 10
+};
+
+/**
+ * Default {@linkcode SongLoopOptions} values.
+ */
+export const defaultLoopOptions: SongLoopOptions = {
+    "enabled": false,
+    "startTick": 0,
+    "totalLoops": 0
+};
+
+/**
+ * Default {@linkcode SongMeta} values.
+ */
+export const defaultSongMeta: SongMeta = {
+    "name": "",
+    "author": "",
+    "originalAuthor": "",
+    "description": "",
+    "importName": ""
+};
+
+/**
+ * Default {@linkcode SongStats} values.
+ */
+export const defaultSongStats: SongStats = {
+    "minutesSpent": 0,
+    "leftClicks": 0,
+    "rightClicks": 0,
+    "blocksAdded": 0,
+    "blocksRemoved": 0
+};
 
 /**
  * Represents a full NBS song file.
@@ -57,7 +213,7 @@ import Instrument from "./instrument/Instrument";
  * fs.writeFileSync("song.nbs", Buffer.from(song.toArrayBuffer()));
  * ```
  */
-export default class Song {
+export class Song {
     /**
      * Length of the song in ticks.
      */

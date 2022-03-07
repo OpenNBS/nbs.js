@@ -28,7 +28,7 @@
 ### 🔧 Including
 🌐 **Browser**
 
-> It's recommended to use a versioned link, e.g. `@encode42/nbs.js@2.1.0`
+> It's recommended to use a versioned link, e.g. `@encode42/nbs.js@3.0.0`
 
 Script
 ```html

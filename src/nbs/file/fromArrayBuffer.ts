@@ -1,5 +1,5 @@
 import { BufferReader, getInstrumentClass } from "../../util/util";
-import Song from "../Song";
+import { Song } from "../Song";
 
 /**
  * Raw structure of a note.
@@ -42,13 +42,33 @@ interface RawNote {
 }
 
 /**
+ * Options for fromArrayBuffer.
+ */
+export interface FromArrayBufferOptions {
+    /**
+     * Whether to ignore (delete) unpopulated leading layers.
+     *
+     * ONBS automatically generates extra layers past the last populated layer.
+     */
+    "ignoreEmptyLayers"?: boolean
+};
+
+/**
+ * Default options for fromArrayBuffer.
+ */
+export const defaultFromArrayBufferOptions: FromArrayBufferOptions = {
+    "ignoreEmptyLayers": false
+};
+
+/**
  * Parse and return a song from a file array buffer.
  *
  * @param arrayBuffer ArrayBuffer to parse from
+ * @param options Options for parsing
  * @return Parsed song
  * Returns an empty song if an error occurred
  */
-export default function fromArrayBuffer(arrayBuffer: ArrayBuffer): Song {
+export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromArrayBufferOptions): Song {
     const song = new Song();
 
     try {
@@ -204,6 +224,22 @@ export default function fromArrayBuffer(arrayBuffer: ArrayBuffer): Song {
                 rawNote.instrument,
                 rawNote
             );
+        }
+
+        // Remove unpopulated layers
+        // TODO: Move this to Song?
+        if (options.ignoreEmptyLayers) {
+            // Find the last populated layer
+            const totalLayers = song.layers.length;
+            let lastPopulatedLayer = 0;
+            for (let i = 0; i < totalLayers; i++) {
+                if (song.layers[i].notes.length > 0) {
+                    lastPopulatedLayer = i + 1;
+                }
+            }
+
+            // Slice
+            song.layers = song.layers.splice(0, lastPopulatedLayer);
         }
 
         song.arrayBuffer = arrayBuffer;

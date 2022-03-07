@@ -1,10 +1,10 @@
 import { getInstrumentClass } from "../../util/util";
-import Instrument from "./Instrument";
+import { Instrument } from "./Instrument";
 
 /**
  * Represents the instruments of a song.
  */
-export default class SongInstrument {
+export class SongInstrument {
     /**
      * The loaded instruments of the song.
      */

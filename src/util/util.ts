@@ -1,6 +1,6 @@
-import Instrument from "../nbs/instrument/Instrument";
-import Note from "../nbs/Note";
-import Layer from "../nbs/Layer";
+import { Layer } from "../nbs/Layer";
+import { Instrument } from "../nbs/instrument/Instrument";
+import { Note } from "../nbs/Note";
 
 /**
  * A buffer object wrapper.
