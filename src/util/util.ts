@@ -92,6 +92,8 @@ export class BufferReader extends Buffer {
 export class BufferWriter extends Buffer {
     /**
      * Whether to execute a dry run.
+     *
+     * @remarks
      * Used to find the target size of the buffer.
      */
     private readonly dry: boolean;
@@ -178,114 +180,8 @@ export class BufferWriter extends Buffer {
 
         this.writeInt(val.length);
         for (const i of val) {
+            // eslint-disable-next-line unicorn/prefer-code-point
             this.writeUnsignedByte(i.charCodeAt(0));
         }
     }
 }
-
-/**
- * The {@linkcode Layer} to utilize within the API.
- */
-let LayerClass: Layer;
-
-/**
- * The {@linkcode Note} to utilize within the API.
- */
-let NoteClass: Note;
-
-/**
- * The {@linkcode Instrument} to utilize within the API.
- */
-let InstrumentClass: Instrument;
-
-/**
- * Get the {@linkcode Layer} class.
- *
- * Utilized when a specialized layer class is required.
- */
-function getLayerClass(): any {
-    return LayerClass;
-}
-
-/**
- * Set the layer class.
- *
- * Utilized when a specialized layer class is required.
- *
- * @example
- * ```js
- * import { Layer, setLayerClass } from "@encode42/nbs.js"
- *
- * class CustomLayer extends Layer {
- *      // Whether the layer is a custom layer
- *      isCustomLayer = false;
- * }
- *
- * setLayerClass(CustomLayer);
- * ```
- */
-function setLayerClass(clazz: any): void {
-    LayerClass = clazz;
-}
-
-/**
- * Get the {@linkcode Note} class.
- *
- * Utilized when a specialized note class is required.
- */
-function getNoteClass(): any {
-    return NoteClass;
-}
-
-/**
- * Set the note class.
- *
- * Utilized when a specialized note class is required.
- *
- * @example
- * ```js
- * import { Note, setNoteClass } from "@encode42/nbs.js"
- *
- * class CustomNote extends Note {
- *      // The last tick the note was played.
- *      lastPlayed = 0;
- * }
- *
- * setNoteClass(CustomNote);
- * ```
- */
-function setNoteClass(clazz: any): void {
-    NoteClass = clazz;
-}
-
-/**
- * Get the {@linkcode Instrument} class.
- *
- * Utilized when a specialized instrument class is required.
- */
-function getInstrumentClass(): any {
-    return InstrumentClass;
-}
-
-/**
- * Set the instrument class.
- *
- * Utilized when a specialized instrument class is required.
- *
- * @example
- * ```js
- * import { Instrument, setInstrumentClass } from "@encode42/nbs.js"
- *
- * class CustomInstrument extends Instrument {
- *      // Texture source file of the instrument.
- *      textureSrc = "";
- * }
- *
- * setInstrumentClass(CustomInstrument);
- * ```
- */
-function setInstrumentClass(clazz: any): void {
-    InstrumentClass = clazz;
-}
-
-export { getLayerClass, getNoteClass, getInstrumentClass, setLayerClass, setNoteClass, setInstrumentClass };

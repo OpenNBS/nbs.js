@@ -23,19 +23,11 @@ jobs:
         yarn run build
         yarn run docs
 
-    - name: Build pages
-      working-directory: .github/tuottaa
-      run: |
-        git clone https://github.com/QuantumSuite/Tuottaa
-        cd Tuottaa
-        yarn install
-        node src/index.js --config ../config.json
-
     - name: Deploy pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .github/tuottaa/Tuottaa/public
+        publish_dir: public
         publish_branch: gh-pages
         user_name: GitHub Action
         user_email: action@github.com

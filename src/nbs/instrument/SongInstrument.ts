@@ -1,4 +1,3 @@
-import { getInstrumentClass } from "../../util/util";
 import { Instrument } from "./Instrument";
 
 /**
@@ -8,10 +7,10 @@ export class SongInstrument {
     /**
      * The loaded instruments of the song.
      */
-    public loaded: Instrument[] = [...getInstrumentClass().builtIn];
+    public loaded: Instrument[] = [...Instrument.builtIn];
 
     /**
      * Amount of default instruments when the song was saved.
      */
-    public firstCustomIndex: number = getInstrumentClass().builtIn.length;
-};
+    public firstCustomIndex: number = Instrument.builtIn.length;
+}

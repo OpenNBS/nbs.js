@@ -1,25 +1,22 @@
 {
     "compilerOptions": {
-        "rootDir": "src",
         "outDir": "build",
-        "target": "ES2015",
-        "lib": ["ESNext"],
+        "target": "ES2021",
+        "lib": ["ES2021"],
         "module": "ESNext",
         "moduleResolution": "Node",
         "esModuleInterop": true,
         "isolatedModules": true,
         "allowJs": true,
-        "strict": true,
         "declaration": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "listFiles": true,
-        "jsx": "preserve"
+        "listFiles": true
     },
     "typedocOptions": {
         "entryPoints": ["src/index.ts"],
-        "out": ".github/tuottaa/private/docs",
-        "githubPages": false,
+        "out": "public/docs",
+        "githubPages": true,
         "validation": {
             "invalidLink": true
         },

@@ -1,4 +1,3 @@
-import { getNoteClass } from "../util/util";
 import { defaultNoteOptions, Note, NoteOptions } from "./Note";
 import { Instrument } from "./instrument/Instrument";
 
@@ -36,22 +35,28 @@ export class Layer {
     public meta = { ...defaultLayerMeta };
 
     /**
-     * Whether or not this layer has been marked as locked.
+     * Whether this layer has been marked as locked.
      */
     public isLocked = false;
 
     /**
-     * Whether or not this layer has been marked as solo.
+     * Whether this layer has been marked as solo.
      */
     public isSolo = false;
 
     /**
-     * The volume of the layer (percentage).
+     * The volume of the layer.
+     *
+     * @remarks
+     * Unit: Percentage
      */
     public volume = 100;
 
     /**
-     * How much this layer is panned to the left/right. 0 is 2 blocks right, 100 is center, 200 is 2 blocks left.
+     * How much this layer is panned to the left or right.
+     *
+     * @remarks
+     * 0 is 2 blocks right, 100 is center, 200 is 2 blocks left.
      */
     public stereo = 0;
 
@@ -88,7 +93,7 @@ export class Layer {
      * @param options Options for the note
      */
     public addNote(tick: number, instrument: Instrument | number = 0, options: NoteOptions = defaultNoteOptions): Note {
-        const note = new (getNoteClass())(instrument, options);
+        const note = new Note(instrument, options);
         return this.setNote(tick, note);
     }
 

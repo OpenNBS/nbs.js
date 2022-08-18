@@ -1,6 +1,5 @@
 import { SongInstrument } from "./instrument/SongInstrument";
 import { Layer } from "./Layer";
-import { getLayerClass } from "../util/util";
 import { defaultNoteOptions, Note, NoteOptions } from "./Note";
 import { Instrument } from "./instrument/Instrument";
 import { toArrayBuffer } from "./file/toArrayBuffer";
@@ -15,11 +14,18 @@ import { toArrayBuffer } from "./file/toArrayBuffer";
 export interface SongAutosaveOptions {
     /**
      * Whether auto-saving has been enabled.
+     *
+     * @default false
      */
     "enabled": boolean,
 
     /**
-     * The amount of minutes between each auto-save. (1-60)
+     * The amount of minutes between each auto-save.
+     *
+     * @remarks
+     * Range: 1-60
+     *
+     * @default 10
      */
     "interval": number
 }
@@ -30,16 +36,28 @@ export interface SongAutosaveOptions {
 export interface SongLoopOptions {
     /**
      * Whether looping is enabled.
+     *
+     * @default false
      */
     "enabled": boolean,
 
     /**
-     * Determines which part of the song (in ticks) it loops back to.
+     * Determines which part of the song it loops back to.
+     *
+     * @remarks
+     * Unit: Ticks
+     *
+     * @default 0
      */
     "startTick": number,
 
     /**
-     * The amount of times the song loops. (0 = infinite)
+     * The amount of times the song loops.
+     *
+     * @remarks
+     * 0 = infinite
+     *
+     * @default 0
      */
     "totalLoops": number
 }
@@ -50,28 +68,39 @@ export interface SongLoopOptions {
 export interface SongMeta {
     /**
      * The name of the song.
+     *
+     * @default ""
      */
     name: string,
 
     /**
      * The author of the song.
+     *
+     * @default ""
      */
     author: string,
 
     /**
      * The original author of the song.
+     *
+     * @default ""
      */
     originalAuthor: string,
 
     /**
      * The description of the song.
+     *
+     * @default ""
      */
     description: string,
 
     /**
      * Imported MIDI/Schematic file name.
      *
+     * @remarks
      * If the song has been imported from a .mid or .schematic file, that file name is stored here (only the name of the file, not the path).
+     *
+     * @default ""
      */
     importName: string
 }
@@ -79,37 +108,49 @@ export interface SongMeta {
 /**
  * Statistics available for a {@linkcode Song}.
  *
+ * @remarks
  * Note: None of these values automatically increment. Functionality is implementation-dependant.
  */
 export interface SongStats {
     /**
      * Amount of minutes spent on the song.
+     *
+     * @default 0
      */
     "minutesSpent": number,
 
     /**
      * Amount of times the user has left-clicked on the song.
+     *
+     * @default 0
      */
     "leftClicks": number,
 
     /**
      * Amount of times the user has right-clicked on the song.
+     *
+     * @default 0
      */
     "rightClicks": number,
 
     /**
      * Amount of times the user has added a note block.
+     *
+     * @default 0
      */
     "blocksAdded": number,
 
     /**
      * The amount of times the user have removed a note block.
+     *
+     * @default 0
      */
     "blocksRemoved": number,
 
     /**
      * Playtime of the song in milliseconds.
      *
+     * @remarks
      * Getter; updates every reference.
      */
     "duration"?: number,
@@ -117,6 +158,7 @@ export interface SongStats {
     /**
      * The tick of the last measure of the song.
      *
+     * @remarks
      * Getter; updates every reference.
      */
     "lastMeasure"?: number,
@@ -124,6 +166,7 @@ export interface SongStats {
     /**
      * Whether the song has at least one solo layer.
      *
+     * @remarks
      * Getter; updates every reference.
      *
      * @see {@linkcode Layer.isSolo}
@@ -173,6 +216,7 @@ export const defaultSongStats: SongStats = {
 /**
  * Represents a full NBS song file.
  *
+ * @remarks
  * Supports reading, writing, and manipulation.
  *
  * @example
@@ -255,13 +299,17 @@ export class Song {
     public stats = { ...defaultSongStats };
 
     /**
-     * Tempo (ticks per second) of the song.
+     * Tempo of the song.
+     *
+     * @remarks
+     * Unit: TPS (Ticks Per Second)
      */
     public tempo = 10;
 
     /**
      * Time signature of the song.
      *
+     * @remarks
      * If this is 3, then the signature is 3/4. This value ranges from 2-8.
      */
     public timeSignature = 4;
@@ -269,6 +317,7 @@ export class Song {
     /**
      * Amount of milliseconds each tick takes.
      *
+     * @remarks
      * Getter; updates every reference.
      */
     public get timePerTick(): number {
@@ -297,6 +346,7 @@ export class Song {
     /**
      * Errors occurred while loading, manipulating, or saving the nbs file.
      *
+     * @remarks
      * Returns an empty array if no errors occurred.
      */
     public errors: string[] = [];
@@ -336,7 +386,7 @@ export class Song {
      * Create and add a new blank layer to the song.
      */
     public createLayer(): Layer {
-        const layer = new (getLayerClass())(this.layers.length + 1);
+        const layer = new Layer(this.layers.length + 1);
         this.layers.push(layer);
         return layer;
     }

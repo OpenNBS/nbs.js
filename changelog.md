@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# 4.0.0
+### Fixed
+- Incorrect `nbsVersion` for songs using v0, causing read errors.
+- Incorrect `Instrument`s incorrectly being read.
+
+### Changed
+- Renamed `pitch` to `key` in `InstrumentOptions`.
+- Renamed `pitch` to `key` in `defaultInstrumentOptions`.
+- Renamed `pitch` to `key` in `Instrument`.
+- Improved and updated docs.
+- Updated all devDependencies.
+- Removed NPM dependency.
+- Cleaned up eslint config.
+- Cleaned up tsconfig.
+
+### Removed
+- The various class getters/setters from `util`.
+  - This never worked properly. A better solution for modifying these classes would be to write a wrapper.
+    - `getLayerClass`
+    - `getNoteClass`
+    - `getInstrumentClass`
+    - `setLayerClass`
+    - `setNoteClass`
+    - `setInstrumentClass`
+- Tuottaa dependency and index page.
+  - Replacement is being worked on.
+
 # 3.0.0
 ### Added
 - `fromArrayBuffer` now supports trimming empty leading layers.

@@ -93,7 +93,7 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 
                     if (song.nbsVersion >= 4) {
                         writer.writeByte(note.velocity); // Write velocity of note
-                        writer.writeUnsignedByte((note.panning ? note.panning : 0) + 100); // Write panning of note
+                        writer.writeUnsignedByte((note.panning ?? 0) + 100); // Write panning of note
                         writer.writeShort(note.pitch); // Write pitch of note
                     }
                 }
@@ -136,7 +136,7 @@ function write(song: Song, size: number, dry = false): BufferWriter {
             if (!instrument.builtIn) {
                 writer.writeString(instrument.meta.name); // Write instrument name
                 writer.writeString(instrument.meta.soundFile); // Write instrument filename
-                writer.writeByte(instrument.pitch); // Write instrument key
+                writer.writeByte(instrument.key); // Write instrument key
                 writer.writeByte(+(instrument.pressKey ?? 0)); // Write press key status
             }
         }

@@ -8,14 +8,20 @@ export interface InstrumentOptions {
     "name"?: string,
 
     /**
-     * The sound file of the instrument (just the file name, not the path).
+     * The sound file of the instrument
+     *
+     * @remarks
+     * Just the file name, not the path).
      */
     "soundFile"?: string,
 
     /**
-     * The pitch of the sound file. Just like the note blocks, this ranges from 0-87.
+     * The key of the sound file.
+     *
+     * @remarks
+     * Just like the note blocks, this ranges from 0-87.
      */
-    "pitch"?: number,
+    "key"?: number,
 
     /**
      * Whether the piano should automatically press keys with this instrument when the marker passes them.
@@ -38,7 +44,10 @@ export interface InstrumentMeta {
     name: string | undefined,
 
     /**
-     * The sound file of the instrument (just the file name, not the path).
+     * The sound file of the instrument.
+     *
+     * @remarks
+     * Just the file name, not the path.
      */
     soundFile: string | undefined
 }
@@ -49,7 +58,7 @@ export interface InstrumentMeta {
 export const defaultInstrumentOptions: InstrumentOptions = {
     "name": "",
     "soundFile": "",
-    "pitch": 45,
+    "key": 45,
     "pressKey": false,
     "builtIn": false
 };
@@ -69,6 +78,7 @@ export class Instrument {
     /**
      * The built-in instruments.
      *
+     * @remarks
      * Includes harp, double bass, bass drum, snare drum, click, guitar, flute, bell, chime, xylophone, iron xylophone, cow bell, didgeridoo, bit, banjo, and pling.
      */
     public static builtIn = [
@@ -205,6 +215,7 @@ export class Instrument {
     /**
      * ID of the instrument.
      *
+     * @remarks
      * Used internally for built-in instruments.
      */
     public id: number;
@@ -217,9 +228,12 @@ export class Instrument {
     public meta = { ...defaultInstrumentMeta };
 
     /**
-     * The pitch of the sound file. Just like the note blocks, this ranges from 0-87.
+     * The key of the sound file.
+     *
+     * @remarks
+     * Just like the note blocks, this ranges from 0-87.
      */
-    public pitch = defaultInstrumentOptions.pitch;
+    public key = defaultInstrumentOptions.key;
 
     /**
      * Whether the piano should automatically press keys with this instrument when the marker passes them.
@@ -233,6 +247,7 @@ export class Instrument {
 
     /**
      * Construct an instrument.
+     *
      * @param id ID of the instrument in the song's instrument array
      * @param options Options for the instrument
      */
@@ -244,7 +259,7 @@ export class Instrument {
             this.meta.name = options.name ?? defaultInstrumentOptions.name;
             this.meta.soundFile = options.soundFile ?? defaultInstrumentOptions.soundFile;
             this.pressKey = options.pressKey ?? defaultInstrumentOptions.pressKey;
-            this.pitch = options.pitch ?? defaultInstrumentOptions.pitch;
+            this.key = options.key ?? defaultInstrumentOptions.key;
             this.builtIn = options.builtIn ?? defaultInstrumentOptions.builtIn;
         }
     }

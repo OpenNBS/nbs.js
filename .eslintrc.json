@@ -22,9 +22,8 @@
         "plugin:sonarjs/recommended",
         "plugin:unicorn/recommended",
         "plugin:promise/recommended",
-        "plugin:jest/recommended",
         "plugin:import/recommended",
-        "plugin:ava/recommended"
+        "plugin:jest/recommended"
     ],
     "rules": {
         "arrow-parens": ["error", "as-needed"],
@@ -36,7 +35,11 @@
         "eqeqeq": "warn",
         "func-call-spacing": ["error", "never"],
         "handle-callback-err": "off",
-        "indent": ["error", 4, { "SwitchCase": 1, "MemberExpression": "off", "flatTernaryExpressions": true }],
+        "indent": ["error", 4, {
+            "SwitchCase": 1,
+            "MemberExpression": "off",
+            "flatTernaryExpressions": true
+        }],
         "key-spacing": "off",
         "multiline-ternary": "off",
         "no-case-declarations": "off",
@@ -52,18 +55,27 @@
         "no-unused-vars": "off",
         "one-var": "off",
         "quote-props": ["error", "consistent"],
-        "quotes": ["error", "double", { "allowTemplateLiterals": true }],
+        "quotes": ["error", "double", {
+            "allowTemplateLiterals": true
+        }],
         "security/detect-non-literal-fs-filename": "off",
         "security/detect-non-literal-regexp": "off",
         "security/detect-non-literal-require": "off",
         "security/detect-object-injection": "off",
         "security/detect-unsafe-regex": "off",
-        "semi-spacing": ["error", { "before": false, "after": true }],
+        "semi-spacing": ["error", {
+            "before": false,
+            "after": true
+        }],
         "semi-style": ["error", "last"],
-        "semi": ["error", "always", { "omitLastInOneLineBlock": true }],
+        "semi": ["error", "always", {
+            "omitLastInOneLineBlock": true
+        }],
+        "space-before-function-paren": ["off"],
+        "import/named": "off",
+        "import/no-unresolved": "off",
         "sonarjs/cognitive-complexity": "off",
         "sonarjs/no-duplicate-string": ["error", 5],
-        "space-before-function-paren": ["off"],
         "unicorn/catch-error-name": "off",
         "unicorn/filename-case": "off",
         "unicorn/no-array-for-each": "off",
@@ -71,7 +83,6 @@
         "unicorn/no-null": "off",
         "unicorn/no-process-exit": "off",
         "unicorn/numeric-separators-style": "off",
-        "unicorn/prefer-code-point": "off",
         "unicorn/prefer-node-protocol": "off",
         "unicorn/prefer-number-properties": "off",
         "unicorn/prefer-query-selector": "off",
@@ -92,11 +103,5 @@
             }
         }
     },
-    "ignorePatterns": [
-        "!.*",
-        "!node_modules/*",
-        "*.json",
-        "/build",
-        "/dist"
-    ]
+    "ignorePatterns": ["!.*", "!node_modules/*", "*.json"]
 }

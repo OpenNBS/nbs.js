@@ -1,12 +1,3 @@
-import { Instrument } from "./nbs/instrument/Instrument";
-import { Layer } from "./nbs/Layer";
-import { Note } from "./nbs/Note";
-import { setInstrumentClass, setLayerClass, setNoteClass } from "./util/util";
-
-setInstrumentClass(Instrument);
-setLayerClass(Layer);
-setNoteClass(Note);
-
 export * from "./nbs/Song";
 export * from "./nbs/Layer";
 export * from "./nbs/Note";

@@ -1,5 +1,6 @@
-import { BufferReader, getInstrumentClass } from "../../util/util";
+import { BufferReader } from "../../util/util";
 import { Song } from "../Song";
+import { Instrument } from "../instrument/Instrument";
 
 /**
  * Raw structure of a note.
@@ -48,10 +49,11 @@ export interface FromArrayBufferOptions {
     /**
      * Whether to ignore (delete) unpopulated leading layers.
      *
+     * @remarks
      * ONBS automatically generates extra layers past the last populated layer.
      */
     "ignoreEmptyLayers"?: boolean
-};
+}
 
 /**
  * Default options for fromArrayBuffer.
@@ -84,6 +86,8 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
             if (song.nbsVersion >= 3) {
                 size = reader.readShort(); // Read real song size
             }
+        } else {
+            song.nbsVersion = 0;
         }
 
         const totalLayers = reader.readShort(); // Read total amount of layers
@@ -197,12 +201,11 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
         const customInstruments = reader.readByte(); // Read number of custom instruments
         for (let i = 0; i < customInstruments; i++) {
             song.instruments.loaded.push(
-                new (getInstrumentClass())(
-                    reader.readString(), // Read instrument name
-                    song.instruments.loaded.length,
+                new Instrument(
+                    Number.parseInt(reader.readString()), // Read instrument name
                     {
-                        "audioSrc": reader.readString(), // Read instrument file
-                        "key": reader.readByte(), // Read instrument key
+                        "soundFile": reader.readString(), // Read instrument file
+                        "key": reader.readByte(), // Read instrument pitch
                         "pressKey": Boolean(reader.readByte()) // Read press key status
                     }
                 )

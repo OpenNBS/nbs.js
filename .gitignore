@@ -6,6 +6,4 @@
 /build/
 
 # Built website files
-/.github/tuottaa/Tuottaa/
-/.github/tuottaa/private/docs/
-/.github/tuottaa/private/demo/src/NBS.js
+/public
