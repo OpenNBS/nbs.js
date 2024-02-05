@@ -202,8 +202,9 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
         for (let i = 0; i < customInstruments; i++) {
             song.instruments.loaded.push(
                 new Instrument(
-                    Number.parseInt(reader.readString()), // Read instrument name
+                    song.instruments.firstCustomIndex + i,
                     {
+                        "name": reader.readString(), // Read instrument name
                         "soundFile": reader.readString(), // Read instrument file
                         "key": reader.readByte(), // Read instrument pitch
                         "pressKey": Boolean(reader.readByte()) // Read press key status
