@@ -21,32 +21,29 @@ const outDir = "dist";
  * @return {Object}
  */
 function getBase(type, toMinify = false) {
-    return {
-        "input": "src/index.ts",
-        "output": {
-            "file": `${outDir}/${type}${toMinify ? ".min" : ""}.js`,
-            "name": type === "umd" ? "NBSjs" : undefined,
-            "format": type
-        },
-        "plugins": [
-            commonjs(),
-            nodeExternals(),
-            nodeResolve({
-                "extensions": [
-                    ".ts",
-                    ".js"
-                ]
-            }),
-            esbuild({
-                "minify": toMinify,
-                "sourceMap": false,
-                "tsconfig": path.resolve(process.cwd(), "tsconfig.json")
-            }),
-            json({
-                "compact": toMinify
-            })
-        ]
-    };
+	return {
+		"input": "src/index.ts",
+		"output": {
+			"file": `${outDir}/${type}${toMinify ? ".min" : ""}.js`,
+			"name": type === "umd" ? "NBSjs" : undefined,
+			"format": type
+		},
+		"plugins": [
+			commonjs(),
+			nodeExternals(),
+			nodeResolve({
+				"extensions": [".ts", ".js"]
+			}),
+			esbuild({
+				"minify": toMinify,
+				"sourceMap": false,
+				"tsconfig": path.resolve(process.cwd(), "tsconfig.json")
+			}),
+			json({
+				"compact": toMinify
+			})
+		]
+	};
 }
 
 /**
@@ -56,26 +53,23 @@ function getBase(type, toMinify = false) {
  * @return {Object[]}
  */
 function getConfig(...types) {
-    const configs = [{
-        "input": "build/index.d.ts",
-        "output": {
-            "file": `${outDir}/index.d.ts`,
-            "format": "es"
-        },
-        "plugins": [
-            dts()
-        ]
-    }];
+	const configs = [
+		{
+			"input": "build/index.d.ts",
+			"output": {
+				"file": `${outDir}/index.d.ts`,
+				"format": "es"
+			},
+			"plugins": [dts()]
+		}
+	];
 
-    // Generate config for each type
-    for (const type of types) {
-        configs.push(
-            getBase(type),
-            getBase(type, true)
-        );
-    }
+	// Generate config for each type
+	for (const type of types) {
+		configs.push(getBase(type), getBase(type, true));
+	}
 
-    return configs;
+	return configs;
 }
 
 export default getConfig("cjs", "esm", "umd");

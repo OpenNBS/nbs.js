@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# 4.0.2
+### Fixed
+- [`#9`](https://github.com/encode42/NBS.js/pull/9): Fix custom instruments getting empty name and ID.
+
+### Changed
+- Meta repository restructuring, developer dependency updates, etc.
+
 # 4.0.1
 ### Fixed
 - Incorrect default panning for older NBS file formats.
