@@ -1,7 +1,7 @@
 {
 	"name": "@encode42/nbs.js",
 	"description": "A versatile API for reading and writing OpenNBS files.",
-	"version": "4.0.2",
+	"version": "4.0.3",
 	"author": {
 		"name": "encode42",
 		"email": "me@encode42.dev",
@@ -17,14 +17,7 @@
 	},
 	"homepage": "https://encode42.github.io/NBS.js/",
 	"license": "MIT",
-	"keywords": [
-		"api",
-		"minecraft",
-		"nbs",
-		"noteblock",
-		"onbs"
-	],
-	"type": "module",
+	"keywords": ["api", "minecraft", "nbs", "noteblock", "onbs"],
 	"main": "dist/cjs.js",
 	"module": "dist/esm.js",
 	"browser": "dist/umd.js",
@@ -37,10 +30,7 @@
 		"build:publish": "pnpm run build && pnpm publish",
 		"docs": "typedoc"
 	},
-	"files": [
-		"dist",
-		"changelog.md"
-	],
+	"files": ["dist", "changelog.md"],
 	"engines": {
 		"node": ">=18",
 		"pnpm": ">=8"
