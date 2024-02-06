@@ -221,40 +221,39 @@ export const defaultSongStats: SongStats = {
  *
  * @example
  * ```js
- * const fs = require("fs");
+ * const { writeFileSync } = require("node:fs");
  * const { Song, Note, Instrument } = require("@encode42/nbs.js");
  *
- * // Create a new song
+ * // Creating the song
  * const song = new Song();
  * song.meta.name = "Triumph";
- * song.meta.author = "Encode42";
+ * song.meta.author = "encode42";
  * song.tempo = 20;
  *
- * // Create 3 layers for 3 instruments
+ * // The following will add 3 layers for 3 instruments, each containing five notes
  * for (let layerCount = 0; layerCount < 3; layerCount++) {
- *     const instrument = Instrument.builtIn[layerCount];
+ * 	const instrument = Instrument.builtIn[layerCount];
  *
- *     // Create a layer for the instrument
- *     const layer = song.createLayer();
- *     layer.meta.name = instrument.meta.name;
+ * 	// Create a layer for the instrument
+ * 	const layer = song.createLayer();
+ * 	layer.meta.name = instrument.meta.name;
  *
- *     // Notes that will be placed
- *     const notes = [
- *         new Note(instrument, { "key": 40 }),
- *         new Note(instrument, { "key": 45 }),
- *         new Note(instrument, { "key": 50 }),
- *         new Note(instrument, { "key": 45 }),
- *         new Note(instrument, { "key": 57 })
- *     ];
+ * 	const notes = [
+ * 		new Note(instrument, { "key": 40 }),
+ * 		new Note(instrument, { "key": 45 }),
+ * 		new Note(instrument, { "key": 50 }),
+ * 		new Note(instrument, { "key": 45 }),
+ * 		new Note(instrument, { "key": 57 })
+ * 	];
  *
- *     // Place the notes
- *     for (let i = 0; i < notes.length; i++) {
- *         song.setNote(i * 4, layer, notes[i]);
- *     }
+ * 	// Place the notes
+ * 	for (let i = 0; i < notes.length; i++) {
+ * 		song.setNote(i * 4, layer, notes[i]); // "i * 4" is placeholder - this is the tick to place on
+ * 	}
  * }
  *
- * // Write the song
- * fs.writeFileSync("song.nbs", Buffer.from(song.toArrayBuffer()));
+ * // Write the song to a file
+ * writeFileSync("song.nbs", Buffer.from(song.toArrayBuffer()));
  * ```
  */
 export class Song {

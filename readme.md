@@ -7,7 +7,7 @@
 [Demo]: https://encode42.github.io/NBS.js/demo/
 [Demo Badge]: https://img.shields.io/badge/Demo-202b38?labelColor=202b38&logo=html5&logoColor=white&style=flat-square
 [Actions]: https://github.com/encode42/NBS.js/actions/workflows/build.yml
-[Actions Badge]: https://img.shields.io/github/workflow/status/encode42/NBS.js/Build?style=flat-square
+[Actions Badge]: https://img.shields.io/github/actions/workflow/status/encode42/NBS.js/build.yml?style=flat-square
 [Support]: https://encode42.dev/support
 [Support Badge]: https://img.shields.io/discord/646517284453613578?color=7289da&labelColor=7289da&label=​&logo=discord&logoColor=white&style=flat-square
 [Codacy]: https://app.codacy.com/gh/encode42/NBS.js/dashboard
@@ -54,6 +54,11 @@ NPM
 npm i @encode42/nbs.js
 ```
 
+PNPM
+```sh
+pnpm i @encode42/nbs.js
+```
+
 Yarn
 ```sh
 yarn add @encode42/nbs.js
@@ -80,20 +85,17 @@ Browser (Script)
 <script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js"></script> <!-- Import NBS.js -->
 <script>
 window.addEventListener("load", () => {
-  const input = document.getElementById("file-input");
+	const input = document.getElementById("file-input");
 
-  // Clear the file input (QOL)
-  input.value = null;
+	// Initialize file input
+	input.addEventListener("change", () => {
+		const songFile = input.files[0]; // Read the selected NBS file
+		songFile.arrayBuffer().then(buffer => { // Convert it into an ArrayBuffer
+			const song = NBSjs.fromArrayBuffer(buffer); // Parse the buffer
 
-  // Initialize file input
-  input.addEventListener("change", () => {
-    const songFile = input.files[0]; // Read a NBS file
-    songFile.arrayBuffer().then(buffer => { // Create an ArrayBuffer
-      const song = NBSjs.fromArrayBuffer(buffer); // Parse song from ArrayBuffer
-
-      console.log(song);
-    });
-  });
+			console.dir(song);
+		});
+	});
 });
 </script>
 ```
@@ -116,20 +118,17 @@ index.js
 import { fromArrayBuffer } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js"
 
 window.addEventListener("load", () => {
-  const input = document.getElementById("file-input");
+	const input = document.getElementById("file-input");
 
-  // Clear the file input (QOL)
-  input.value = null;
-    
-  // Initialize file input
-  input.addEventListener("change", () => {
-    const songFile = input.files[0]; // Read a NBS file
-    songFile.arrayBuffer().then(buffer => { // Create an ArrayBuffer
-      const song = fromArrayBuffer(buffer); // Parse song from ArrayBuffer
+	// Initialize file input
+	input.addEventListener("change", () => {
+		const songFile = input.files[0]; // Read the selected NBS file
+		songFile.arrayBuffer().then(buffer => { // Convert it into an ArrayBuffer
+			const song = fromArrayBuffer(buffer); // Parse the buffer
 
-      console.log(song);
-    });
-  });
+			console.dir(song);
+		});
+	});
 });
 ```
 </details>
@@ -142,11 +141,11 @@ Deno
 ```js
 import { fromArrayBuffer } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js";
 
-const songFile = await Deno.readFile("song.nbs"); // Read a NBS file
-const buffer = new Uint8Array(songFile).buffer; // Create an ArrayBuffer
-const song = fromArrayBuffer(buffer); // Parse song from ArrayBuffer
+const songFile = await Deno.readFile("song.nbs"); // Read the selected NBS file
+const buffer = new Uint8Array(songFile).buffer; // Convert it into an ArrayBuffer
+const song = fromArrayBuffer(buffer); // Parse the buffer
 
-console.log(song);
+console.dir(song);
 ```
 </details>
 
@@ -156,14 +155,14 @@ Node.js
 </summary>
 
 ```js
-const fs = require("fs");
-const { fromArrayBuffer } = require("@encode42/nbs.js"); // Import NBS.js
+const { readFileSync } = require("node:fs");
+const { fromArrayBuffer } = require("@encode42/nbs.js");
 
-const songFile = fs.readFileSync("song.nbs"); // Read a NBS file
-const buffer = new Uint8Array(songFile).buffer; // Create an ArrayBuffer
-const song = fromArrayBuffer(buffer); // Parse song from ArrayBuffer
+const songFile = readFileSync("song.nbs"); // Read the selected NBS file
+const buffer = new Uint8Array(songFile).buffer; // Convert it into an ArrayBuffer
+const song = fromArrayBuffer(buffer); // Parse the buffer
 
-console.log(song);
+console.dir(song);
 ```
 
 [![NPM Badge]][NPM]

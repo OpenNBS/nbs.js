@@ -14,6 +14,7 @@
 		"listFiles": true
 	},
 	"typedocOptions": {
+		"plugin": ["typedoc-material-theme", "typedoc-plugin-mdn-links"],
 		"entryPoints": ["src/index.ts"],
 		"out": "public/docs",
 		"githubPages": true,
@@ -23,6 +24,7 @@
 		"readme": "none",
 		"name": "NBS.js",
 		"includeVersion": true,
+		"themeColor": "#c6a0f6",
 		"sort": ["static-first", "visibility"]
 	},
 	"include": ["**/*.ts"],

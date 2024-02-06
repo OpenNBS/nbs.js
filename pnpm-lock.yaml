@@ -47,6 +47,12 @@ devDependencies:
   typedoc:
     specifier: ^0.25.7
     version: 0.25.7(typescript@5.3.3)
+  typedoc-material-theme:
+    specifier: ^1.0.2
+    version: 1.0.2(typedoc@0.25.7)
+  typedoc-plugin-mdn-links:
+    specifier: ^3.1.15
+    version: 3.1.15(typedoc@0.25.7)
   typescript:
     specifier: ^5.3.3
     version: 5.3.3
@@ -944,6 +950,10 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
+    dev: true
+
+  /@material/material-color-utilities@0.2.7:
+    resolution: {integrity: sha512-0FCeqG6WvK4/Cc06F/xXMd/pv4FeisI0c1tUpBbfhA2n9Y8eZEv4Karjbmf2ZqQCPUWMrGp8A571tCjizxoTiQ==}
     dev: true
 
   /@rollup/plugin-commonjs@25.0.7(rollup@4.9.6):
@@ -2928,6 +2938,24 @@ packages:
   /type-fest@0.21.3:
     resolution: {integrity: sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==}
     engines: {node: '>=10'}
+    dev: true
+
+  /typedoc-material-theme@1.0.2(typedoc@0.25.7):
+    resolution: {integrity: sha512-/nH/twYeHrnz5sZaaXzYJ85EOgKqnbl1ivzBKmuEAga1dBsARttwQUTPKAT7XrCPD+rRcoqxuCOdXZ6EGiqRQA==}
+    engines: {node: '>=18.0.0', npm: '>=8.6.0'}
+    peerDependencies:
+      typedoc: ^0.25.3
+    dependencies:
+      '@material/material-color-utilities': 0.2.7
+      typedoc: 0.25.7(typescript@5.3.3)
+    dev: true
+
+  /typedoc-plugin-mdn-links@3.1.15(typedoc@0.25.7):
+    resolution: {integrity: sha512-PniQgrCAmhbJf8fPiZULxPV9aYVszNoEk1R7XbTBIMluqplaUkG3qfckthb2l++5yDR1lHEycTMu6hQyKyz+QA==}
+    peerDependencies:
+      typedoc: '>= 0.23.14 || 0.24.x || 0.25.x'
+    dependencies:
+      typedoc: 0.25.7(typescript@5.3.3)
     dev: true
 
   /typedoc@0.25.7(typescript@5.3.3):

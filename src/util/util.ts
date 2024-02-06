@@ -170,7 +170,6 @@ export class BufferWriter extends Buffer {
 	public writeString(val: string | undefined = ""): void {
 		this.writeInt(val.length);
 		for (const i of val) {
-			// eslint-disable-next-line unicorn/prefer-code-point
 			this.writeUnsignedByte(i.charCodeAt(0));
 		}
 	}
