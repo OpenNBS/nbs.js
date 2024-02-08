@@ -2,13 +2,40 @@ import { BufferWriter } from "../../util/util";
 import { Song } from "../Song";
 
 /**
+ * Options for {@linkcode toArrayBuffer}.
+ */
+export interface ToArrayBufferOptions {
+	/**
+	 * Whether to ignore unpopulated leading layers.
+	 */
+	"ignoreEmptyLayers"?: boolean;
+}
+
+/**
+ * Default options for {@linkcode toArrayBuffer}.
+ */
+export const defaultToArrayBufferOptions: ToArrayBufferOptions = {
+	"ignoreEmptyLayers": false
+};
+
+/**
  * Generate and return an ArrayBuffer from a song.
  *
  * @param song Song to parse from
  * @return Generated ArrayBuffer
  * Returns an empty ArrayBuffer if an error occurred
  */
-export function toArrayBuffer(song: Song): ArrayBuffer {
+export function toArrayBuffer(song: Song, options: ToArrayBufferOptions = defaultToArrayBufferOptions): ArrayBuffer {
+	if (options.ignoreEmptyLayers) {
+		for (const layer of song.layers) {
+			if (Object.keys(layer.notes).length > 0) {
+				continue;
+			}
+
+			song.deleteLayer(layer);
+		}
+	}
+
 	// Dry run to get target size
 	const size = write(song, 0, true).nextByte;
 
