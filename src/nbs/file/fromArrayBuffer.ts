@@ -226,7 +226,7 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 
 			let lastPopulatedLayer = 0;
 			for (let i = 0; i < totalLayers; i++) {
-				if (song.layers[i].notes.length > 0) {
+				if (Object.keys(song.layers[i].notes).length > 0) {
 					lastPopulatedLayer = i + 1;
 				}
 			}

@@ -12,6 +12,45 @@ export interface LayerMeta {
 }
 
 /**
+ * The notes contained within the layer.
+ *
+ * @remarks
+ * Designed similarly to an array, indexed by tick number.
+ *
+ * @example
+ * ```js
+ * // To access the song's first note,
+ * layer.notes[0];
+ *
+ * // To count the number of notes
+ * Object.keys(layer.notes).length;
+ *
+ * // Practical example: reading every note in a song
+ * for (const tick in song.length) { // Iterate through every tick in the song
+ * 	for (const layer in song.layers) { // On each tick, iterate every layer
+ * 		const note = layer.notes[ticks]; // Read the layer's notes at the current tick
+ *
+ * 		// Not all ticks contain notes!
+ * 		// If the layer does not contain a note at the current tick, it'll simply be undefined
+ * 		if (!note) {
+ * 			continue;
+ * 		}
+ *
+ * 		console.dir(note);
+ * 	}
+ * }
+ * ```
+ */
+export interface LayerNotes {
+	/**
+	 * Each tick-note pair.
+	 *
+	 * @see {@linkcode Note}
+	 */
+	[tick: number]: Note;
+}
+
+/**
  * Default {@linkcode LayerMeta} values.
  */
 export const defaultLayerMeta: LayerMeta = {
@@ -62,8 +101,10 @@ export class Layer {
 
 	/**
 	 * Notes within the layer.
+	 *
+	 * @see {@linkcode LayerNotes}
 	 */
-	public notes: Note[] = [];
+	public notes: LayerNotes = {};
 
 	/**
 	 * Construct a layer.
