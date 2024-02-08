@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# 5.0.0
+### Fixed
+- Consistency between existing files and exported songs has been improved.
+  * This means that importing and immediately exporting a song will yield identical buffers.
+- The song no longer expands one tick too far.
+
+### Changed
+- `Layer#notes` has been changed from an array to an object.
+  * The object has been designed similarly to an array to ensure parity with existing code.
+  * Applications that access notes using a [property accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) should continue to function normally.
+  * Applications that iterate `Layer#notes` using a for loop require changes. For example:
+  ```ts
+  for (const note of layer.notes)
+  ```
+  Is translated to
+  ```ts
+  for (const note of Object.values(layer.notes))
+  ```
+
+### Added
+- `toArrayBuffer` now has an `options` parameter accepting `ignoreEmptyLayers` as a boolean.
+- The `Song#addLayer` function to add existing `Layer` objects to the song.
+- The `Layer#inSong` boolean used to show a warning when `Layer#setNote` or `Layer#addNote` are called within a song.
+- The `defaultToArrayBufferOptions` object.
+- The `ToArrayBufferOptions` interface.
+- The `LayerNotes` interface.
+- More tests to ensure consistency and accuracy.
+
 # 4.0.3
 ### Fixed
 - No longer marks itself as a module.
