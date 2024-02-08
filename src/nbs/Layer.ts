@@ -67,6 +67,11 @@ export class Layer {
 	public id: number;
 
 	/**
+	 * Whether the layer is stored within a song.
+	 */
+	public inSong = false;
+
+	/**
 	 * Meta information for the layer.
 	 *
 	 * @see {@linkcode LayerMeta}
@@ -120,9 +125,20 @@ export class Layer {
 	 *
 	 * @param tick Tick to set the note on
 	 * @param note Note to set on tick
+	 * @param fromSong Internal specifier, do not set!
+	 *
+	 * @remarks
+	 * **Only use this method when creating new Layer objects!**
+	 *
+	 * If the layer is part of a song (e.g. `song.layers[0].setNote(...)`), use the {@link Song#setNote | song's `setNote`} method!
 	 */
-	public setNote(tick: number, note: Note): Note {
+	public setNote(tick: number, note: Note, fromSong?: true): Note {
 		this.notes[tick] = note;
+
+		if (!fromSong && this.inSong) {
+			console.warn("A note has been modified within a song's layers! Please refer to the documentation for proper usage.");
+		}
+
 		return note;
 	}
 
@@ -132,10 +148,18 @@ export class Layer {
 	 * @param tick Tick to set the note
 	 * @param instrument The note's instrument
 	 * @param options Options for the note
+	 * @param fromSong Internal specifier, do not set!
+	 *
+	 * @remarks
+	 * **Only use this method when creating new Layer objects!**
+	 *
+	 * If the layer is part of a song (e.g. `song.layers[0].addNote(...)`), use the {@link Song#addNote | song's `addNote`} method!
+	 * {@linkcode Song#addNote} ensures that properties within the {@linkcode Song}, notably {@linkcode Song#length}, are also updated.
 	 */
-	public addNote(tick: number, instrument: Instrument | number = 0, options: NoteOptions = defaultNoteOptions): Note {
+	public addNote(tick: number, instrument: Instrument | number = 0, options: NoteOptions = defaultNoteOptions, fromSong?: true): Note {
 		const note = new Note(instrument, options);
-		return this.setNote(tick, note);
+
+		return this.setNote(tick, note, fromSong);
 	}
 
 	/**

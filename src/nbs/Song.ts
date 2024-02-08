@@ -391,6 +391,34 @@ export class Song {
 	}
 
 	/**
+	 * Add an existing {@linkcode Layer} to the song.
+	 */
+	public addLayer(layer: Layer): void {
+		layer.inSong = true;
+
+		for (const tick of Object.keys(layer.notes)) {
+			this.expand(tick as unknown as number);
+		}
+
+		this.layers[layer.id - 1] = layer;
+	}
+
+	/**
+	 * Delete a {@linkcode Layer} from the song.
+	 *
+	 * @param layer Layer to delete.
+	 */
+	public deleteLayer(layer: Layer): void {
+		const layerIndex = this.layers.indexOf(layer);
+
+		if (layerIndex !== -1) {
+			this.layers[layerIndex].inSong = false;
+		}
+
+		this.layers.splice(layerIndex, 1);
+	}
+
+	/**
 	 * Set the note at a tick.
 	 *
 	 * @param tick Tick to set the note
@@ -400,7 +428,7 @@ export class Song {
 	public setNote(tick: number, layer: Layer, note: Note): void {
 		this.expand(tick);
 
-		layer.setNote(tick, note);
+		layer.setNote(tick, note, true);
 	}
 
 	/**
@@ -414,17 +442,7 @@ export class Song {
 	public addNote(layer: Layer, tick: number, instrument: Instrument | number = 0, options: NoteOptions = defaultNoteOptions): Note {
 		this.expand(tick);
 
-		// Construct the note
-		return layer.addNote(tick, instrument, options);
-	}
-
-	/**
-	 * Delete a {@linkcode Layer} from the song.
-	 *
-	 * @param layer Layer to delete.
-	 */
-	public deleteLayer(layer: Layer): void {
-		this.layers.splice(this.layers.indexOf(layer), 1);
+		return layer.addNote(tick, instrument, options, true);
 	}
 
 	/**

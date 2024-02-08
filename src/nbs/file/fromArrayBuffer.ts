@@ -170,6 +170,7 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 		if (arrayBuffer.byteLength > reader.nextByte) {
 			for (let i = 0; i < totalLayers; i++) {
 				const layer = song.createLayer();
+				layer.inSong = true;
 				layer.meta.name = reader.readString(); // Read layer name
 
 				if (song.nbsVersion >= 4) {
