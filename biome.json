@@ -22,7 +22,7 @@
 		"formatter": {
 			"quoteProperties": "preserve",
 			"trailingComma": "none",
-			"lineWidth": 120,
+			"lineWidth": 192,
 			"indentStyle": "tab"
 		}
 	}

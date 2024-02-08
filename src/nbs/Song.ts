@@ -411,12 +411,7 @@ export class Song {
 	 * @param instrument The note's instrument
 	 * @param options Options for the note
 	 */
-	public addNote(
-		layer: Layer,
-		tick: number,
-		instrument: Instrument | number = 0,
-		options: NoteOptions = defaultNoteOptions
-	): Note {
+	public addNote(layer: Layer, tick: number, instrument: Instrument | number = 0, options: NoteOptions = defaultNoteOptions): Note {
 		this.expand(tick);
 
 		// Construct the note
