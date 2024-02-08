@@ -1,44 +1,18 @@
 import { readFile } from "node:fs/promises";
 import { fromArrayBuffer } from "../../src";
 
-/**
- * Options for the test results.
- */
 interface TestOptions {
-	/**
-	 * The version of the song.
-	 */
 	"version": number;
-
-	/**
-	 * The length of the song.
-	 */
 	"length": number;
-
-	/**
-	 * The amount of instruments in the song.
-	 */
 	"instruments": number;
-
-	/**
-	 * The amount of layers in the song.
-	 */
 	"layers": number;
-
-	/**
-	 * The tempo of the song.
-	 */
 	"tempo": number;
-
-	/**
-	 * The last measure of the song.
-	 */
 	"lastMeasure": number | undefined;
 }
 
-test("Read song from file", async () => {
-	const songFile = await readFile("tests/sample/test.nbs");
-	const buffer = new Uint8Array(songFile).buffer;
+test("Read song from file, compare metadata", async () => {
+	const file = await readFile("tests/sample/simple.nbs");
+	const buffer = new Uint8Array(file).buffer;
 	const song = fromArrayBuffer(buffer, {
 		"ignoreEmptyLayers": true
 	});
@@ -54,11 +28,11 @@ test("Read song from file", async () => {
 
 	const target: TestOptions = {
 		"version": 5,
-		"length": 12,
+		"length": 62,
 		"instruments": 16,
-		"layers": 5,
-		"tempo": 7.5,
-		"lastMeasure": 12
+		"layers": 4,
+		"tempo": 10,
+		"lastMeasure": 64
 	};
 
 	expect(input).toStrictEqual(target);
