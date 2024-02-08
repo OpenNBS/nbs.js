@@ -28,8 +28,11 @@
 ### 🔧 Including
 🌐 **Browser**
 
-> It's recommended to use a versioned link, e.g. `@encode42/nbs.js@3.0.0`  
-> ⚠️ 3.0.0 is not the latest version of NBS.js! This is just an example.
+> [!TIP]
+> It's recommended to use a versioned link, e.g. `@encode42/nbs.js@3.0.0`.
+
+> [!WARNING]  
+> 3.0.0 is not the latest version of NBS.js! The above is just an example.
 
 Script
 ```html
