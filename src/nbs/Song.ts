@@ -382,7 +382,7 @@ export class Song {
 	}
 
 	/**
-	 * Create and add a new blank layer to the song.
+	 * Create and add a new blank {@linkcode Layer} to the song.
 	 */
 	public createLayer(): Layer {
 		const layer = new Layer(this.layers.length + 1);
@@ -419,7 +419,7 @@ export class Song {
 	}
 
 	/**
-	 * Delete a layer from the song.
+	 * Delete a {@linkcode Layer} from the song.
 	 *
 	 * @param layer Layer to delete.
 	 */

@@ -56,7 +56,7 @@ export class Layer {
 	 * How much this layer is panned to the left or right.
 	 *
 	 * @remarks
-	 * 0 is 2 blocks right, 100 is center, 200 is 2 blocks left.
+	 * -100 is 2 blocks right, 0 is center, 100 is 2 blocks left.
 	 */
 	public stereo = 0;
 

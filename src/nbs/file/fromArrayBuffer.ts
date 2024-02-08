@@ -43,7 +43,7 @@ interface RawNote {
 }
 
 /**
- * Options for fromArrayBuffer.
+ * Options for {@linkcode fromArrayBuffer}.
  */
 export interface FromArrayBufferOptions {
 	/**
@@ -56,7 +56,7 @@ export interface FromArrayBufferOptions {
 }
 
 /**
- * Default options for fromArrayBuffer.
+ * Default options for {@linkcode fromArrayBuffer}.
  */
 export const defaultFromArrayBufferOptions: FromArrayBufferOptions = {
 	"ignoreEmptyLayers": false
@@ -217,16 +217,13 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 				song.createLayer();
 			}
 
-			// Add note to layer
 			const layer = song.layers[rawNote.layer];
 			song.addNote(layer, rawNote.tick, rawNote.instrument, rawNote);
 		}
 
-		// Remove unpopulated layers
-		// TODO: Move this to Song?
 		if (options.ignoreEmptyLayers) {
-			// Find the last populated layer
 			const totalLayers = song.layers.length;
+
 			let lastPopulatedLayer = 0;
 			for (let i = 0; i < totalLayers; i++) {
 				if (song.layers[i].notes.length > 0) {
@@ -234,13 +231,12 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 				}
 			}
 
-			// Slice
 			song.layers = song.layers.splice(0, lastPopulatedLayer);
 		}
 
 		song.arrayBuffer = arrayBuffer;
-	} catch (e) {
-		song.errors.push(String(e));
+	} catch (error) {
+		song.errors.push(String(error));
 	}
 
 	return song;
