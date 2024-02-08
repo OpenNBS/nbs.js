@@ -4,7 +4,7 @@
 [NPM Badge]: https://img.shields.io/npm/v/@encode42/nbs.js?label=​&color=cb0000&labelColor=cb0000&logo=npm&logoColor=white&style=flat-square
 [Changelog]: changelog.md
 [Changelog Badge]: https://img.shields.io/badge/Changelog-E05735?labelColor=E05735&logo=keepachangelog&logoColor=white&style=flat-square
-[Demo]: https://encode42.github.io/NBS.js/demo/
+[Demo]: https://encode42.dev/nbs
 [Demo Badge]: https://img.shields.io/badge/Demo-202b38?labelColor=202b38&logo=html5&logoColor=white&style=flat-square
 [Actions]: https://github.com/encode42/NBS.js/actions/workflows/build.yml
 [Actions Badge]: https://img.shields.io/github/actions/workflow/status/encode42/NBS.js/build.yml?style=flat-square
@@ -19,7 +19,7 @@
 # NBS.js
 ### A versatile API for reading, manipulating, and writing [OpenNBS](https://opennbs.org) files, heavily inspired by [NBSEditor](https://github.com/TheGreatFoxxy/NBSEditor/blob/408e3e58058bd72286fc7e9740d62a39a0c919dd/src/NBS.js) and [NoteBlockAPI](https://github.com/koca2000/NoteBlockAPI).
 
-[![Docs Badge]][Docs] [![Changelog Badge]][Changelog] [![NPM Badge]][NPM]  
+[![Demo Badge]][Demo] [![Docs Badge]][Docs] [![Changelog Badge]][Changelog] [![NPM Badge]][NPM]  
 [![][Actions Badge]][Actions] [![][Codacy Badge]][Codacy] [![][Support Badge]][Support]
 </div>
 
@@ -174,11 +174,9 @@ console.dir(song);
 <b>Is there a demo?</b>
 </summary>
 
-~~Yes! A GitHub pages site is located [here](https://encode42.github.io/NBS.js/demo/). It contains a demonstration of how to read and process NBS files, displays the song structure, and plays the song through the browser.~~
+Yes! A demo site is located [here](https://encode42.dev/nbs). It serves as an example of how to read NBS files, allows you to edit the song structure, and plays the result through the browser.
 
-The demo is currently under development. Check [NBSPlayer](https://github.com/encode42/NBSPlayer) for a working example!
-
-<!-- [![Demo Badge]][Demo] -->
+This repository also contains [tests](/tests) that could be used as examples.
 </details>
 
 <details>
@@ -203,4 +201,4 @@ Generated files:
 - `dist/esm.js`: ES module for browser script modules.
 - `dist/umd.js`: UMD bundle for browser scripts.
 - `dist/*.min.js`: Minified bundle.
-- `build/`: Built ES2015 files.
+- `build/`: Built ES2021 files.
