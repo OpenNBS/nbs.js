@@ -3,7 +3,6 @@
 [NPM]: https://www.npmjs.com/package/@encode42/nbs.js
 [NPM Badge]: https://img.shields.io/npm/v/@encode42/nbs.js?label=​&color=cb0000&labelColor=cb0000&logo=npm&logoColor=white&style=flat-square
 [Changelog]: changelog.md
-[Changelog Badge]: https://img.shields.io/badge/Changelog-E05735?labelColor=E05735&logo=keepachangelog&logoColor=white&style=flat-square
 [Demo]: https://encode42.dev/nbs
 [Demo Badge]: https://img.shields.io/badge/Demo-202b38?labelColor=202b38&logo=svelte&logoColor=white&style=flat-square
 [Actions]: https://github.com/encode42/NBS.js/actions/workflows/build.yml
@@ -13,15 +12,13 @@
 [Codacy]: https://app.codacy.com/gh/encode42/NBS.js/dashboard
 [Codacy Badge]: https://img.shields.io/codacy/grade/68f12c67186549b88ab7ada56ac83efc?color=172B4D&labelColor=172B4D&label=​&logo=codacy&style=flat-square
 
-<img src=".github/assets/badge-lq.png" align="left" id="header">
-<div align="right">
+<img src=".github/assets/badge-lq.png" align="right" id="header">
 
 # NBS.js
 ### A versatile API for reading, manipulating, and writing [OpenNBS](https://opennbs.org) files, heavily inspired by [NBSEditor](https://github.com/TheGreatFoxxy/NBSEditor/blob/408e3e58058bd72286fc7e9740d62a39a0c919dd/src/NBS.js) and [NoteBlockAPI](https://github.com/koca2000/NoteBlockAPI).
 
-[![Demo Badge]][Demo] [![Docs Badge]][Docs] [![Changelog Badge]][Changelog] [![NPM Badge]][NPM]  
+[![Demo Badge]][Demo] [![Docs Badge]][Docs] [![NPM Badge]][NPM]  
 [![][Actions Badge]][Actions] [![][Codacy Badge]][Codacy] [![][Support Badge]][Support]
-</div>
 
 *With the added bonus of no required dependencies!*
 
