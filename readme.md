@@ -26,46 +26,31 @@
 *With the added bonus of no required dependencies!*
 
 ### 🔧 Including
-🌐 **Browser**
-
 > [!TIP]
-> It's recommended to use a versioned link, e.g. `@encode42/nbs.js@3.0.0`.
+> When using `jsdelivr` links, it's recommended to use versioned links! (e.g. `@encode42/nbs.js@3.0.0`)
 
 > [!WARNING]  
 > 3.0.0 is not the latest version of NBS.js! The above is just an example.
 
-Script
+#### 🌐 Browser
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js"></script>
 ```
 <sub>Minified: https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/umd.min.js</sub>
 
-Module
+#### 🦕 Module & Deno
 ```js
 import { Song } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js";
 ```
 <sub>Minified: https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.min.js</sub>
 
-⚙️ **Deno**
+#### 🟢 Node.js
+Add the [`@encode42/nbs.js` package from NPM][NPM] using the package manager of your choice.
+
 ```js
-import { Song } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js";
-```
+import { Song } from "@encode42/nbs.js"; // ESM (TypeScript, Vite, etc.)
 
-⚙️ **Node.js**
-
-NPM
-```sh
-npm i @encode42/nbs.js
-```
-
-PNPM
-```sh
-pnpm i @encode42/nbs.js
-```
-
-Yarn
-```sh
-yarn add @encode42/nbs.js
+const { Song } = require("@encode42/nbs.js"); // CJS (vanilla Node.js)
 ```
 
 ### ❔ FAQ
@@ -76,11 +61,9 @@ yarn add @encode42/nbs.js
 
 [Install NBS.js for your platform](#-including), then refer to the [documentation][Docs] and examples below.
 
-[![Docs Badge]][Docs]
-
 <details>
 <summary>
-Browser (Script)
+🌐 Browser
 </summary>
 
 ```html
@@ -107,17 +90,15 @@ window.addEventListener("load", () => {
 
 <details>
 <summary>
-Browser (Module)
+🌐 Module
 </summary>
 
-index.html
 ```html
 <input type="file" id="file-input">
 
 <script src="index.js" type="module">
 ```
 
-index.js
 ```js
 import { fromArrayBuffer } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js"
 
@@ -139,7 +120,29 @@ window.addEventListener("load", () => {
 
 <details>
 <summary>
-Deno
+🟢 Node.js
+</summary>
+
+```js
+// ESM (TypeScript, Vite, etc.)
+import { readFileSync } from "node:fs";
+import { fromArrayBuffer } from "@encode42/nbs.js";
+
+// CJS (vanilla Node.js)
+const { readFileSync } = require("fs");
+const { fromArrayBuffer } = require("@encode42/nbs.js");
+
+const songFile = readFileSync("song.nbs"); // Read the selected NBS file
+const buffer = new Uint8Array(songFile).buffer; // Convert it into an ArrayBuffer
+const song = fromArrayBuffer(buffer); // Parse the buffer
+
+console.dir(song);
+```
+</details>
+
+<details>
+<summary>
+🦕 Deno
 </summary>
 
 ```js
@@ -151,25 +154,6 @@ const song = fromArrayBuffer(buffer); // Parse the buffer
 
 console.dir(song);
 ```
-</details>
-
-<details>
-<summary>
-Node.js
-</summary>
-
-```js
-const { readFileSync } = require("node:fs");
-const { fromArrayBuffer } = require("@encode42/nbs.js");
-
-const songFile = readFileSync("song.nbs"); // Read the selected NBS file
-const buffer = new Uint8Array(songFile).buffer; // Convert it into an ArrayBuffer
-const song = fromArrayBuffer(buffer); // Parse the buffer
-
-console.dir(song);
-```
-
-[![NPM Badge]][NPM]
 </details>
 </details>
 
@@ -189,8 +173,6 @@ This repository also contains [tests](/tests) that could be used as examples.
 </summary>
 
 I don't create GitHub releases, but I do keep a changelog [here][Changelog]!
-
-[![Changelog Badge]][Changelog]
 </details>
 
 ### 🔨 Building
