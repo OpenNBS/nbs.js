@@ -5,7 +5,7 @@
 [Changelog]: changelog.md
 [Changelog Badge]: https://img.shields.io/badge/Changelog-E05735?labelColor=E05735&logo=keepachangelog&logoColor=white&style=flat-square
 [Demo]: https://encode42.dev/nbs
-[Demo Badge]: https://img.shields.io/badge/Demo-202b38?labelColor=202b38&logo=html5&logoColor=white&style=flat-square
+[Demo Badge]: https://img.shields.io/badge/Demo-202b38?labelColor=202b38&logo=svelte&logoColor=white&style=flat-square
 [Actions]: https://github.com/encode42/NBS.js/actions/workflows/build.yml
 [Actions Badge]: https://img.shields.io/github/actions/workflow/status/encode42/NBS.js/build.yml?style=flat-square
 [Support]: https://encode42.dev/support
@@ -28,7 +28,8 @@
 ### 🔧 Including
 🌐 **Browser**
 
-> It's recommended to use a versioned link, e.g. `@encode42/nbs.js@3.0.0`
+> It's recommended to use a versioned link, e.g. `@encode42/nbs.js@3.0.0`  
+> ⚠️ 3.0.0 is not the latest version of NBS.js! This is just an example.
 
 Script
 ```html
