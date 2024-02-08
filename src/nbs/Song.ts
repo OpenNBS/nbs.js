@@ -451,9 +451,8 @@ export class Song {
 	 * @param tick Tick that is being added
 	 */
 	private expand(tick: number): void {
-		// Expand the song if required
-		if (tick + 1 > this.length) {
-			this.length = tick + 1;
+		if (tick > this.length) {
+			this.length = tick;
 		}
 	}
 
