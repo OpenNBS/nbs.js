@@ -24,10 +24,7 @@
 
 ### 🔧 Including
 > [!TIP]
-> When using `jsdelivr` links, it's recommended to use versioned links! (e.g. `@encode42/nbs.js@3.0.0`)
-
-> [!WARNING]  
-> 3.0.0 is not the latest version of nbs.js! The above is just an example.
+> When using `esm.run` links, it's recommended to use versioned links! (e.g. `@encode42/nbs.js@6.0.0`)
 
 #### 🟢 Node.js
 Add the [`@encode42/nbs.js` package from NPM][NPM] using the package manager of your choice.
