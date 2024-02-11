@@ -5,7 +5,7 @@
 		<script>
 			fetch("https://data.jsdelivr.com/v1/packages/npm/@encode42/nbs.js").then(response => response.json()).then(data => {
 				!data?.tags?.latest && window.location.replace("./dev/")
-				const to = `./${data.tags.latest}/`
+				const to = `./v${data.tags.latest.match(/^[^\.]*/)[0]}/`
 				fetch(to).then(response => window.location.replace(response.ok ? to : "./dev/"))
 			})
 		</script>
