@@ -12,18 +12,18 @@ interface TestOptions {
 
 test("Read song from file, compare metadata", async () => {
 	const file = await readFile("tests/sample/simple.nbs");
-	const buffer = new Uint8Array(file).buffer;
-	const song = fromArrayBuffer(buffer, {
+	const array = new Uint8Array(file).buffer;
+	const song = fromArrayBuffer(array, {
 		"ignoreEmptyLayers": true
 	});
 
 	const input: TestOptions = {
 		"version": song.nbsVersion,
 		"length": song.length,
-		"instruments": song.instruments.loaded.length,
-		"layers": song.layers.length,
+		"instruments": song.instruments.total,
+		"layers": song.layers.total,
 		"tempo": song.tempo,
-		"lastMeasure": song.stats.lastMeasure
+		"lastMeasure": song.lastMeasure
 	};
 
 	const target: TestOptions = {

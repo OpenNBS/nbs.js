@@ -1,218 +1,238 @@
+import { enumerable } from "../../decorators/enumerable";
+import { readOnly } from "../../decorators/readOnly";
+
+/**
+ * Structure of {@linkcode builtInBuilder}.
+ *
+ * @category Instrument
+ * @internal
+ */
+export interface BuiltInBuilder {
+	/**
+	 * ID-instrument pair.
+	 */
+	[id: number]: {
+		/**
+		 * {@inheritDoc Instrument#name}
+		 */
+		"name": string;
+
+		/**
+		 * {@inheritDoc Instrument#soundFile}
+		 */
+		"soundFile": string;
+	};
+}
+
+/**
+ * Used to construct {@linkcode Instrument.builtIn}.
+ *
+ * @satisfies {BuiltInBuilder}
+ * @category Instrument
+ * @internal
+ */
+export const builtInBuilder: BuiltInBuilder = {
+	0: {
+		"name": "Harp",
+		"soundFile": "harp.ogg"
+	},
+	1: {
+		"name": "Double Bass",
+		"soundFile": "dbass.ogg"
+	},
+	2: {
+		"name": "Bass Drum",
+		"soundFile": "bdrum.ogg"
+	},
+	3: {
+		"name": "Snare Drum",
+		"soundFile": "sdrum.ogg"
+	},
+	4: {
+		"name": "Click",
+		"soundFile": "click.ogg"
+	},
+	5: {
+		"name": "Guitar",
+		"soundFile": "guitar.ogg"
+	},
+	6: {
+		"name": "Flute",
+		"soundFile": "flute.ogg"
+	},
+	7: {
+		"name": "Bell",
+		"soundFile": "bell.ogg"
+	},
+	8: {
+		"name": "Chime",
+		"soundFile": "icechime.ogg"
+	},
+	9: {
+		"name": "Xylophone",
+		"soundFile": "xylobone.ogg"
+	},
+	10: {
+		"name": "Iron Xylophone",
+		"soundFile": "iron_xylophone.ogg"
+	},
+	11: {
+		"name": "Cow Bell",
+		"soundFile": "cow_bell.ogg"
+	},
+	12: {
+		"name": "Didgeridoo",
+		"soundFile": "didgeridoo.ogg"
+	},
+	13: {
+		"name": "Bit",
+		"soundFile": "bit.ogg"
+	},
+	14: {
+		"name": "Banjo",
+		"soundFile": "banjo.ogg"
+	},
+	15: {
+		"name": "Pling",
+		"soundFile": "pling.ogg"
+	}
+} as const;
+
+/**
+ * Every built-in instrument.
+ *
+ * @see {@linkcode Instrument.builtIn}
+ * @category Instrument
+ */
+export type BuiltIn = {
+	[id in keyof typeof builtInBuilder]: Instrument;
+};
+
 /**
  * Options available for an {@linkcode Instrument}.
+ *
+ * @category Instrument
  */
 export interface InstrumentOptions {
 	/**
-	 * The name of the instrument.
+	 * {@inheritDoc Instrument#name}
 	 */
 	"name"?: string;
 
 	/**
-	 * The sound file of the instrument
-	 *
-	 * @remarks
-	 * Just the file name, not the path).
+	 * {@inheritDoc Instrument#soundFile}
 	 */
 	"soundFile"?: string;
 
 	/**
-	 * The key of the sound file.
-	 *
-	 * @remarks
-	 * Just like the note blocks, this ranges from 0-87.
+	 * {@inheritDoc Instrument#key}
 	 */
 	"key"?: number;
 
 	/**
-	 * Whether the piano should automatically press keys with this instrument when the marker passes them.
+	 * {@inheritDoc Instrument#pressKey}
 	 */
 	"pressKey"?: boolean;
-
-	/**
-	 * Whether the instrument is a built-in instrument.
-	 */
-	"builtIn"?: boolean;
 }
 
 /**
- * Meta information for an {@linkcode Instrument}.
- */
-export interface InstrumentMeta {
-	/**
-	 * The name of the instrument.
-	 */
-	name: string | undefined;
-
-	/**
-	 * The sound file of the instrument.
-	 *
-	 * @remarks
-	 * Just the file name, not the path.
-	 */
-	soundFile: string | undefined;
-}
-
-/**
- * Default {@linkcode InstrumentOptions} values.
+ * Default {@linkcode Instrument} values.
+ *
+ * @category Instrument
  */
 export const defaultInstrumentOptions: InstrumentOptions = {
 	"name": "",
 	"soundFile": "",
 	"key": 45,
-	"pressKey": false,
-	"builtIn": false
-};
-
-/**
- * Default {@linkcode InstrumentMeta} values.
- */
-export const defaultInstrumentMeta: InstrumentMeta = {
-	"name": defaultInstrumentOptions.name,
-	"soundFile": defaultInstrumentOptions.soundFile
+	"pressKey": false
 };
 
 /**
  * Represents an instrument of a {@linkcode Note}.
+ *
+ * @includeExample ./examples/design/instrument.ts
+ * @category Instrument
  */
 export class Instrument {
 	/**
-	 * The built-in instruments.
-	 *
-	 * @remarks
-	 * Includes harp, double bass, bass drum, snare drum, click, guitar, flute, bell, chime, xylophone, iron xylophone, cow bell, didgeridoo, bit, banjo, and pling.
+	 * {@inheritDoc Instrument.builtIn}
 	 */
-	public static builtIn = [
-		new this(0, {
-			"name": "Harp",
-			"soundFile": "harp.ogg",
-			"builtIn": true
-		}),
-		new this(1, {
-			"name": "Double Bass",
-			"soundFile": "dbass.ogg",
-			"builtIn": true
-		}),
-		new this(2, {
-			"name": "Bass Drum",
-			"soundFile": "bdrum.ogg",
-			"builtIn": true
-		}),
-		new this(3, {
-			"name": "Snare Drum",
-			"soundFile": "sdrum.ogg",
-			"builtIn": true
-		}),
-		new this(4, {
-			"name": "Click",
-			"soundFile": "click.ogg",
-			"builtIn": true
-		}),
-		new this(5, {
-			"name": "Guitar",
-			"soundFile": "guitar.ogg",
-			"builtIn": true
-		}),
-		new this(6, {
-			"name": "Flute",
-			"soundFile": "flute.ogg",
-			"builtIn": true
-		}),
-		new this(7, {
-			"name": "Bell",
-			"soundFile": "bell.ogg",
-			"builtIn": true
-		}),
-		new this(8, {
-			"name": "Chime",
-			"soundFile": "icechime.ogg",
-			"builtIn": true
-		}),
-		new this(9, {
-			"name": "Xylophone",
-			"soundFile": "xylobone.ogg",
-			"builtIn": true
-		}),
-		new this(10, {
-			"name": "Iron Xylophone",
-			"soundFile": "iron_xylophone.ogg",
-			"builtIn": true
-		}),
-		new this(11, {
-			"name": "Cow Bell",
-			"soundFile": "cow_bell.ogg",
-			"builtIn": true
-		}),
-		new this(12, {
-			"name": "Didgeridoo",
-			"soundFile": "didgeridoo.ogg",
-			"builtIn": true
-		}),
-		new this(13, {
-			"name": "Bit",
-			"soundFile": "bit.ogg",
-			"builtIn": true
-		}),
-		new this(14, {
-			"name": "Banjo",
-			"soundFile": "banjo.ogg",
-			"builtIn": true
-		}),
-		new this(15, {
-			"name": "Pling",
-			"soundFile": "pling.ogg",
-			"builtIn": true
+	static #builtIn = Object.fromEntries(
+		Object.entries(builtInBuilder).map(([id, value]) => {
+			const instrument = new this(value);
+			instrument.#isBuiltIn = true;
+
+			return [id, instrument];
 		})
-	];
+	) as BuiltIn;
+
+	static {
+		Instrument.#builtIn[0].pressKey = true;
+	}
 
 	/**
-	 * ID of the instrument.
-	 *
-	 * @remarks
-	 * Used internally for built-in instruments.
+	 * Instruments built into ONBS.
 	 */
-	public id: number;
+	@enumerable
+	@readOnly
+	public static get builtIn(): BuiltIn {
+		return Object.freeze({ ...Instrument.#builtIn });
+	}
 
 	/**
-	 * Meta information for the instrument.
-	 *
-	 * @see {@linkcode InstrumentMeta}
+	 * {@inheritDoc Instrument#isBuiltIn}
 	 */
-	public meta = { ...defaultInstrumentMeta };
+	#isBuiltIn = false;
 
 	/**
-	 * The key of the sound file.
+	 * Name of the instrument.
+	 */
+	public name?: string;
+
+	/**
+	 * Sound file of the instrument.
 	 *
-	 * @remarks
-	 * Just like the note blocks, this ranges from 0-87.
+	 * @remarks Relative to the `Data/Sounds/` directory of the ONBS installations.
+	 */
+	public soundFile: string;
+
+	/**
+	 * Key of the sound file.
+	 *
+	 * @remarks Just like note blocks, this ranges from 0-87.
+	 *
+	 * @see {@linkcode Note#key}
 	 */
 	public key = defaultInstrumentOptions.key;
 
 	/**
-	 * Whether the piano should automatically press keys with this instrument when the marker passes them.
+	 * Whether the on-screen piano should visually press keys when these notes are played.
 	 */
 	public pressKey = defaultInstrumentOptions.pressKey;
 
 	/**
 	 * Whether the instrument is a built-in instrument.
 	 */
-	public builtIn = defaultInstrumentOptions.builtIn;
+	@enumerable
+	@readOnly
+	public get isBuiltIn(): boolean {
+		return this.#isBuiltIn;
+	}
 
 	/**
 	 * Construct an instrument.
 	 *
-	 * @param id ID of the instrument in the song's instrument array
 	 * @param options Options for the instrument
 	 */
-	public constructor(id: number, options: InstrumentOptions = defaultInstrumentOptions) {
-		this.id = id;
+	public constructor(options = defaultInstrumentOptions) {
+		const mergedOptions = {
+			...defaultInstrumentOptions,
+			...options
+		};
 
-		// Parse options
-		if (options) {
-			this.meta.name = options.name ?? defaultInstrumentOptions.name;
-			this.meta.soundFile = options.soundFile ?? defaultInstrumentOptions.soundFile;
-			this.pressKey = options.pressKey ?? defaultInstrumentOptions.pressKey;
-			this.key = options.key ?? defaultInstrumentOptions.key;
-			this.builtIn = options.builtIn ?? defaultInstrumentOptions.builtIn;
-		}
+		this.name = mergedOptions.name ?? defaultInstrumentOptions.name;
+		this.soundFile = mergedOptions.soundFile ?? defaultInstrumentOptions.soundFile;
+		this.pressKey = mergedOptions.pressKey ?? defaultInstrumentOptions.pressKey;
+		this.key = mergedOptions.key ?? defaultInstrumentOptions.key;
 	}
 }

@@ -1,32 +1,70 @@
 {
 	"compilerOptions": {
 		"outDir": "build",
-		"target": "ES2021",
-		"lib": ["ES2021"],
-		"module": "ESNext",
+		"target": "ES2020",
+		"lib": ["ESNext"],
+		"module": "ES2020",
 		"moduleResolution": "Node",
 		"esModuleInterop": true,
 		"isolatedModules": true,
 		"allowJs": true,
-		"declaration": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"listFiles": true
 	},
 	"typedocOptions": {
-		"plugin": ["typedoc-material-theme", "typedoc-plugin-mdn-links"],
+		"plugin": [
+			"typedoc-material-theme",
+			"typedoc-plugin-mdn-links",
+			"typedoc-plugin-include-example"
+		],
 		"entryPoints": ["src/index.ts"],
 		"out": "public/docs",
 		"githubPages": true,
 		"validation": {
-			"invalidLink": true
+			"notDocumented": true
 		},
 		"readme": "none",
-		"name": "NBS.js",
+		"name": "nbs.js",
 		"includeVersion": true,
 		"themeColor": "#c6a0f6",
-		"sort": ["static-first", "visibility"]
+		"navigation": {
+			"includeCategories": true
+		},
+		"categoryOrder": [
+			"Song",
+			"Instrument",
+			"Layer",
+			"Note",
+			"Array Buffer",
+			"JSON",
+			"*"
+		],
+		"searchCategoryBoosts": {
+			"Song": 4,
+			"Instrument": 3,
+			"Layer": 3,
+			"Note": 3,
+			"Array Buffer": 2,
+			"JSON": 2
+		},
+		"groupOrder": [
+			"Classes",
+			"Properties",
+			"Methods",
+			"Functions",
+			"Variables",
+			"*"
+		],
+		"searchGroupBoosts": {
+			"Classes": 1.4,
+			"Properties": 1.3,
+			"Methods": 1.2,
+			"Functions": 1.2,
+			"Variables": 1.1
+		},
+		"sort": ["static-first", "visibility", "kind", "alphabetical"],
+		"hideGenerator": true
 	},
-	"include": ["**/*.ts"],
-	"exclude": ["node_modules", "tests", "build", "dist"]
+	"include": ["src/**/**.ts"]
 }

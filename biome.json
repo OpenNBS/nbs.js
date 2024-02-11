@@ -10,6 +10,9 @@
 			"recommended": true,
 			"complexity": {
 				"useLiteralKeys": "off"
+			},
+			"performance": {
+				"noDelete": "off"
 			}
 		}
 	},
