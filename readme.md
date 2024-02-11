@@ -182,11 +182,9 @@ Ensure [PNPM](https://pnpm.io/) and [Node.js](https://nodejs.org/) are installed
 
 1. Enter the directory containing the nbs.js source code in your terminal.
 2. Install the build dependencies via `pnpm install`.
-3. Run `pnpm run build` to generate the Node.js and browser modules.
+3. Run `pnpm run build` to generate the ESM and browser modules.
 
 Generated files:
-- `dist/cjs.js`: CommonJS bundle, used by Node.js.
-- `dist/esm.js`: ES module for browser script modules.
-- `dist/umd.js`: UMD bundle for browser scripts.
-- `dist/*.min.js`: Minified bundle.
-- `build/`: Built ES2021 files.
+- `dist/`: ESM bundle files for Node.js and related
+- `dist/*.glbal.js`: UMD bundle files for browser scripts
+- `build/`: Built ES2020 files.
