@@ -28,7 +28,6 @@ export interface BuiltInBuilder {
  * Used to construct {@linkcode Instrument.builtIn}.
  *
  * @satisfies {BuiltInBuilder}
- * @category Highlights
  * @category Instrument
  * @internal
  */
@@ -152,6 +151,7 @@ export const defaultInstrumentOptions: InstrumentOptions = {
  * Represents an instrument of a {@linkcode Note}.
  *
  * @includeExample ./examples/design/instrument.ts
+ * @category Highlights
  * @category Instrument
  */
 export class Instrument {
