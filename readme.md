@@ -29,18 +29,6 @@
 > [!WARNING]  
 > 3.0.0 is not the latest version of nbs.js! The above is just an example.
 
-#### 🌐 Browser
-```html
-<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js"></script>
-```
-<sub>Minified: https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/umd.min.js</sub>
-
-#### 🦕 Module & Deno
-```js
-import { Song } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js";
-```
-<sub>Minified: https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.min.js</sub>
-
 #### 🟢 Node.js
 Add the [`@encode42/nbs.js` package from NPM][NPM] using the package manager of your choice.
 
@@ -48,6 +36,11 @@ Add the [`@encode42/nbs.js` package from NPM][NPM] using the package manager of 
 import { Song } from "@encode42/nbs.js"; // ESM (TypeScript, Vite, etc.)
 
 const { Song } = require("@encode42/nbs.js"); // CJS (vanilla Node.js)
+```
+
+#### 🦕 Module & Deno
+```js
+import { Song } from "https://esm.run/@encode42/nbs.js";
 ```
 
 ### ❔ FAQ
@@ -59,66 +52,6 @@ const { Song } = require("@encode42/nbs.js"); // CJS (vanilla Node.js)
 [Install nbs.js for your platform](#-including), then refer to the [documentation][Docs] and examples below.
 
 There are more examples designed for use with Node.js in the [examples directory](/examples)!
-
-<details>
-<summary>
-🌐 Browser
-</summary>
-
-> [!WARNING]  
-> This likely does not currently work!
-
-```html
-<input type="file" id="file-input">
-
-<script src="https://cdn.jsdelivr.net/npm/@encode42/nbs.js"></script> <!-- Import nbs.js -->
-<script>
-window.addEventListener("load", () => {
-	const input = document.getElementById("file-input");
-
-	// Initialize file input
-	input.addEventListener("change", () => {
-		const songFile = input.files[0]; // Read the selected NBS file
-		songFile.arrayBuffer().then(buffer => { // Convert it into an ArrayBuffer
-			const song = NBSjs.fromArrayBuffer(buffer); // Parse the buffer
-
-			console.dir(song);
-		});
-	});
-});
-</script>
-```
-</details>
-
-<details>
-<summary>
-🌐 Module
-</summary>
-
-```html
-<input type="file" id="file-input">
-
-<script src="index.js" type="module">
-```
-
-```js
-import { fromArrayBuffer } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js"
-
-window.addEventListener("load", () => {
-	const input = document.getElementById("file-input");
-
-	// Initialize file input
-	input.addEventListener("change", () => {
-		const songFile = input.files[0]; // Read the selected NBS file
-		songFile.arrayBuffer().then(buffer => { // Convert it into an ArrayBuffer
-			const song = fromArrayBuffer(buffer); // Parse the buffer
-
-			console.dir(song);
-		});
-	});
-});
-```
-</details>
 
 <details>
 <summary>
@@ -144,11 +77,39 @@ console.dir(song);
 
 <details>
 <summary>
+🌐 Browser
+</summary>
+
+```html
+<input type="file" id="file-input">
+
+<script type="module">
+	import { fromArrayBuffer } from "https://esm.run/@encode42/nbs.js"
+
+	window.addEventListener("load", () => {
+		const input = document.getElementById("file-input");
+
+		// Initialize file input
+		input.addEventListener("change", () => {
+			const songFile = input.files[0]; // Read the selected NBS file
+			songFile.arrayBuffer().then(buffer => { // Convert it into an ArrayBuffer
+				const song = fromArrayBuffer(buffer); // Parse the buffer
+
+				console.dir(song);
+			});
+		});
+	});
+</script>
+```
+</details>
+
+<details>
+<summary>
 🦕 Deno
 </summary>
 
 ```js
-import { fromArrayBuffer } from "https://cdn.jsdelivr.net/npm/@encode42/nbs.js/dist/esm.js";
+import { fromArrayBuffer } from "https://esm.run/@encode42/nbs.js";
 
 const songFile = await Deno.readFile("song.nbs"); // Read the selected NBS file
 const buffer = new Uint8Array(songFile).buffer; // Convert it into an ArrayBuffer
