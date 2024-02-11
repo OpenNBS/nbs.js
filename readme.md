@@ -38,7 +38,14 @@ import { Song } from "@encode42/nbs.js"; // ESM (TypeScript, Vite, etc.)
 const { Song } = require("@encode42/nbs.js"); // CJS (vanilla Node.js)
 ```
 
-#### 🦕 Module & Deno
+#### 🌐 Browser
+```html
+<script type="module">
+	import { Song } from "https://esm.run/@encode42/nbs.js";
+</script>
+```
+
+#### 🦕 Deno
 ```js
 import { Song } from "https://esm.run/@encode42/nbs.js";
 ```
