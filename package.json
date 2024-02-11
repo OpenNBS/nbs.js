@@ -2,7 +2,7 @@
 	"type": "module",
 	"name": "@encode42/nbs.js",
 	"description": "Robust API for reading and writing OpenNBS files.",
-	"version": "6.0.0-alpha",
+	"version": "6.0.0-alpha1",
 	"author": {
 		"name": "encode42",
 		"email": "me@encode42.dev",
@@ -20,7 +20,6 @@
 	"license": "MIT",
 	"keywords": ["api", "minecraft", "nbs", "noteblock", "onbs"],
 	"main": "dist/index.js",
-	"browser": "dist/index.global.js",
 	"types": "dist/index.d.ts",
 	"files": ["dist", "changelog.md"],
 	"scripts": {
@@ -38,7 +37,7 @@
 		"splitting": true,
 		"dts": true,
 		"minify": true,
-		"format": ["esm", "iife"],
+		"format": ["esm"],
 		"skipNodeModulesBundle": true
 	},
 	"engines": {
