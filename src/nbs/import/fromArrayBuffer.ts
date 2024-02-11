@@ -77,6 +77,7 @@ export const defaultFromArrayBufferOptions: FromArrayBufferOptions = {
  * @param options Options for parsing
  * @return Parsed song, empty if unsuccessful
  * @includeExample ./examples/simple/read.ts
+ * @category Highlights
  * @category Song
  * @category Array Buffer
  */

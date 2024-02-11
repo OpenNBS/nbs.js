@@ -28,6 +28,7 @@ export interface BuiltInBuilder {
  * Used to construct {@linkcode Instrument.builtIn}.
  *
  * @satisfies {BuiltInBuilder}
+ * @category Highlights
  * @category Instrument
  * @internal
  */

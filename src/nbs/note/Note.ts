@@ -42,6 +42,7 @@ export const defaultNoteOptions: Required<NoteOptions> = {
  * Represents a note.
  *
  * @includeExample ./examples/design/note.ts
+ * @category Highlights
  * @category Note
  */
 export class Note {

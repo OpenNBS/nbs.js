@@ -77,6 +77,7 @@ export const defaultLoop: SongLoop = {
  * Represents a full {@link https://opennbs.org/nbs | NBS song}.
  *
  * @includeExample ./examples/simple/newSong.ts
+ * @category Highlights
  * @category Song
  */
 export class Song {

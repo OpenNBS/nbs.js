@@ -31,6 +31,7 @@ export const defaultToArrayBufferOptions: ToArrayBufferOptions = {
  * @param song Song to parse from
  * @return Generated array buffer, empty if unsuccessful
  * @includeExample ./examples/simple/write.ts
+ * @category Highlights
  * @category Array Buffer
  */
 export function toArrayBuffer(song: Song, options: ToArrayBufferOptions = defaultToArrayBufferOptions): ArrayBuffer {

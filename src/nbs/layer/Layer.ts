@@ -52,6 +52,7 @@ export const defaultLayerOptions: Required<LayerOptions> = {
  * Represents a layer.
  *
  * @includeExample ./examples/design/layer.ts
+ * @category Highlights
  * @category Layer
  */
 export class Layer {

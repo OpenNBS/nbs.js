@@ -34,6 +34,7 @@
 			"includeCategories": true
 		},
 		"categoryOrder": [
+			"Highlights",
 			"Song",
 			"Instrument",
 			"Layer",
@@ -43,6 +44,7 @@
 			"*"
 		],
 		"searchCategoryBoosts": {
+			"Highlights": 5,
 			"Song": 4,
 			"Instrument": 3,
 			"Layer": 3,
