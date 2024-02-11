@@ -3,6 +3,9 @@ import { Song } from "../Song";
 
 /**
  * Structure for {@linkcode ignoredValues}.
+ *
+ * @category JSON
+ * @internal
  */
 export interface IgnoredValues {
 	/**
