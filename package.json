@@ -35,7 +35,6 @@
 	"tsup": {
 		"entry": ["build/**/*.js"],
 		"splitting": true,
-		"dts": true,
 		"minify": true,
 		"format": ["esm"],
 		"skipNodeModulesBundle": true
