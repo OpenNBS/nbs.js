@@ -2,7 +2,7 @@
 	"type": "module",
 	"name": "@encode42/nbs.js",
 	"description": "Robust API for reading and writing OpenNBS files.",
-	"version": "6.0.0-alpha1",
+	"version": "6.0.0-alpha2",
 	"author": {
 		"name": "encode42",
 		"email": "me@encode42.dev",
