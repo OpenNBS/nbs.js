@@ -21,7 +21,7 @@
 			"typedoc-plugin-include-example"
 		],
 		"entryPoints": ["src/index.ts"],
-		"out": "public/docs",
+		"out": "public/docs/dev",
 		"githubPages": true,
 		"validation": {
 			"notDocumented": true

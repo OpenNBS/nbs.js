@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>nbs.js - Documentation</title>
+		<script>
+			fetch("https://data.jsdelivr.com/v1/packages/npm/@encode42/nbs.js").then(response => response.json()).then(data => {
+				!data?.tags?.latest && window.location.replace("./dev/")
+				const to = `./${data.tags.latest}/`
+				fetch(to).then(response => window.location.replace(response.ok ? to : "./dev/"))
+			})
+		</script>
+		<style>
+			:root {
+				--bg: #211f22;
+				--text: #e7e1e5;
+				--link: #d9b9ff
+			}
+
+			@media (prefers-color-scheme: light) {
+				:root {
+					--bg: #f2ecf1;
+					--text: #1d1b1e;
+					--link: #714d9f
+				}
+			}
+
+			html {
+				background: var(--bg);
+				font-family: sans-serif;
+				font-size: 2cqmin;
+				padding: 0
+			}
+
+			body {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				gap: 1rem;
+				min-height: 100vh;
+				margin: 0;
+				animation: in 3s
+			}
+
+			p {
+				margin: 0;
+				text-wrap: wrap;
+				text-align: center
+			}
+
+			p {
+				color: var(--text)
+			}
+
+			a {
+				color: var(--link)
+			}
+
+			@keyframes in {
+				0% {
+					opacity: 0;
+				}
+				75% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<p>Click <a href="./dev/">here</a> to redirect</p>
+	</body>
+</html>

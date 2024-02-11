@@ -4,6 +4,3 @@
 # Build files
 /dist/
 /build/
-
-# Built website files
-/public
