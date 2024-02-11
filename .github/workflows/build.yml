@@ -30,7 +30,7 @@ jobs:
       run: |
         pnpm install
         pnpm run build
-        pnpm run docs
+        pnpm run build:docs
 
     - name: Deploy pages
       uses: peaceiris/actions-gh-pages@v3

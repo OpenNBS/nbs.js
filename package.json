@@ -26,8 +26,8 @@
 	"scripts": {
 		"test": "biome format . --write && biome lint . && jest",
 		"build": "pnpm run test && tsc --build && tsup",
-		"publish": "pnpm run build && pnpm publish",
-		"docs": "typedoc"
+		"build:publish": "pnpm run build && pnpm publish",
+		"build:docs": "typedoc"
 	},
 	"jest": {
 		"preset": "ts-jest",
