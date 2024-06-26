@@ -68,6 +68,7 @@ export class SongInstruments {
 	 * @remarks Any existing instrument with the same ID as the added instrument will be overwritten.
 	 * @see Built-in instruments cannot be modified!
 	 * @param id ID of the instrument to be set
+	 * @param instrument The instrument to set at `id`.
 	 */
 	public set(id: number, instrument: Instrument): Instrument {
 		const existingInstrument = this.#existing[id];

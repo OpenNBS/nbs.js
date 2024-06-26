@@ -19,7 +19,7 @@ export class BufferReader extends BufferWrapper {
 	/**
 	 * Read the next unsigned byte.
 	 */
-	public readUnsingedByte(): number {
+	public readUnsignedByte(): number {
 		const result = this.viewer.getUint8(this.nextByte);
 		this.nextByte += 1;
 		return result;
@@ -50,7 +50,7 @@ export class BufferReader extends BufferWrapper {
 		const length = this.readInt();
 		let result = "";
 		for (let i = 0; i < length; i++) {
-			const byte = this.readUnsingedByte();
+			const byte = this.readUnsignedByte();
 			result += String.fromCodePoint(byte);
 		}
 		return result;

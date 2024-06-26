@@ -29,6 +29,7 @@ export const defaultToArrayBufferOptions: ToArrayBufferOptions = {
  * Generate an {@linkcode ArrayBuffer} from a {@linkcode Song}.
  *
  * @param song Song to parse from
+ * @param options Optional arguments that impact export behavior
  * @return Generated array buffer, empty if unsuccessful
  * @includeExample ./examples/simple/write.ts
  * @category Highlights
@@ -50,6 +51,7 @@ export function toArrayBuffer(song: Song, options: ToArrayBufferOptions = defaul
 
 /**
  * {@inheritDoc toArrayBuffer}
+ * @param song The song that is being exported
  * @param size Size of the array buffer
  * @param dry Whether to execute a dry run
  * @category Array Buffer

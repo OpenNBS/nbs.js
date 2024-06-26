@@ -163,7 +163,7 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 			let pitch = 0;
 			if (song.nbsVersion >= 4) {
 				velocity = reader.readByte(); // Read velocity of note
-				panning = reader.readUnsingedByte() - 100; // Read panning of note
+				panning = reader.readUnsignedByte() - 100; // Read panning of note
 				pitch = reader.readShort(); // Read pitch of note
 			}
 
@@ -209,7 +209,7 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 
 			let panning = 0;
 			if (song.nbsVersion >= 2) {
-				panning = reader.readUnsingedByte() - 100; // Read layer panning
+				panning = reader.readUnsignedByte() - 100; // Read layer panning
 			}
 
 			layer.stereo = panning;
