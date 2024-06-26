@@ -1,4 +1,4 @@
-import { BufferWrapper } from "./wrapper";
+import { BufferWrapper } from "~/buffer/wrapper";
 
 /**
  * Represents an {@linkcode ArrayBuffer} reader.

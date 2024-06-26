@@ -1,6 +1,6 @@
-import { enumerable } from "../../decorators/enumerable";
-import { readOnly } from "../../decorators/readOnly";
-import { Layer } from "./Layer";
+import { enumerable } from "~/decorators/enumerable";
+import { readOnly } from "~/decorators/readOnly";
+import { Layer } from "~/nbs/layer/Layer";
 
 /**
  * Represents the {@linkcode Layer}s of a {@linkcode Song} and provides helper functions.

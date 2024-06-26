@@ -1,10 +1,10 @@
-import type { InstrumentOptions } from "../instrument/Instrument";
-import type { NoteOptions } from "../note/Note";
-import { Song } from "../Song";
-import { Instrument } from "../instrument/Instrument";
-import { Layer } from "../layer/Layer";
-import { LayerNotes } from "../note/LayerNotes";
-import { Note } from "../note/Note";
+import type { InstrumentOptions } from "~/nbs/instrument/Instrument";
+import { Instrument } from "~/nbs/instrument/Instrument";
+import { Layer } from "~/nbs/layer/Layer";
+import type { LayerNotes } from "~/nbs/note/LayerNotes";
+import type { NoteOptions } from "~/nbs/note/Note";
+import { Note } from "~/nbs/note/Note";
+import { Song } from "~/nbs/Song";
 
 /**
  * Iterate and copy values from the {@linkcode JSON} object to the {@linkcode Song}.

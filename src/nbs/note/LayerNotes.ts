@@ -1,7 +1,7 @@
-import type { NoteOptions } from "./Note";
-import { enumerable } from "../../decorators/enumerable";
-import { readOnly } from "../../decorators/readOnly";
-import { Note, defaultNoteOptions } from "./Note";
+import { enumerable } from "~/decorators/enumerable";
+import { readOnly } from "~/decorators/readOnly";
+import type { NoteOptions } from "~/nbs/note/Note";
+import { defaultNoteOptions, Note } from "~/nbs/note/Note";
 
 /**
  * The existing {@linkcode Note}s of the layer.

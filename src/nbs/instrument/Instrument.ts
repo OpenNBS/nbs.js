@@ -1,5 +1,5 @@
-import { enumerable } from "../../decorators/enumerable";
-import { readOnly } from "../../decorators/readOnly";
+import { enumerable } from "~/decorators/enumerable";
+import { readOnly } from "~/decorators/readOnly";
 
 /**
  * Structure of {@linkcode builtInBuilder}.

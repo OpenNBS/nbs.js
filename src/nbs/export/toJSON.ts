@@ -1,5 +1,5 @@
-import { omitEmptyLayers } from "../../util/omitEmptyLayers";
-import { Song } from "../Song";
+import type { Song } from "~/nbs/Song";
+import { omitEmptyLayers } from "~/util/omitEmptyLayers";
 
 /**
  * Structure for {@linkcode ignoredValues}.

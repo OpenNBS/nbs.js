@@ -1,7 +1,7 @@
-import { enumerable } from "../decorators/enumerable";
-import { readOnly } from "../decorators/readOnly";
-import { SongLayers } from "./layer/SongLayers";
-import { SongInstruments } from "./instrument/SongInstruments";
+import { enumerable } from "~/decorators/enumerable";
+import { readOnly } from "~/decorators/readOnly";
+import { SongInstruments } from "~/nbs/instrument/SongInstruments";
+import { SongLayers } from "~/nbs/layer/SongLayers";
 
 // TODO: Create field with loop tick (end of measure)
 

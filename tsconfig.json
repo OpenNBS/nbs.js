@@ -12,7 +12,10 @@
 		"allowJs": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
-		"listFiles": true
+		"listFiles": true,
+		"paths": {
+			"~/*": ["./src/*"]
+		}
 	},
 	"typedocOptions": {
 		"plugin": [

@@ -1,7 +1,7 @@
-import type { BuiltIn, InstrumentOptions } from "./Instrument";
-import { enumerable } from "../../decorators/enumerable";
-import { readOnly } from "../../decorators/readOnly";
-import { Instrument } from "./Instrument";
+import { enumerable } from "~/decorators/enumerable";
+import { readOnly } from "~/decorators/readOnly";
+import type { BuiltIn, InstrumentOptions } from "~/nbs/instrument/Instrument";
+import { Instrument } from "~/nbs/instrument/Instrument";
 
 /**
  * The existing {@linkcode Instrument}s.

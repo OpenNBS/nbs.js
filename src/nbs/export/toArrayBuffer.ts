@@ -1,6 +1,6 @@
-import { BufferWriter } from "../../buffer/writer";
-import { omitEmptyLayers } from "../../util/omitEmptyLayers";
-import { Song } from "../Song";
+import { BufferWriter } from "~/buffer/writer";
+import type { Song } from "~/nbs/Song";
+import { omitEmptyLayers } from "~/util/omitEmptyLayers";
 
 /**
  * Options for {@linkcode toArrayBuffer}.

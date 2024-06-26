@@ -1,6 +1,6 @@
-import { enumerable } from "../../decorators/enumerable";
-import { readOnly } from "../../decorators/readOnly";
-import { LayerNotes } from "../note/LayerNotes";
+import { enumerable } from "~/decorators/enumerable";
+import { readOnly } from "~/decorators/readOnly";
+import { LayerNotes } from "~/nbs/note/LayerNotes";
 
 /**
  * Options available for a {@linkcode Layer}.

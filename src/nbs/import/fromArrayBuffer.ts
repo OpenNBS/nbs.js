@@ -1,7 +1,7 @@
-import { BufferReader } from "../../buffer/reader";
-import { omitEmptyLayers } from "../../util/omitEmptyLayers";
-import { Song } from "../Song";
-import { Instrument } from "../instrument/Instrument";
+import { BufferReader } from "~/buffer/reader";
+import { Instrument } from "~/nbs/instrument/Instrument";
+import { Song } from "~/nbs/Song";
+import { omitEmptyLayers } from "~/util/omitEmptyLayers";
 
 /**
  * Raw structure of a note.

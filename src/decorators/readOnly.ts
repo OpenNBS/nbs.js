@@ -1,4 +1,4 @@
-import { IllegalSetError } from "../errors/IllegalSetError";
+import { IllegalSetError } from "~/errors/IllegalSetError";
 
 /**
  * Context for {@linkcode readOnly}.

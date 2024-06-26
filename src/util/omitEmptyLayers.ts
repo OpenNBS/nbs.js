@@ -1,4 +1,4 @@
-import { Song } from "../nbs/Song";
+import { Song } from "~/nbs/Song";
 
 /**
  * Delete all layers without notes from a {@linkcode Song}.
