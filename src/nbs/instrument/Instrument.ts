@@ -165,19 +165,20 @@ export class Instrument {
 
 			return [id, instrument];
 		})
-	) as BuiltIn;
+	) as Readonly<BuiltIn>;
 
 	static {
 		Instrument.#builtIn[0].pressKey = true;
+		Instrument.#builtIn = Object.freeze(Instrument.#builtIn);
 	}
 
 	/**
-	 * Instruments built into ONBS.
+	 * Instruments built into Open Note Block Studio.
 	 */
 	@enumerable
 	@readOnly
 	public static get builtIn(): BuiltIn {
-		return Object.freeze({ ...Instrument.#builtIn });
+		return Instrument.#builtIn;
 	}
 
 	/**

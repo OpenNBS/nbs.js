@@ -33,6 +33,18 @@ export class LayerNotes {
 	#existing: ExistingNotes = {};
 
 	/**
+	 * A cached frozen copy of {@linkcode LayerNotes##existing}.
+	 *
+	 * {@inheritDoc LayerNotes#get}
+	 */
+	#frozenExisting: Readonly<ExistingNotes> = {};
+
+	/**
+	 * Whether {@linkcode LayerNotes##frozenExisting} should be re-created.
+	 */
+	#frozenExistingIsValid = true;
+
+	/**
 	 * Total number of notes within the {@linkcode Layer}.
 	 */
 	@enumerable
@@ -55,8 +67,25 @@ export class LayerNotes {
 	 */
 	@enumerable
 	@readOnly
-	public get get(): ExistingNotes {
-		return Object.freeze({ ...this.#existing });
+	public get get(): Readonly<ExistingNotes> {
+		if (!this.#frozenExistingIsValid) {
+			this.#frozenExisting = Object.freeze({ ...this.#existing });
+
+			this.#frozenExistingIsValid = true;
+		}
+
+		return this.#frozenExisting;
+	}
+
+	/**
+	 * Same as {@linkcode LayerNotes#get}, but without creating a frozen clone.
+	 *
+	 * Only use this if you know what you're doing!
+	 *
+	 * @internal
+	 */
+	public get unsafeGet(): ExistingNotes {
+		return this.#existing;
 	}
 
 	/**
@@ -67,6 +96,8 @@ export class LayerNotes {
 	 * @param note Note to set on tick
 	 */
 	public set(tick: number, note: Note): Note {
+		this.#invalidate();
+
 		this.#existing[tick] = note;
 
 		return note;
@@ -79,6 +110,8 @@ export class LayerNotes {
 	 * @param note The note to add
 	 */
 	public add(tick: number, note: Note): Note {
+		this.#invalidate();
+
 		return this.set(tick, note);
 	}
 
@@ -90,6 +123,8 @@ export class LayerNotes {
 	 * @param options Options for the note
 	 */
 	public create(tick: number, instrument: number, options: NoteOptions = defaultNoteOptions): Note {
+		this.#invalidate();
+
 		const note = new Note(instrument, options);
 
 		return this.add(tick, note);
@@ -101,6 +136,8 @@ export class LayerNotes {
 	 * @param tick Tick to remove note from
 	 */
 	public delete(tick: number): void {
+		this.#invalidate();
+
 		delete this.#existing[tick];
 	}
 
@@ -111,5 +148,16 @@ export class LayerNotes {
 		for (const [id, note] of Object.entries(this.#existing)) {
 			yield [+id, note];
 		}
+	}
+
+	/**
+	 * Specifies that the cached frozen copy ({@linkcode LayerNotes##frozenExisting}) needs to be updated.
+	 */
+	#invalidate() {
+		if (!this.#frozenExistingIsValid) {
+			return;
+		}
+
+		this.#frozenExistingIsValid = false;
 	}
 }

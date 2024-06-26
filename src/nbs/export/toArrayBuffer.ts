@@ -93,13 +93,15 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 
 	writer.writeByte(0); // Write end of header
 
+	const songLayers = song.layers.unsafeGet;
+
 	// Iterate each tick
 	let currentTick = -1;
-	for (let i = 0; i <= song.length; i++) {
+	for (let tick = 0; tick <= song.length; tick++) {
 		// Ensure the layer has notes at the tick
 		let hasNotes = false;
-		for (const layer of song.layers.get) {
-			if (layer.notes.get[i]) {
+		for (const layer of songLayers) {
+			if (layer.notes.unsafeGet[tick]) {
 				hasNotes = true;
 				break;
 			}
@@ -109,19 +111,19 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 			continue;
 		}
 
-		const jumpTicks = i - currentTick;
-		currentTick = i;
+		const jumpTicks = tick - currentTick;
+		currentTick = tick;
 
 		writer.writeShort(jumpTicks); // Write amount of ticks to jump
 
 		let currentLayer = -1;
-		for (let j = 0; j < song.layers.total; j++) {
-			const layer = song.layers.get[j];
-			const note = layer.notes.get[i];
+		for (let layerIndex = 0; layerIndex < song.layers.total; layerIndex++) {
+			const layer = songLayers[layerIndex];
+			const note = layer.notes.unsafeGet[tick];
 
 			if (note) {
-				const jumpLayers = j - currentLayer;
-				currentLayer = j;
+				const jumpLayers = layerIndex - currentLayer;
+				currentLayer = layerIndex;
 
 				writer.writeShort(jumpLayers); // Write amount of layers to jump
 
@@ -141,7 +143,7 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 
 	writer.writeShort(0); // Write end of notes
 
-	for (const layer of song.layers.get) {
+	for (const layer of songLayers) {
 		writer.writeString(layer.name ?? ""); // Write layer name
 
 		if (song.nbsVersion >= 4) {
@@ -165,11 +167,12 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 		}
 	}
 
-	const totalInstruments = Object.keys(song.instruments.get).length;
+	const songInstruments = song.instruments.unsafeGet;
+	const totalInstruments = song.instruments.total;
 
 	writer.writeByte(totalInstruments - song.instruments.firstCustomIndex); // Write number of custom instruments
 	for (let i = 0; i < totalInstruments; i++) {
-		const instrument = song.instruments.get[i];
+		const instrument = songInstruments[i];
 		if (!instrument.isBuiltIn) {
 			writer.writeString(instrument.name ?? ""); // Write instrument name
 			writer.writeString(instrument.soundFile); // Write instrument filename

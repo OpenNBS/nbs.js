@@ -31,6 +31,18 @@ export class SongInstruments {
 	#existing: ExistingInstruments = { ...Instrument.builtIn }; // TODO: Only import the number of instruments defined by the NBS version
 
 	/**
+	 * A cached frozen copy of {@linkcode SongInstruments##existing}.
+	 *
+	 * {@inheritDoc SongInstruments#get}
+	 */
+	#frozenExisting: Readonly<ExistingInstruments> = {};
+
+	/**
+	 * Whether {@linkcode SongInstruments##frozenExisting} needs to be updated.
+	 */
+	#frozenExistingIsValid = true;
+
+	/**
 	 * {@inheritDoc SongInstruments#firstCustomIndex}
 	 */
 	#firstCustomIndex = +Object.keys(Instrument.builtIn).at(-1) + 1;
@@ -50,7 +62,24 @@ export class SongInstruments {
 	@enumerable
 	@readOnly
 	public get get(): ExistingInstruments {
-		return Object.freeze({ ...this.#existing });
+		if (!this.#frozenExistingIsValid) {
+			this.#frozenExisting = Object.freeze({ ...this.#existing });
+
+			this.#frozenExistingIsValid = true;
+		}
+
+		return this.#frozenExisting;
+	}
+
+	/**
+	 * Same as {@linkcode SongInstruments#get}, but without creating a frozen clone.
+	 *
+	 * Only use this if you know what you're doing!
+	 *
+	 * @internal
+	 */
+	public get unsafeGet(): Readonly<ExistingInstruments> {
+		return this.#existing;
 	}
 
 	/**
@@ -81,6 +110,8 @@ export class SongInstruments {
 			throw new Error("Instrument cannot be set out of order! There must be an instrument before or on this ID.");
 		}
 
+		this.#invalidate();
+
 		this.#existing[id] = instrument;
 
 		return instrument;
@@ -92,6 +123,8 @@ export class SongInstruments {
 	 * @param instrument Instrument to add
 	 */
 	public add(instrument: Instrument): Instrument {
+		this.#invalidate();
+
 		return this.set(this.total, instrument);
 	}
 
@@ -101,23 +134,26 @@ export class SongInstruments {
 	 * @param options Options for the instrument
 	 */
 	public create(options: InstrumentOptions): Instrument {
-		const instrument = new Instrument(options);
+		this.#invalidate();
 
-		return this.add(instrument);
+		return this.add(new Instrument(options));
 	}
 
 	/**
 	 * Delete an {@linkcode Instrument}.
 	 *
-	 * @see Built-in instruments cannot be delted!
+	 * @see Built-in instruments cannot be deleted!
 	 * @param id ID of the instrument to be deleted
 	 */
 	public delete(id: number): void {
 		const existingInstrument = this.#existing[id];
+
 		if (existingInstrument?.isBuiltIn) {
 			console.warn("Built-in instruments cannot be deleted!");
 			return;
 		}
+
+		this.#invalidate();
 
 		delete this.#existing[id];
 	}
@@ -129,5 +165,16 @@ export class SongInstruments {
 		for (const [id, instrument] of Object.entries(this.#existing)) {
 			yield [+id, instrument];
 		}
+	}
+
+	/**
+	 * Specifies that the cached frozen copy ({@linkcode SongInstruments##frozenExisting}) needs to be updated.
+	 */
+	#invalidate() {
+		if (!this.#frozenExistingIsValid) {
+			return;
+		}
+
+		this.#frozenExistingIsValid = false;
 	}
 }
