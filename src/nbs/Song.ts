@@ -117,27 +117,27 @@ export class Song {
 	/**
 	 * Name of the song.
 	 */
-	public name: string;
+	public name?: string;
 
 	/**
 	 * Author of the song.
 	 */
-	public author: string;
+	public author?: string;
 
 	/**
 	 * Original author of the song.
 	 */
-	public originalAuthor: string;
+	public originalAuthor?: string;
 
 	/**
 	 * Description of the song.
 	 */
-	public description: string;
+	public description?: string;
 
 	/**
 	 * Imported MIDI/Schematic file name.
 	 */
-	public importName: string;
+	public importName?: string;
 
 	/**
 	 * Looping options for the song.

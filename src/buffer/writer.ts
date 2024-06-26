@@ -11,7 +11,7 @@ export class BufferWriter extends BufferWrapper {
 		super(
 			// @ts-ignore
 			new ArrayBuffer(0, {
-				"maxByteLength": 2**32 - 1
+				"maxByteLength": 2 ** 32 - 1
 			})
 		);
 	}
