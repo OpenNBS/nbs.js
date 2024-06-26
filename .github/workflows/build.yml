@@ -2,8 +2,8 @@ name: Build
 
 on:
   push:
-    branches:
-    - main
+    branches-ignore:
+    - gh-pages
   workflow_dispatch:
 
 jobs:
