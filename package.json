@@ -25,7 +25,7 @@
 	"sideEffects": false,
 	"scripts": {
 		"test": "biome format . --write && biome lint . && jest",
-		"build": "bun run test && tsc --build && tsup",
+		"build": "tsc --build && tsup",
 		"build:publish": "bun run build && bun publish",
 		"build:docs": "typedoc"
 	},
