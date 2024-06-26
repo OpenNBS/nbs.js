@@ -35,46 +35,42 @@ export const defaultToArrayBufferOptions: ToArrayBufferOptions = {
  * @category Highlights
  * @category Array Buffer
  */
-export function toArrayBuffer(song: Song, options: ToArrayBufferOptions = defaultToArrayBufferOptions): ArrayBuffer {
+export function toArrayBuffer(song: Song, options: ToArrayBufferOptions = defaultToArrayBufferOptions): ArrayBufferLike {
 	let workingClass = song;
 
 	if (options.ignoreEmptyLayers) {
 		workingClass = omitEmptyLayers(song);
 	}
 
-	// Dry run to get target size
-	const size = write(workingClass, 0, true).nextByte;
-
-	// Create the actual buffer
-	return write(workingClass, size).buffer;
+	return write(workingClass).buffer;
 }
 
 /**
  * {@inheritDoc toArrayBuffer}
  * @param song The song that is being exported
- * @param size Size of the array buffer
- * @param dry Whether to execute a dry run
  * @category Array Buffer
  */
-function write(song: Song, size: number, dry = false): BufferWriter {
-	const writer = new BufferWriter(new ArrayBuffer(size), dry);
+function write(song: Song): BufferWriter {
+	const writer = new BufferWriter();
 
-	if (song.nbsVersion >= 1) {
+	if (song.version >= 1) {
 		writer.writeShort(0); // Write ONBS spec
-		writer.writeByte(song.nbsVersion); // Write NBS version
+		writer.writeByte(song.version); // Write NBS version
 		writer.writeByte(song.instruments.firstCustomIndex); // First custom instrument index
 	}
 
-	if (song.nbsVersion === 0 || song.nbsVersion >= 3) {
-		writer.writeShort(song.length); // Write song size
+	const songLength = song.getLength();
+
+	if (song.version === 0 || song.version >= 3) {
+		writer.writeShort(songLength); // Write song size
 	}
 
-	writer.writeShort(song.layers.total); // Write total amount of layers
+	writer.writeShort(song.layers.all.length); // Write total amount of layers
 	writer.writeString(song.name ?? ""); // Write song name
 	writer.writeString(song.author ?? ""); // Write song author
 	writer.writeString(song.originalAuthor ?? ""); // Write song original author
 	writer.writeString(song.description ?? ""); // Write song description
-	writer.writeShort(song.tempo * 100); // Write song tempo
+	writer.writeShort(song.getTempo() * 100); // Write song tempo
 	writer.writeByte(+song.autoSave.enabled); // Write song auto-save status
 	writer.writeByte(song.autoSave.interval); // Write auto-save interval
 	writer.writeByte(song.timeSignature); // Write song time signature
@@ -85,7 +81,7 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 	writer.writeInt(song.blocksRemoved); // Write total blocks removed from song
 	writer.writeString(song.importName ?? ""); // Write imported MiDi/schematic file name
 
-	if (song.nbsVersion >= 4) {
+	if (song.version >= 4) {
 		writer.writeByte(+song.loop.enabled); // Write loop status
 		writer.writeByte(song.loop.totalLoops); // Write maximum loop count
 		writer.writeByte(song.loop.startTick); // Write loop start tick
@@ -93,15 +89,13 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 
 	writer.writeByte(0); // Write end of header
 
-	const songLayers = song.layers.unsafeGet;
-
 	// Iterate each tick
 	let currentTick = -1;
-	for (let tick = 0; tick <= song.length; tick++) {
+	for (let tick = 0; tick <= songLength; tick++) {
 		// Ensure the layer has notes at the tick
 		let hasNotes = false;
-		for (const layer of songLayers) {
-			if (layer.notes.unsafeGet[tick]) {
+		for (const layer of song.layers.all) {
+			if (layer.notes.all[tick]) {
 				hasNotes = true;
 				break;
 			}
@@ -117,9 +111,9 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 		writer.writeShort(jumpTicks); // Write amount of ticks to jump
 
 		let currentLayer = -1;
-		for (let layerIndex = 0; layerIndex < song.layers.total; layerIndex++) {
-			const layer = songLayers[layerIndex];
-			const note = layer.notes.unsafeGet[tick];
+		for (let layerIndex = 0; layerIndex < song.layers.all.length; layerIndex++) {
+			const layer = song.layers.all[layerIndex];
+			const note = layer.notes.all[tick];
 
 			if (note) {
 				const jumpLayers = layerIndex - currentLayer;
@@ -130,7 +124,7 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 				writer.writeByte(note.instrument); // Write instrument ID of note
 				writer.writeByte(note.key); // Write key of note
 
-				if (song.nbsVersion >= 4) {
+				if (song.version >= 4) {
 					writer.writeByte(note.velocity); // Write velocity of note
 					writer.writeUnsignedByte((note.panning ?? 0) + 100); // Write panning of note
 					writer.writeShort(note.pitch); // Write pitch of note
@@ -143,10 +137,10 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 
 	writer.writeShort(0); // Write end of notes
 
-	for (const layer of songLayers) {
+	for (const layer of song.layers) {
 		writer.writeString(layer.name ?? ""); // Write layer name
 
-		if (song.nbsVersion >= 4) {
+		if (song.version >= 4) {
 			let lock = 0;
 
 			if (layer.isLocked) {
@@ -162,17 +156,16 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 
 		writer.writeByte(layer.volume); // Write layer velocity
 
-		if (song.nbsVersion >= 2) {
+		if (song.version >= 2) {
 			writer.writeByte(layer.stereo + 100); // Write layer panning
 		}
 	}
 
-	const songInstruments = song.instruments.unsafeGet;
-	const totalInstruments = song.instruments.total;
+	const totalInstruments = song.instruments.getTotal();
 
 	writer.writeByte(totalInstruments - song.instruments.firstCustomIndex); // Write number of custom instruments
 	for (let i = 0; i < totalInstruments; i++) {
-		const instrument = songInstruments[i];
+		const instrument = song.instruments.all[i];
 		if (!instrument.isBuiltIn) {
 			writer.writeString(instrument.name ?? ""); // Write instrument name
 			writer.writeString(instrument.soundFile); // Write instrument filename

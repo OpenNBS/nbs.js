@@ -1,4 +1,4 @@
-import { Layer, Song, SongLayers } from "@encode42/nbs.js";
+import { Layer, Song } from "@encode42/nbs.js";
 
 const song = new Song();
 song.name = "Demo";
@@ -15,13 +15,9 @@ const secondLayer = song.layers.add(
 
 song.layers.delete(0); // Goodbye firstLayer!
 
-console.dir(song.layers.get);
+console.dir(song.layers.all);
 
 // Some properties affect others
-console.log(song.timePerTick);
+console.log(song.getTimePerTick());
 song.tempo = 20;
-console.log(song.timePerTick);
-
-// Some properties are read-only (TypeError and error thrown)
-song.layers.get = new SongLayers();
-song.duration = 5;
+console.log(song.getTimePerTick());

@@ -1,5 +1,6 @@
-import type { Song } from "~/nbs/Song";
-import { omitEmptyLayers } from "~/util/omitEmptyLayers";
+import type { SongInstruments } from "~/nbs/instrument/SongInstruments";
+import type { SongLayers } from "~/nbs/layer/SongLayers";
+import type { Song, SongAutoSave, SongLoop } from "~/nbs/Song";
 
 /**
  * Structure for {@linkcode ignoredValues}.
@@ -12,6 +13,121 @@ export interface IgnoredValues {
 	 * Key to ignore if equal to value.
 	 */
 	[key: string]: unknown;
+}
+
+/**
+ * A {@linkcode Song} represented by basic JSON notation.
+ */
+export interface SongObject {
+	/**
+	 * {@inheritDoc Song#getLength}
+	 */
+	"length": number;
+
+	/**
+	 * {@inheritDoc Song#version}
+	 */
+	"version": number;
+
+	/**
+	 * {@inheritDoc Song#name}
+	 */
+	"name"?: string;
+
+	/**
+	 * {@inheritDoc Song#author}
+	 */
+	"author"?: string;
+
+	/**
+	 * {@inheritDoc Song#originalAuthor}
+	 */
+	"originalAuthor"?: string;
+
+	/**
+	 * {@inheritDoc Song#description}
+	 */
+	"description"?: string;
+
+	/**
+	 * {@inheritDoc Song#importName}
+	 */
+	"importName"?: string;
+
+	/**
+	 * {@inheritDoc Song#loop}
+	 */
+	"loop": SongLoop;
+
+	/**
+	 * {@inheritDoc Song#autoSave}
+	 */
+	"autoSave": SongAutoSave;
+
+	/**
+	 * {@inheritDoc Song#minutesSpent}
+	 */
+	"minutesSpent": number;
+
+	/**
+	 * {@inheritDoc Song#leftClicks}
+	 */
+	"leftClicks": number;
+
+	/**
+	 * {@inheritDoc Song#rightClicks}
+	 */
+	"rightClicks": number;
+
+	/**
+	 * {@inheritDoc Song#blocksAdded}
+	 */
+	"blocksAdded": number;
+
+	/**
+	 * {@inheritDoc Song#blocksRemoved}
+	 */
+	"blocksRemoved": number;
+
+	/**
+	 * {@inheritDoc Song#getDuration}
+	 */
+	"duration": number;
+
+	/**
+	 * {@inheritDoc Song#getLastMeasure}
+	 */
+	"lastMeasure": number;
+
+	/**
+	 * {@inheritDoc Song#timeSignature}
+	 */
+	"timeSignature": number;
+
+	/**
+	 * {@inheritDoc Song#getTempo}
+	 */
+	"tempo": number;
+
+	/**
+	 * {@inheritDoc Song#getTimePerTick}
+	 */
+	"timePerTick": number;
+
+	/**
+	 * {@inheritDoc Song#hasSolo}
+	 */
+	"hasSolo": boolean;
+
+	/**
+	 * {@inheritDoc Song#instruments}
+	 */
+	"instruments": SongInstruments; // TODO: Convert these into unique objects
+
+	/**
+	 * {@inheritDoc Song#getLength}
+	 */
+	"layers": SongLayers; // TODO: Convert these into unique objects
 }
 
 /**
@@ -41,10 +157,20 @@ export const ignoredValues: IgnoredValues = {
  * @category JSON
  */
 export function toJSON(song: Song): object {
-	const workingClass = omitEmptyLayers(song);
+	const workingClass = song; //omitEmptyLayers(song);
+
+	const songObject: SongObject = {
+		...workingClass,
+		"length": workingClass.getLength(),
+		"duration": workingClass.getDuration(),
+		"lastMeasure": workingClass.getLastMeasure(),
+		"tempo": workingClass.getTempo(),
+		"timePerTick": workingClass.getTimePerTick(),
+		"hasSolo": workingClass.hasSolo()
+	};
 
 	return JSON.parse(
-		JSON.stringify(workingClass, (key, value) => {
+		JSON.stringify(songObject, (key, value) => {
 			if (ignoredValues[key] !== undefined) {
 				if (value === ignoredValues[key]) {
 					return;

@@ -1,5 +1,3 @@
-import { enumerable } from "~/decorators/enumerable";
-import { readOnly } from "~/decorators/readOnly";
 import { SongInstruments } from "~/nbs/instrument/SongInstruments";
 import { SongLayers } from "~/nbs/layer/SongLayers";
 
@@ -82,45 +80,24 @@ export const defaultLoop: SongLoop = {
  */
 export class Song {
 	/**
-	 * {@inheritDoc Song#loop}
-	 */
-	#loop: SongLoop = { ...defaultLoop };
-
-	/**
-	 * {@inheritDoc Song#autoSave}
-	 */
-	#autoSave: SongAutoSave = { ...defaultAutoSave };
-
-	/**
-	 * {@inheritDoc Song#tempo}
+	 * {@inheritDoc Song#getTempo}
 	 */
 	#tempo = 10;
 
 	/**
-	 * {@inheritDoc Song#timePerTick}
+	 * {@inheritDoc Song#getTimePerTick}
 	 */
 	#timePerTick = 100;
 
 	/**
-	 * {@inheritDoc Song#layers}
-	 */
-	#layers = new SongLayers();
-
-	/**
-	 * {@inheritDoc Song#instruments}
-	 */
-	#instruments = new SongInstruments();
-
-	/**
 	 * Length of the song in ticks.
 	 */
-	@enumerable
-	@readOnly
-	public get length(): number {
+	public getLength(): number {
+		// TODO: use on-demand setter rather than calculation
 		let farthestTick = 0;
 
-		for (const layer of this.#layers.get) {
-			const lastNote = +Object.keys(layer.notes.get).at(-1);
+		for (const layer of this.layers.all) {
+			const lastNote = +Object.keys(layer.notes.all).at(-1);
 
 			if (lastNote > farthestTick) {
 				farthestTick = lastNote;
@@ -135,7 +112,7 @@ export class Song {
 	 *
 	 * @see https://opennbs.org/nbs
 	 */
-	public nbsVersion = 5;
+	public version = 5;
 
 	/**
 	 * Name of the song.
@@ -167,22 +144,14 @@ export class Song {
 	 *
 	 * @see {@linkcode SongLoop}
 	 */
-	@enumerable
-	@readOnly
-	public get loop(): SongLoop {
-		return this.#loop;
-	}
+	public readonly loop: SongLoop = { ...defaultLoop };
 
 	/**
 	 * Auto-save options for the song.
 	 *
 	 * @see {@linkcode SongAutoSave}
 	 */
-	@enumerable
-	@readOnly
-	public get autoSave(): SongAutoSave {
-		return this.#autoSave;
-	}
+	public readonly autoSave: SongAutoSave = { ...defaultAutoSave };
 
 	/**
 	 * Number of minutes spent on the song.
@@ -212,19 +181,15 @@ export class Song {
 	/**
 	 * Playtime of the song in milliseconds.
 	 */
-	@enumerable
-	@readOnly
-	public get duration(): number {
-		return this.length * this.#timePerTick;
+	public getDuration(): number {
+		return this.getLength() * this.#timePerTick;
 	}
 
 	/**
 	 * Tick of the last measure of the song.
 	 */
-	@enumerable
-	@readOnly
-	public get lastMeasure(): number {
-		return Math.ceil(this.length / this.timeSignature) * this.timeSignature;
+	public getLastMeasure(): number {
+		return Math.ceil(this.getLength() / this.timeSignature) * this.timeSignature;
 	}
 
 	/**
@@ -239,15 +204,14 @@ export class Song {
 	 *
 	 * @remarks Unit is ticks per second. (TPS)
 	 */
-	@enumerable
-	public get tempo(): number {
+	public getTempo(): number {
 		return this.#tempo;
 	}
 
 	/**
-	 * @remarks Adjusts the {@link Song#timePerTick | time per tick} upon modification.
+	 * @remarks Adjusts the {@link Song#getTimePerTick | time per tick} upon modification.
 	 */
-	public set tempo(value: number) {
+	public setTempo(value: number): void {
 		this.#tempo = value;
 		this.#timePerTick = (20 / value) * 50;
 	}
@@ -255,15 +219,14 @@ export class Song {
 	/**
 	 * Amount of milliseconds each tick takes.
 	 */
-	@enumerable
-	public get timePerTick(): number {
+	public getTimePerTick(): number {
 		return this.#timePerTick;
 	}
 
 	/**
-	 * @remarks Adjusts the {@link Song#tempo | tempo} upon modification.
+	 * @remarks Adjusts the {@link Song#getTempo | tempo} upon modification.
 	 */
-	public set timePerTick(value: number) {
+	public setTimePerTick(value: number): void {
 		this.#timePerTick = value;
 		this.#tempo = (50 / value) * 20;
 	}
@@ -273,12 +236,10 @@ export class Song {
 	 *
 	 * @see {@linkcode Layer.isSolo}
 	 */
-	@enumerable
-	@readOnly
-	public get hasSolo(): boolean {
+	public hasSolo(): boolean {
 		let found = false;
 
-		for (const layer of this.#layers.get) {
+		for (const layer of this.layers.all) {
 			if (layer.isSolo) {
 				found = true;
 				break;
@@ -291,18 +252,10 @@ export class Song {
 	/**
 	 * Instruments of the song.
 	 */
-	@enumerable
-	@readOnly
-	public get instruments(): SongInstruments {
-		return this.#instruments;
-	}
+	public instruments = new SongInstruments();
 
 	/**
 	 * Layers within the song.
 	 */
-	@enumerable
-	@readOnly
-	public get layers(): SongLayers {
-		return this.#layers;
-	}
+	public layers = new SongLayers();
 }

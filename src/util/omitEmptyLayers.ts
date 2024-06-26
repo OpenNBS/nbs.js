@@ -16,8 +16,8 @@ export function omitEmptyLayers(song: Song, makeClone = true) {
 		Object.setPrototypeOf(workingClass, Song.prototype);
 	}
 
-	for (let i = workingClass.layers.total - 1; i > 0; i--) {
-		if (workingClass.layers.get[i].notes.total !== 0) {
+	for (let i = workingClass.layers.all.length - 1; i > 0; i--) {
+		if (workingClass.layers.all[i].notes.getTotal() !== 0) {
 			continue;
 		}
 

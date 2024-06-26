@@ -12,43 +12,50 @@ Please carefully read through these changes and refer to the [examples](/example
 ### Changed
 - The project has been rebranded from `NBS.js` to `nbs.js`.
 - The project is designated as a module by default.
-- This update redesigned how classes and their properties are structured.
-- Many properties that are not designed to be manually changed have been made read-only, and will throw an error if set.
+- This update redesigns how classes and their properties are structured.
 - Continuing what v5 started, multiple arrays tied to IDs/ticks have been transformed into an object.
-  * `SongInstruments#get` is now indexed by `ID: Instrument`.
-- This all comes at the cost of performance and size, but likely is worth it.
+  * `SongInstruments#all` is now indexed by `ID: Instrument`.
+- Renamed `Song#nbsVersion` to `Song#version`.
 - Moved all properties from `Song#meta` and `Song#stats` into `Song`.
 - Moved all properties from `Layer#meta` into `Layer`.
 - Moved all properties from `Instrument#meta` into `Instrument`.
 - Renamed `Song#autosave` to `Song#autoSave`.
-- The `Song#length` property now updates on every get.
-- The following `Song` functions have been replaced:
+- Some `Song` properties are now getters to reflect their dynamic nature.
+  * `Song#length` -> `Song#getLength()`
+  * `Song#duration` -> `Song#getDuration()`
+  * `Song#lastMeasure` -> `Song#getLastMeasure()`
+  * `Song#tempo` -> `Song#getTempo()`
+  * `Song#timePerTick` -> `Song#getTimePerTick()`
+- The `Song#hasSolo` property is now a method.
+- The following `Song` methods have been replaced:
   * `Song#createLayer` -> `SongLayers#create`
   * `Song#addLayer` -> `SongLayers#add`
   * `Song#deleteLayer` -> `SongLayers#delete`
   * `Song#setNote` -> `LayerNotes#set`
   * `Song#addNote` -> `LayerNotes#add`
-- The `SongInstruments#loaded` property has been renamed to `SongInstruments#get`.
+- The `SongInstruments#loaded` property has been renamed to `SongInstruments#all`.
 - The `Instrument#builtIn` property has been renamed to `Instrument#isBuiltIn`.
-- The build system has been redone, allowing for tree shaking.
+- The ArrayBuffer writer no longer requires two passes. This doubles the speed of buffer exports!
+- Properties that are not designed to be modified are now `readonly`.
+- The build system has been remade using Bun.
 - The docs have been reorganized to reflect the project's larger scope.
 - Moved all classes out of `util.ts` and into their own files.
 
 ### Added
-- The `toJSON` and `fromJSON` functions.
-- The `Song#tempo` and `Song#timePerTick` update each other when changed.
-- The `SongLayers` class that provides helper functions and stores layers.
-- The `LayerNotes` class that provides helper functions and stores notes.
-- The following helper methods and fields for `SongInstruments`: `total`, `set`, `add`, `create`, and `delete`.
-- `SongInstruments` is now iterable in a loop.
+- The `toJSON` and `fromJSON` functions. **Still in development!**
+- The `Song#setTempo` and `Song#setTimePerTick` methods update each other when changed.
+- The `SongLayers` class that provides helper methods and stores layers.
+- The `LayerNotes` class that provides helper methods and stores notes.
+- The following helper methods and properties for `SongInstruments`: `getTotal`, `set`, `add`, `create`, and `delete`.
+- `SongLayers`, `LayerNotes`, and `SongInstruments` are now iterable in a loop.
 - The `omitEmptyLayers` function.
-- The `enumerable` and `readOnly` decorators used in development.
+- The `Mutable` type class.
 - Examples featuring multiple real-world use cases.
 - Documentation categories.
 
 ### Removed
-- The `Song#toArrayBuffer` function. (use `toArrayBuffer`)
-- The private `Song#expand` function.
+- The `Song#toArrayBuffer` method. (use `toArrayBuffer`)
+- The private `Song#expand` method.
 - The `Song#errors` property. (errors are thrown instead)
 - The `Song#arrayBuffer` property.
 - The ability to pass an `Instrument` instance into `Note`'s constructor.
@@ -67,11 +74,13 @@ Please carefully read through these changes and refer to the [examples](/example
   * Applications that access notes using a [property accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) should continue to function normally.
   * Applications that iterate `Layer#notes` using a for loop require changes. For example:
   ```ts
-  for (const note of layer.notes)
+  for (const note of layer.notes) {}
   ```
+
   Is translated to
+
   ```ts
-  for (const note of Object.values(layer.notes))
+  for (const note of Object.values(layer.notes)) {}
   ```
 
 ### Added

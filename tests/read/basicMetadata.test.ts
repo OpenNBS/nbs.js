@@ -18,12 +18,12 @@ test("Read song from file, compare metadata", async () => {
 	});
 
 	const input: TestOptions = {
-		"version": song.nbsVersion,
-		"length": song.length,
-		"instruments": song.instruments.total,
-		"layers": song.layers.total,
-		"tempo": song.tempo,
-		"lastMeasure": song.lastMeasure
+		"version": song.version,
+		"length": song.getLength(),
+		"instruments": song.instruments.getTotal(),
+		"layers": song.layers.all.length,
+		"tempo": song.getTempo(),
+		"lastMeasure": song.getLastMeasure()
 	};
 
 	const target: TestOptions = {

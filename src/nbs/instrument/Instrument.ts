@@ -1,5 +1,4 @@
-import { enumerable } from "~/decorators/enumerable";
-import { readOnly } from "~/decorators/readOnly";
+import type { Mutable } from "~/util/Mutable";
 
 /**
  * Structure of {@linkcode builtInBuilder}.
@@ -105,7 +104,7 @@ export const builtInBuilder: BuiltInBuilder = {
  * @category Instrument
  */
 export type BuiltIn = {
-	[id in keyof typeof builtInBuilder]: Instrument;
+	[Id in keyof typeof builtInBuilder]: Instrument;
 };
 
 /**
@@ -156,35 +155,28 @@ export const defaultInstrumentOptions: InstrumentOptions = {
  */
 export class Instrument {
 	/**
-	 * {@inheritDoc Instrument.builtIn}
+	 * Instruments built into Open Note Block Studio.
 	 */
-	static #builtIn = Object.fromEntries(
+	public static readonly builtIn: BuiltIn = Object.fromEntries(
 		Object.entries(builtInBuilder).map(([id, value]) => {
-			const instrument = new this(value);
-			instrument.#isBuiltIn = true;
+			const instrument = new this(value) as Mutable<Instrument>;
+
+			if (value.name === "Harp") {
+				instrument.pressKey = true;
+			}
+
+			instrument.isBuiltIn = true;
 
 			return [id, instrument];
 		})
-	) as Readonly<BuiltIn>;
-
-	static {
-		Instrument.#builtIn[0].pressKey = true;
-		Instrument.#builtIn = Object.freeze(Instrument.#builtIn);
-	}
+	);
 
 	/**
-	 * Instruments built into Open Note Block Studio.
+	 * Whether the instrument is a built-in instrument.
+	 *
+	 * @internal
 	 */
-	@enumerable
-	@readOnly
-	public static get builtIn(): BuiltIn {
-		return Instrument.#builtIn;
-	}
-
-	/**
-	 * {@inheritDoc Instrument#isBuiltIn}
-	 */
-	#isBuiltIn = false;
+	public readonly isBuiltIn: boolean = false;
 
 	/**
 	 * Name of the instrument.
@@ -194,7 +186,7 @@ export class Instrument {
 	/**
 	 * Sound file of the instrument.
 	 *
-	 * @remarks Relative to the `Data/Sounds/` directory of the ONBS installations.
+	 * @remarks Relative to the `Data/Sounds/` directory of the Open Note Block Studio installations.
 	 */
 	public soundFile: string;
 
@@ -211,15 +203,6 @@ export class Instrument {
 	 * Whether the on-screen piano should visually press keys when these notes are played.
 	 */
 	public pressKey = defaultInstrumentOptions.pressKey;
-
-	/**
-	 * Whether the instrument is a built-in instrument.
-	 */
-	@enumerable
-	@readOnly
-	public get isBuiltIn(): boolean {
-		return this.#isBuiltIn;
-	}
 
 	/**
 	 * Construct an instrument.

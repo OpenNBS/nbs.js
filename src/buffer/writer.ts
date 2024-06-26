@@ -7,65 +7,41 @@ import { BufferWrapper } from "~/buffer/wrapper";
  * @internal
  */
 export class BufferWriter extends BufferWrapper {
-	/**
-	 * Whether to execute a dry run.
-	 */
-	readonly #dry: boolean;
-
-	/**
-	 * Create a buffer writer.
-	 *
-	 * @param buffer Array buffer to read
-	 * @param dry Whether to execute a dry run, used to find the target size of the buffer
-	 */
-	constructor(buffer: ArrayBuffer, dry = false) {
-		super(buffer);
-
-		this.#dry = dry;
+	constructor() {
+		super(
+			// @ts-ignore
+			new ArrayBuffer(0, {
+				"maxByteLength": 2**32 - 1
+			})
+		);
 	}
 
 	/**
 	 * Write a byte.
 	 */
 	public writeByte(value: number | undefined = 0): void {
-		if (!this.#dry) {
-			this.viewer.setInt8(this.nextByte, Math.floor(value));
-		}
-
-		this.nextByte += 1;
+		this.viewer.setInt8(this.resize(1), Math.floor(value));
 	}
 
 	/**
 	 * Write an unsigned byte.
 	 */
 	public writeUnsignedByte(value: number | undefined = 0): void {
-		if (!this.#dry) {
-			this.viewer.setUint8(this.nextByte, value);
-		}
-
-		this.nextByte += 1;
+		this.viewer.setUint8(this.resize(1), value);
 	}
 
 	/**
 	 * Write a short.
 	 */
 	public writeShort(value: number | undefined = 0): void {
-		if (!this.#dry) {
-			this.viewer.setInt16(this.nextByte, value, true);
-		}
-
-		this.nextByte += 2;
+		this.viewer.setInt16(this.resize(2), value, true);
 	}
 
 	/**
 	 * Write an integer.
 	 */
 	public writeInt(value: number | undefined = 0): void {
-		if (!this.#dry) {
-			this.viewer.setInt32(this.nextByte, value, true);
-		}
-
-		this.nextByte += 4;
+		this.viewer.setInt32(this.resize(4), value, true);
 	}
 
 	/**
@@ -73,6 +49,7 @@ export class BufferWriter extends BufferWrapper {
 	 */
 	public writeString(value: string | undefined = ""): void {
 		this.writeInt(value.length);
+
 		for (const i of value) {
 			this.writeUnsignedByte(i.charCodeAt(0));
 		}

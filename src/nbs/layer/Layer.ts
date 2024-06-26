@@ -1,5 +1,3 @@
-import { enumerable } from "~/decorators/enumerable";
-import { readOnly } from "~/decorators/readOnly";
 import { LayerNotes } from "~/nbs/note/LayerNotes";
 
 /**
@@ -57,14 +55,14 @@ export const defaultLayerOptions: Required<LayerOptions> = {
  */
 export class Layer {
 	/**
-	 * {@inheritDoc Layer#notes}
+	 * Array of every note in the layer.
 	 */
-	#notes: LayerNotes = new LayerNotes();
+	public notes: LayerNotes = new LayerNotes();
 
 	/**
 	 * Name of the layer.
 	 */
-	public name?: string = defaultLayerOptions.name;
+	public name = defaultLayerOptions.name;
 
 	/**
 	 * Whether this layer has been marked as locked.
@@ -89,15 +87,6 @@ export class Layer {
 	 * @example -100 is 2 blocks right, 0 is center, 100 is 2 blocks left.
 	 */
 	public stereo = defaultLayerOptions.stereo;
-
-	/**
-	 * Notes within the layer.
-	 */
-	@readOnly
-	@enumerable
-	public get notes(): LayerNotes {
-		return this.#notes;
-	}
 
 	constructor(options: LayerOptions = defaultLayerOptions) {
 		const mergedOptions = {

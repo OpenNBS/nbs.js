@@ -12,7 +12,9 @@ export class BufferReader extends BufferWrapper {
 	 */
 	public readByte(): number {
 		const result = this.viewer.getInt8(this.nextByte);
+
 		this.nextByte += 1;
+
 		return result;
 	}
 
@@ -21,7 +23,9 @@ export class BufferReader extends BufferWrapper {
 	 */
 	public readUnsignedByte(): number {
 		const result = this.viewer.getUint8(this.nextByte);
+
 		this.nextByte += 1;
+
 		return result;
 	}
 
@@ -30,7 +34,9 @@ export class BufferReader extends BufferWrapper {
 	 */
 	public readShort(): number {
 		const result = this.viewer.getInt16(this.nextByte, true);
+
 		this.nextByte += 2;
+
 		return result;
 	}
 
@@ -39,7 +45,9 @@ export class BufferReader extends BufferWrapper {
 	 */
 	public readInt(): number {
 		const result = this.viewer.getInt32(this.nextByte, true);
+
 		this.nextByte += 4;
+
 		return result;
 	}
 
@@ -48,11 +56,14 @@ export class BufferReader extends BufferWrapper {
 	 */
 	public readString(): string {
 		const length = this.readInt();
+
 		let result = "";
 		for (let i = 0; i < length; i++) {
 			const byte = this.readUnsignedByte();
+
 			result += String.fromCodePoint(byte);
 		}
+
 		return result;
 	}
 }

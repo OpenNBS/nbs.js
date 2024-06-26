@@ -13,6 +13,32 @@
 			},
 			"performance": {
 				"noDelete": "off"
+			},
+			"style": {
+				"useBlockStatements": "error",
+				"useNamingConvention": {
+					"level": "error",
+					"options": {
+						"strictCase": false
+					}
+				},
+				"useShorthandArrayType": "error",
+				"noImplicitBoolean": "error",
+				"noNegationElse": "error",
+				"useCollapsedElseIf": "error",
+				"useFilenamingConvention": {
+					"level": "error",
+					"options": {
+						"requireAscii": true,
+						"filenameCases": ["camelCase", "PascalCase"]
+					}
+				}
+			},
+			"suspicious": {
+				"noConsoleLog": "warn"
+			},
+			"correctness": {
+				"noUnusedImports": "error"
 			}
 		}
 	},
@@ -24,9 +50,10 @@
 	"javascript": {
 		"formatter": {
 			"quoteProperties": "preserve",
-			"trailingComma": "none",
+			"trailingCommas": "none",
 			"lineWidth": 192,
-			"indentStyle": "tab"
+			"indentStyle": "tab",
+			"bracketSameLine": true
 		}
 	}
 }

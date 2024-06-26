@@ -55,7 +55,7 @@ export interface FromArrayBufferOptions {
 	/**
 	 * Whether to ignore (delete) unpopulated leading layers.
 	 *
-	 * @remarks ONBS automatically generates extra layers past the last populated layer.
+	 * @remarks Open Note Block Studio automatically generates extra layers past the last populated layer.
 	 */
 	"ignoreEmptyLayers"?: boolean;
 }
@@ -81,7 +81,7 @@ export const defaultFromArrayBufferOptions: FromArrayBufferOptions = {
  * @category Song
  * @category Array Buffer
  */
-export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromArrayBufferOptions): Song {
+export function fromArrayBuffer(arrayBuffer: ArrayBufferLike, options = defaultFromArrayBufferOptions): Song {
 	const song = new Song();
 	const reader = new BufferReader(arrayBuffer);
 
@@ -89,17 +89,17 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 
 	// Check if NBS file is ONBS versioned
 	if (size === 0) {
-		song.nbsVersion = reader.readByte(); // Read NBS version
+		song.version = reader.readByte(); // Read NBS version
 		reader.readByte(); // Read first custom instrument
 
-		if (song.nbsVersion >= 3) {
+		if (song.version >= 3) {
 			size = reader.readShort(); // Read real song size
 		}
 	} else {
-		song.nbsVersion = 0;
+		song.version = 0;
 	}
 
-	if (song.nbsVersion > 5) {
+	if (song.version > 5) {
 		throw new Error("This library does not support Note Block Songs created with versions greater than 5.");
 	}
 
@@ -108,7 +108,7 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 	song.author = reader.readString(); // Read song author
 	song.originalAuthor = reader.readString(); // Read song original author
 	song.description = reader.readString(); // Read song description
-	song.tempo = reader.readShort() / 100; // Read song tempo
+	song.setTempo(reader.readShort() / 100); // Read song tempo
 	song.autoSave.enabled = Boolean(reader.readByte()); // Read song auto-save status
 	song.autoSave.interval = reader.readByte(); // Read song auto-save interval
 	song.timeSignature = reader.readByte(); // Read song time signature
@@ -127,7 +127,7 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 		song[key] = undefined;
 	}
 
-	if (song.nbsVersion >= 4) {
+	if (song.version >= 4) {
 		song.loop.enabled = Boolean(reader.readByte()); // Read loop status
 		song.loop.totalLoops = reader.readByte(); // Read maximum loop count
 		song.loop.startTick = reader.readShort(); // Read loop start tick
@@ -161,7 +161,7 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 			let velocity = 100;
 			let panning = 0;
 			let pitch = 0;
-			if (song.nbsVersion >= 4) {
+			if (song.version >= 4) {
 				velocity = reader.readByte(); // Read velocity of note
 				panning = reader.readUnsignedByte() - 100; // Read panning of note
 				pitch = reader.readShort(); // Read pitch of note
@@ -181,7 +181,7 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 	}
 
 	// Guess song size for ONBS versions without size byte
-	if (song.nbsVersion > 0 && song.nbsVersion < 3) {
+	if (song.version > 0 && song.version < 3) {
 		size = tick;
 	}
 
@@ -193,7 +193,7 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 			const name = reader.readString(); // Read layer name
 			layer.name = name === "" ? undefined : name;
 
-			if (song.nbsVersion >= 4) {
+			if (song.version >= 4) {
 				const lock = reader.readByte(); // Read layer lock status
 
 				if (lock === 1) {
@@ -208,7 +208,7 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 			layer.volume = reader.readByte(); // Read layer velocity
 
 			let panning = 0;
-			if (song.nbsVersion >= 2) {
+			if (song.version >= 2) {
 				panning = reader.readUnsignedByte() - 100; // Read layer panning
 			}
 
@@ -234,7 +234,7 @@ export function fromArrayBuffer(arrayBuffer: ArrayBuffer, options = defaultFromA
 
 	// Parse notes
 	for (const rawNote of rawNotes) {
-		let layer = song.layers.get[rawNote.layer];
+		let layer = song.layers.all[rawNote.layer];
 		if (!layer) {
 			layer = song.layers.create();
 		}

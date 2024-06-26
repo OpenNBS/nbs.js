@@ -92,9 +92,9 @@ export function fromJSON(json: object): Song {
 
 	// Special cases where getters can be set
 	if ("tempo" in json && typeof json.tempo === "number") {
-		song.tempo = json.tempo;
+		song.setTempo(json.tempo);
 	} else if ("timePerTick" in json && typeof json.timePerTick === "number") {
-		song.timePerTick = json.timePerTick;
+		song.setTimePerTick(json.timePerTick);
 	}
 
 	// Iterate every layer (if valid)

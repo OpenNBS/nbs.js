@@ -9,16 +9,16 @@ test("Add notes to an existing song", async () => {
 	const expectedFile = await readFile("tests/sample/simpleAdded.nbs");
 	const expectedBuffer = new Uint8Array(expectedFile);
 
-	const harp = originalSong.layers.get[0];
+	const harp = originalSong.layers.all[0];
 
-	const topPling = originalSong.layers.get[4];
+	const topPling = originalSong.layers.all[4];
 	topPling.volume = 80;
 
-	const middlePling = originalSong.layers.get[5];
+	const middlePling = originalSong.layers.all[5];
 	middlePling.volume = 30;
 	middlePling.stereo = -40;
 
-	const bottomPling = originalSong.layers.get[6];
+	const bottomPling = originalSong.layers.all[6];
 	bottomPling.volume = 30;
 	bottomPling.stereo = 40;
 
