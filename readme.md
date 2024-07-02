@@ -1,24 +1,16 @@
 [Docs]: https://encode42.github.io/nbs.js/docs/
 
-[Docs Badge]: https://img.shields.io/badge/Docs-3178C6?labelColor=3178C6&logo=typescript&logoColor=white&style=flat-square
+[Docs Badge]: https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/readthedocs_vector.svg
 
 [NPM]: https://www.npmjs.com/package/@encode42/nbs.js
 
-[NPM Badge]: https://img.shields.io/npm/v/@encode42/nbs.js?label=​&color=cb0000&labelColor=cb0000&logo=npm&logoColor=white&style=flat-square
-
-[Changelog]: changelog.md
-
-[Actions]: https://github.com/encode42/nbs.js/actions/workflows/build.yml
-
-[Actions Badge]: https://img.shields.io/github/actions/workflow/status/encode42/nbs.js/build.yml?style=flat-square
+[NPM Badge]: https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/npm_vector.svg
 
 [Support]: https://encode42.dev/support
 
-[Support Badge]: https://img.shields.io/discord/646517284453613578?color=7289da&labelColor=7289da&label=​&logo=discord&logoColor=white&style=flat-square
+[Support Badge]: https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg
 
-[Codacy]: https://app.codacy.com/gh/encode42/nbs.js/dashboard
-
-[Codacy Badge]: https://img.shields.io/codacy/grade/68f12c67186549b88ab7ada56ac83efc?color=172B4D&labelColor=172B4D&label=​&logo=codacy&style=flat-square
+[Changelog]: changelog.md
 
 <img src=".github/assets/badge-lq.png" align="right" id="header">
 
@@ -27,8 +19,7 @@
 
 *It's cleanroom, too! No required dependencies!*
 
-[![Docs Badge]][Docs] [![NPM Badge]][NPM]  
-[![][Actions Badge]][Actions] [![][Codacy Badge]][Codacy] [![][Support Badge]][Support]
+[![NPM Badge]][NPM] [![Docs Badge]][Docs] [![][Support Badge]][Support]
 
 ### 🔧 Including
 > [!TIP]
