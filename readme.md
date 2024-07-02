@@ -8,10 +8,6 @@
 
 [Changelog]: changelog.md
 
-[Demo]: https://encode42.dev/nbs
-
-[Demo Badge]: https://img.shields.io/badge/Demo-202b38?labelColor=202b38&logo=svelte&logoColor=white&style=flat-square
-
 [Actions]: https://github.com/encode42/nbs.js/actions/workflows/build.yml
 
 [Actions Badge]: https://img.shields.io/github/actions/workflow/status/encode42/nbs.js/build.yml?style=flat-square
@@ -31,7 +27,7 @@
 
 *It's cleanroom, too! No required dependencies!*
 
-[![Demo Badge]][Demo] [![Docs Badge]][Docs] [![NPM Badge]][NPM]  
+[![Docs Badge]][Docs] [![NPM Badge]][NPM]  
 [![][Actions Badge]][Actions] [![][Codacy Badge]][Codacy] [![][Support Badge]][Support]
 
 ### 🔧 Including
