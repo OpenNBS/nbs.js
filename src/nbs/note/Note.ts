@@ -47,14 +47,14 @@ export const defaultNoteOptions: Required<NoteOptions> = {
  */
 export class Note {
 	/**
-	 * Instrument ID of the note.
+	 * ID of the instrument used by the note.
 	 */
 	public instrument = 0;
 
 	/**
 	 * Key of the note block.
 	 *
-	 * @remarks From 0-87. 33-57 is within the 2-octave limit.
+	 * @remarks From 0 to 87. 33 to 57 is within the 2-octave limit.
 	 * @example 0 is A0 and 87 is C8.
 	 */
 	public key = defaultNoteOptions.key;
@@ -83,9 +83,9 @@ export class Note {
 	public pitch = defaultNoteOptions.pitch;
 
 	/**
-	 * Construct a note.
+	 * Construct a new note.
 	 *
-	 * @param instrument Instrument ID for the note
+	 * @param instrument ID of the instrument used by the note.
 	 * @param options Options for the note
 	 */
 	public constructor(instrument: number, options: NoteOptions = defaultNoteOptions) {

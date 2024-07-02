@@ -18,13 +18,16 @@ export interface ExistingInstruments extends BuiltIn {
 }
 
 /**
- * Represents the {@linkcode Instrument}s of a {@linkcode Song} and provides helper functions.
+ * Represents the {@linkcode Instrument}s of a {@linkcode Song} with helper methods.
  *
  * @category Instrument
  */
 export class SongInstruments {
 	/**
 	 * ID-instrument pair of the song's instruments.
+	 *
+	 * @remarks Currently, this always includes the built-in instruments from Note Block Studio v5.
+	 * @see This should not be modified directly! Instead, utilize the various helper methods in this class.
 	 */
 	public readonly all: ExistingInstruments = { ...Instrument.builtIn }; // TODO: Only import the number of instruments defined by the NBS version
 
@@ -45,11 +48,9 @@ export class SongInstruments {
 	/**
 	 * Set an existing {@linkcode Instrument} at an ID.
 	 *
-	 * @remarks
-	 * Any existing instrument with the same ID as the added instrument will be overwritten.
+	 * @remarks Any existing instrument with the same ID as the added instrument will be overwritten. This includes built-in instruments, which may not be desirable!
+	 * @see According to the NBS specification, instrument IDs must be consecutive!
 	 *
-	 * According to the Note Block Song specification, instrument IDs must be consecutive.
-	 * @see Built-in instruments cannot be modified!
 	 * @param id ID of the instrument to be set
 	 * @param instrument The instrument to set at `id`.
 	 */
@@ -80,7 +81,9 @@ export class SongInstruments {
 	/**
 	 * Delete an {@linkcode Instrument}.
 	 *
-	 * @see Built-in instruments cannot be deleted!
+	 * @remarks Does not protect built-in instruments. This may not be desirable!
+	 * @see According to the NBS specification, instrument IDs must be consecutive! Make sure to update any proceeding instrument IDs.
+	 *
 	 * @param id ID of the instrument to be deleted
 	 */
 	public delete(id: number): void {
@@ -89,10 +92,17 @@ export class SongInstruments {
 
 	/**
 	 * Iterate each id-instrument pair.
+	 *
+	 * @example
+	 * This is intended for use in `for` loops.
+	 *
+	 * ```ts
+	 * for (const [id, instrument] in song.instruments) { ... }
+	 * ```
 	 */
 	*[Symbol.iterator](): Iterator<[number, Instrument]> {
-		for (const [id, note] of Object.entries(this.all)) {
-			yield [+id, note];
+		for (const [id, instrument] of Object.entries(this.all)) {
+			yield [+id, instrument];
 		}
 	}
 }

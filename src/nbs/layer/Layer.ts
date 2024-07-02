@@ -66,18 +66,26 @@ export class Layer {
 
 	/**
 	 * Whether this layer has been marked as locked.
+	 *
+	 * @see
+	 * This property is not used within `nbs.js` for anything other than storage.
+	 *
+	 * It only exists to work with other applications that implement functionality.
 	 */
 	public isLocked = defaultLayerOptions.isLocked;
 
 	/**
 	 * Whether this layer has been marked as solo.
+	 *
+	 * @see
+	 * This property is not used within `nbs.js` for anything other than storage.
+	 *
+	 * It only exists to work with other applications that implement functionality.
 	 */
 	public isSolo = defaultLayerOptions.isSolo;
 
 	/**
-	 * Volume of the layer.
-	 *
-	 * @remarks Unit is percentage.
+	 * Volume percentage of the layer.
 	 */
 	public volume = defaultLayerOptions.volume;
 

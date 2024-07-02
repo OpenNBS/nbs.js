@@ -1,6 +1,6 @@
 [Docs]: https://encode42.github.io/nbs.js/docs/
 
-[Docs Badge]: https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/readthedocs_vector.svg
+[Docs Badge]: https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/ghpages_vector.svg
 
 [NPM]: https://www.npmjs.com/package/@encode42/nbs.js
 
@@ -22,14 +22,14 @@
 [![NPM Badge]][NPM] [![Docs Badge]][Docs] [![][Support Badge]][Support]
 
 ### 🔧 Including
-> [!TIP]
-> When linking to `esm.run`, it's recommended to use a version! (e.g. `@encode42/nbs.js@6.0.0`)
-
 > [!IMPORTANT]  
 > This library does not bundle CommonJS modules. Legacy Node.js applications may not be compatible.
 
+> [!TIP]
+> When linking to `esm.run`, it's recommended to use a version! (e.g. `@encode42/nbs.js@6.0.0`)
+
 #### 🟢 Node.js
-Add the [`@encode42/nbs.js` package from NPM][NPM] using the package manager of your choice.
+Add the [`@encode42/nbs.js` package][NPM] using the package manager of your choice.
 
 ```js
 import { Song } from "@encode42/nbs.js";

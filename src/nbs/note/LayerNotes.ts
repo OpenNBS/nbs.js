@@ -18,7 +18,7 @@ export interface ExistingNotes {
 }
 
 /**
- * Represents the {@linkcode Note}s of a {@linkcode Layer} and provides helper functions.
+ * Represents the {@linkcode Note}s of a {@linkcode Layer} with helper methods.
  *
  * @includeExample ./examples/full/iterateNotes.ts
  * @category Layer
@@ -27,6 +27,8 @@ export interface ExistingNotes {
 export class LayerNotes {
 	/**
 	 * Tick-note pair of every note in the layer.
+	 *
+	 * @see This should not be modified directly! Instead, utilize the various helper methods in this class.
 	 */
 	public readonly all: ExistingNotes = {};
 
@@ -45,9 +47,10 @@ export class LayerNotes {
 	}
 
 	/**
-	 * Set an existing {@linkcode Note} at a tick.
+	 * Set an existing {@linkcode Note} at the specified tick.
 	 *
 	 * @remarks Any existing note at the same tick as the added note will be overwritten.
+	 *
 	 * @param tick Tick to set the note on
 	 * @param note Note to set on tick
 	 */
@@ -71,7 +74,7 @@ export class LayerNotes {
 	 * Create and add a {@linkcode Note} to a tick.
 	 *
 	 * @param tick Tick to set the note at
-	 * @param instrument The note's instrument
+	 * @param instrument The ID of the instrument for the note to use.
 	 * @param options Options for the note
 	 */
 	public create(tick: number, instrument: number, options: NoteOptions = defaultNoteOptions): Note {
@@ -79,9 +82,9 @@ export class LayerNotes {
 	}
 
 	/**
-	 * Delete a {@linkcode Note} at a tick.
+	 * Delete a {@linkcode Note} at the specified tick.
 	 *
-	 * @param tick Tick to remove note from
+	 * @param tick Tick to remove the note from
 	 */
 	public delete(tick: number): void {
 		delete this.all[tick];
@@ -89,6 +92,13 @@ export class LayerNotes {
 
 	/**
 	 * Iterate each tick-note pair.
+	 *
+	 * @example
+	 * This is intended for use in `for` loops.
+	 *
+	 * ```ts
+	 * for (const [id, note] in layer.notes) { ... }
+	 * ```
 	 */
 	*[Symbol.iterator](): Iterator<[number, Note]> {
 		for (const [id, note] of Object.entries(this.all)) {

@@ -1,7 +1,7 @@
 import { Layer } from "~/nbs/layer/Layer";
 
 /**
- * Represents the {@linkcode Layer}s of a {@linkcode Song} and provides helper functions.
+ * Represents the {@linkcode Layer}s of a {@linkcode Song} with helper methods.
  *
  * @includeExample ./examples/full/randomSong.ts
  * @category Song
@@ -10,11 +10,13 @@ import { Layer } from "~/nbs/layer/Layer";
 export class SongLayers {
 	/**
 	 * Array of every layer in the song.
+	 *
+	 * @see This should not be modified directly! Instead, utilize the various helper methods in this class.
 	 */
 	public readonly all: Layer[] = [];
 
 	/**
-	 * Alias for {@linkcode SongLayers#all.length}
+	 * Alias for {@linkcode SongLayers#all.length}.
 	 */
 	public getTotal(): number {
 		return this.all.length;
@@ -43,7 +45,7 @@ export class SongLayers {
 	}
 
 	/**
-	 * Delete a {@linkcode Layer}.
+	 * Delete a {@linkcode Layer} by its {@linkcode SongLayers#all} array index.
 	 *
 	 * @param index Index of the layer to be deleted
 	 */
@@ -53,6 +55,14 @@ export class SongLayers {
 
 	/**
 	 * Iterate each layer.
+	 *
+	 * @remarks Effectively an alias for {@linkcode SongLayers#all}.
+	 * @example
+	 * This is intended for use in `for` loops.
+	 *
+	 * ```ts
+	 * for (const layer in song.layers) { ... }
+	 * ```
 	 */
 	*[Symbol.iterator](): Iterator<Layer> {
 		for (const layer of this.all) {

@@ -155,7 +155,7 @@ export const defaultInstrumentOptions: InstrumentOptions = {
  */
 export class Instrument {
 	/**
-	 * Instruments built into Open Note Block Studio.
+	 * Instruments built into Note Block Studio.
 	 */
 	public static readonly builtIn: BuiltIn = Object.fromEntries(
 		Object.entries(builtInBuilder).map(([id, value]) => {
@@ -186,7 +186,11 @@ export class Instrument {
 	/**
 	 * Sound file of the instrument.
 	 *
-	 * @remarks Relative to the `Data/Sounds/` directory of the Open Note Block Studio installations.
+	 * @remarks Relative to the `Data/Sounds/` directory of Note Block Studio installations.
+	 * @see
+	 * This property is not used within `nbs.js` for anything other than storage.
+	 *
+	 * It only exists to work with other applications that implement functionality.
 	 */
 	public soundFile: string;
 

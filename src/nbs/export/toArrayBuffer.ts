@@ -11,6 +11,8 @@ import { omitEmptyLayers } from "~/util/omitEmptyLayers";
 export interface ToArrayBufferOptions {
 	/**
 	 * Whether to ignore unpopulated leading layers.
+	 *
+	 * @remarks This skips all layers without notes from the exported song.
 	 */
 	"ignoreEmptyLayers"?: boolean;
 }

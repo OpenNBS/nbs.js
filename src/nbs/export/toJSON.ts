@@ -17,6 +17,9 @@ export interface IgnoredValues {
 
 /**
  * A {@linkcode Song} represented by basic JSON notation.
+ *
+ * @category Song
+ * @category JSON
  */
 export interface SongObject {
 	/**
@@ -151,8 +154,11 @@ export const ignoredValues: IgnoredValues = {
 /**
  * Generate a {@linkcode JSON} object from a {@linkcode Song}.
  *
+ * @see **Currently untested!**
+ *
  * @param song Song to parse from
  * @returns Generated {@linkcode JSON} object
+ *
  * @includeExample ./examples/full/toJSON.ts
  * @category JSON
  */

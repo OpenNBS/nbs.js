@@ -12,6 +12,7 @@ import { Song } from "~/nbs/Song";
  * @param ignored Array of keys to ignore
  * @param songObject Song to copy to
  * @param object {@linkcode JSON} object to copy from
+ *
  * @category JSON
  * @internal
  */
@@ -47,6 +48,7 @@ function iterateKeys(ignored: string[], songObject: Song | object, object: objec
  * @param then Action to execute if condition is met
  * @param object {@linkcode JSON} object to compare with
  * @param key Key of the {@linkcode JSON} object to compare
+ *
  * @category JSON
  * @internal
  */
@@ -61,8 +63,11 @@ function getterIs<T>(condition: (value: unknown) => boolean, then: (value: T) =>
 /**
  * Parse and return a {@linkcode Song} from a JSON object.
  *
+ * @see **Currently untested!**
+ *
  * @param json {@linkcode JSON} object to parse from
  * @returns Parsed song
+ *
  * @category Song
  * @category JSON
  */

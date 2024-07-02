@@ -5,7 +5,7 @@ const instrument = new Instrument({
 	"soundFile": "sand.ogg" // Just a string in nbs.js, no IO is performed
 });
 
-// Open Note Block Studio's built-in instruments are provided
+// Note Block Studio's built-in instruments are provided
 console.dir(Instrument.builtIn);
 
 // You'll want to add that instrument to a song, otherwise it won't do much!

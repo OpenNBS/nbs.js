@@ -55,7 +55,10 @@ export interface FromArrayBufferOptions {
 	/**
 	 * Whether to ignore (delete) unpopulated leading layers.
 	 *
-	 * @remarks Open Note Block Studio automatically generates extra layers past the last populated layer.
+	 * @remarks
+	 * Note Block Studio automatically generates extra layers past the last populated layer.
+	 *
+	 * This option skips those layers upon import.
 	 */
 	"ignoreEmptyLayers"?: boolean;
 }
@@ -76,6 +79,7 @@ export const defaultFromArrayBufferOptions: FromArrayBufferOptions = {
  * @param arrayBuffer Array buffer to parse from
  * @param options Options for parsing
  * @return Parsed song, empty if unsuccessful
+ *
  * @includeExample ./examples/simple/read.ts
  * @category Highlights
  * @category Song
