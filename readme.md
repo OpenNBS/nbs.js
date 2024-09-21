@@ -1,4 +1,4 @@
-[Docs]: https://encode42.github.io/nbs.js/docs/
+[Docs]: https://opennbs.github.io/nbs.js/docs/
 
 [Docs Badge]: https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/ghpages_vector.svg
 
@@ -6,7 +6,7 @@
 
 [NPM Badge]: https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/npm_vector.svg
 
-[Support]: https://encode42.dev/support
+[Support]: https://discord.gg/w35BqQp
 
 [Support Badge]: https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg
 

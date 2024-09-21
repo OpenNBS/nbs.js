@@ -14,7 +14,7 @@ Please carefully read through these changes and refer to the [examples](/example
 ### Changed
 - The project has been rebranded from `NBS.js` to `nbs.js`.
 - The project has moved from `@encode42/nbs.js` to `@nbsjs/core`.
-- The project's repository has moved to [Note Block World](https://github.com/OpenNBS).
+- The project's repository has moved to the [OpenNBS](https://github.com/OpenNBS) organization.
 - The project is designated as a module by default.
 - This update redesigns how classes and their properties are structured.
 - Continuing what v5 started, multiple arrays tied to IDs/ticks have been transformed into an object.
