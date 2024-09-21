@@ -35,13 +35,13 @@
 	},
 	"packageManager": "bun@1.1.10",
 	"devDependencies": {
-		"@biomejs/biome": "^1.8.2",
-		"@types/bun": "^1.1.5",
+		"@biomejs/biome": "^1.9.2",
+		"@types/bun": "^1.1.10",
 		"bun-plugin-dts": "^0.2.3",
-		"typedoc": "^0.25.13",
-		"typedoc-material-theme": "^1.0.3",
+		"typedoc": "^0.26.7",
+		"typedoc-material-theme": "^1.1.0",
 		"typedoc-plugin-include-example": "^1.2.0",
-		"typedoc-plugin-mdn-links": "^3.2.1",
-		"typescript": "^5.5.2"
+		"typedoc-plugin-mdn-links": "^3.3.0",
+		"typescript": "^5.6.2"
 	}
 }
