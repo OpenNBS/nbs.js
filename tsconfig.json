@@ -52,8 +52,7 @@
 			"Instrument": 3,
 			"Layer": 3,
 			"Note": 3,
-			"Array Buffer": 2,
-			"JSON": 2
+			"Array Buffer": 2
 		},
 		"groupOrder": [
 			"Classes",

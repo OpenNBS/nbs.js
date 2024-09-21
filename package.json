@@ -27,7 +27,7 @@
 		"build": "bun run build:bundle && bun run build:docs",
 		"build:bundle": "bun build.ts",
 		"build:docs": "typedoc",
-		"publish": "bun run test && bun run build && npm publish"
+		"build:publish": "bun run test && bun run build && npm publish"
 	},
 	"engines": {
 		"node": ">=18"
