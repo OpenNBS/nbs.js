@@ -1,4 +1,4 @@
-import { Note, Song } from "@encode42/nbs.js";
+import { Note, Song } from "@nbsjs/core";
 
 // Create the song
 const song = new Song();

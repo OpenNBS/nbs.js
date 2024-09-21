@@ -2,7 +2,7 @@
 
 [Docs Badge]: https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/ghpages_vector.svg
 
-[NPM]: https://www.npmjs.com/package/@encode42/nbs.js
+[NPM]: https://www.npmjs.com/package/@nbsjs/core
 
 [NPM Badge]: https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/npm_vector.svg
 
@@ -26,26 +26,26 @@
 > This library does not bundle CommonJS modules. Legacy Node.js applications may not be compatible.
 
 > [!TIP]
-> When linking to `esm.run`, it's recommended to use a version! (e.g. `@encode42/nbs.js@6.0.0`)
+> When linking to `esm.run`, it's recommended to use a version! (e.g. `@nbsjs/core@6.0.0`)
 
 #### 🟢 Node.js
-Add the [`@encode42/nbs.js` package][NPM] using the package manager of your choice.
+Add the [`@nbsjs/core` package][NPM] using the package manager of your choice.
 
 ```js
-import { Song } from "@encode42/nbs.js";
+import { Song } from "@nbsjs/core";
 ```
 
 #### 🌐 Browser
 ```html
 
 <script type="module">
-	import { Song } from "https://esm.run/@encode42/nbs.js";
+	import { Song } from "https://esm.run/@nbsjs/core";
 </script>
 ```
 
 #### 🦕 Deno
 ```js
-import { Song } from "https://esm.run/@encode42/nbs.js";
+import { Song } from "https://esm.run/@nbsjs/core";
 ```
 
 ### ❔ FAQ
@@ -65,7 +65,7 @@ There are more examples designed for use with Node.js in the [examples directory
 
 ```js
 import { readFileSync } from "node:fs";
-import { fromArrayBuffer } from "@encode42/nbs.js";
+import { fromArrayBuffer } from "@nbsjs/core";
 
 const songFile = readFileSync("song.nbs"); // Read the selected NBS file
 const buffer = new Uint8Array(songFile).buffer; // Convert it into an ArrayBuffer
@@ -84,7 +84,7 @@ console.dir(song);
 <input type="file" id="file-input">
 
 <script type="module">
-	import { fromArrayBuffer } from "https://esm.run/@encode42/nbs.js"
+	import { fromArrayBuffer } from "https://esm.run/@nbsjs/core"
 
 	window.addEventListener("load", () => {
 		const input = document.getElementById("file-input");
@@ -109,7 +109,7 @@ console.dir(song);
 </summary>
 
 ```js
-import { fromArrayBuffer } from "https://esm.run/@encode42/nbs.js";
+import { fromArrayBuffer } from "https://esm.run/@nbsjs/core";
 
 const songFile = await Deno.readFile("song.nbs"); // Read the selected NBS file
 const buffer = new Uint8Array(songFile).buffer; // Convert it into an ArrayBuffer

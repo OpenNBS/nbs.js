@@ -1,4 +1,4 @@
-import { Instrument, Song } from "@encode42/nbs.js";
+import { Instrument, Song } from "@nbsjs/core";
 
 const instrument = new Instrument({
 	"name": "Sandple",

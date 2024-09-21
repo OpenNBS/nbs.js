@@ -1,22 +1,21 @@
 {
 	"type": "module",
-	"name": "@encode42/nbs.js",
+	"name": "@nbsjs/core",
 	"description": "Robust API for reading and writing OpenNBS files.",
-	"version": "6.0.0-beta2",
+	"version": "6.0.0",
 	"author": {
-		"name": "encode42",
-		"email": "me@encode42.dev",
-		"url": "https://encode42.dev"
+		"name": "OpenNBS",
+		"url": "https://opennbs.org"
 	},
 	"funding": {
 		"type": "github",
-		"url": "https://github.com/sponsors/encode42"
+		"url": "https://github.com/sponsors/OpenNBS"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/encode42/nbs.js.git"
+		"url": "https://github.com/OpenNBS/nbs.js.git"
 	},
-	"homepage": "https://encode42.github.io/nbs.js/",
+	"homepage": "https://opennbs.github.io/nbs.js/",
 	"license": "MIT",
 	"keywords": ["api", "minecraft", "nbs", "noteblock", "onbs"],
 	"main": "dist/index.js",

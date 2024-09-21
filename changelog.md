@@ -7,10 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # 6.0.0
 This update will break almost all existing applications!
 
+The package has moved to `@nbsjs/core` to allow for future addons to the library.
+
 Please carefully read through these changes and refer to the [examples](/examples).
 
 ### Changed
 - The project has been rebranded from `NBS.js` to `nbs.js`.
+- The project has moved from `@encode42/nbs.js` to `@nbsjs/core`.
+- The project's repository has moved to [Note Block World](https://github.com/OpenNBS).
 - The project is designated as a module by default.
 - This update redesigns how classes and their properties are structured.
 - Continuing what v5 started, multiple arrays tied to IDs/ticks have been transformed into an object.
@@ -42,7 +46,6 @@ Please carefully read through these changes and refer to the [examples](/example
 - Moved all classes out of `util.ts` and into their own files.
 
 ### Added
-- The `toJSON` and `fromJSON` functions. **Still in development!**
 - The `Song#setTempo` and `Song#setTimePerTick` methods update each other when changed.
 - The `SongLayers` class that provides helper methods and stores layers.
 - The `LayerNotes` class that provides helper methods and stores notes.

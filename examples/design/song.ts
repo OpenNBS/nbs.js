@@ -1,4 +1,4 @@
-import { Layer, Song } from "@encode42/nbs.js";
+import { Layer, Song } from "@nbsjs/core";
 
 const song = new Song();
 song.name = "Demo";

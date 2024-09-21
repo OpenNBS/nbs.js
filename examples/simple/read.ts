@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { fromArrayBuffer } from "@encode42/nbs.js";
+import { fromArrayBuffer } from "@nbsjs/core";
 
 // Read a NBS file named "song.nbs"
 const originalFile = readFileSync("song.nbs");

@@ -1,5 +1,5 @@
 import { writeFileSync } from "node:fs";
-import { Song, toArrayBuffer } from "@encode42/nbs.js";
+import { Song, toArrayBuffer } from "@nbsjs/core";
 
 const song = new Song();
 

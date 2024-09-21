@@ -1,4 +1,4 @@
-import { Note } from "@encode42/nbs.js";
+import { Note } from "@nbsjs/core";
 
 // Instrument ID 0 is always harp
 new Note(0, {

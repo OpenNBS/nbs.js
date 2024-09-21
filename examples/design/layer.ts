@@ -1,4 +1,4 @@
-import { Layer } from "@encode42/nbs.js";
+import { Layer } from "@nbsjs/core";
 
 const layer = new Layer({
 	"name": "Demo"

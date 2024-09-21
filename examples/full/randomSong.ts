@@ -1,4 +1,4 @@
-import { Song, toJSON } from "@encode42/nbs.js";
+import { Song, toJSON } from "@nbsjs/core";
 
 const song = new Song();
 song.name = "Chaos";
