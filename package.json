@@ -15,7 +15,7 @@
 		"type": "git",
 		"url": "https://github.com/OpenNBS/nbs.js.git"
 	},
-	"homepage": "https://opennbs.github.io/nbs.js/",
+	"homepage": "https://opennbs.github.io/nbs.js/docs/",
 	"license": "MIT",
 	"keywords": ["api", "minecraft", "nbs", "noteblock", "onbs"],
 	"main": "dist/index.js",
