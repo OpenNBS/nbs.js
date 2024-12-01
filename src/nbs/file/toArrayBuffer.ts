@@ -76,7 +76,7 @@ function write(song: Song, size: number, dry = false): BufferWriter {
 		if (song.nbsVersion >= 4) {
 			writer.writeByte(+song.loop.enabled); // Write loop status
 			writer.writeByte(song.loop.totalLoops); // Write maximum loop count
-			writer.writeByte(song.loop.startTick); // Write loop start tick
+			writer.writeShort(song.loop.startTick); // Write loop start tick
 		}
 
 		writer.writeByte(0); // Write end of header
