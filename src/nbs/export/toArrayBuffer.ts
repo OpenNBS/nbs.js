@@ -89,8 +89,6 @@ function write(song: Song): BufferWriter {
 		writer.writeShort(song.loop.startTick); // Write loop start tick
 	}
 
-	writer.writeByte(0); // Write end of header
-
 	// Iterate each tick
 	let currentTick = -1;
 	for (let tick = 0; tick <= songLength; tick++) {
