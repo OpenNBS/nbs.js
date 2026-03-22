@@ -161,6 +161,26 @@ export class Instrument {
 			"name": "Pling",
 			"soundFile": "pling.ogg",
 			"builtIn": true
+		}),
+		new this(16, {
+			"name": "Trumpet",
+			"soundFile": "trumpet.ogg",
+			"builtIn": true
+		}),
+		new this(17, {
+			"name": "Exposed Trumpet",
+			"soundFile": "exposed_trumpet.ogg",
+			"builtIn": true
+		}),
+		new this(18, {
+			"name": "Weathered Trumpet",
+			"soundFile": "weathered_trumpet.ogg",
+			"builtIn": true
+		}),
+		new this(19, {
+			"name": "Oxidized Trumpet",
+			"soundFile": "oxidized_trumpet.ogg",
+			"builtIn": true
 		})
 	];
 
