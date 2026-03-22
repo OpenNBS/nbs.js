@@ -267,7 +267,7 @@ export class Song {
 	 *
 	 * @see https://opennbs.org/nbs
 	 */
-	public nbsVersion = 5;
+	public nbsVersion = 6;
 
 	/**
 	 * Meta information for the song.
