@@ -9,27 +9,27 @@ export interface LayerOptions {
 	/**
 	 * {@inheritDoc Layer#name}
 	 */
-	"name"?: string;
+	"name"?: string | undefined;
 
 	/**
 	 * {@inheritDoc Layer#isLocked}
 	 */
-	"isLocked"?: boolean;
+	"isLocked"?: boolean | undefined;
 
 	/**
 	 * {@inheritDoc Layer#isSolo}
 	 */
-	"isSolo"?: boolean;
+	"isSolo"?: boolean | undefined;
 
 	/**
 	 * {@inheritDoc Layer#volume}
 	 */
-	"volume"?: number;
+	"volume"?: number | undefined;
 
 	/**
 	 * {@inheritDoc Layer#stereo}
 	 */
-	"stereo"?: number;
+	"stereo"?: number | undefined;
 }
 
 /**

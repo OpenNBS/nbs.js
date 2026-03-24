@@ -105,7 +105,7 @@ export class Song {
 		let farthestTick = 0;
 
 		for (const layer of this.layers.all) {
-			const lastNote = +Object.keys(layer.notes.all).at(-1);
+			const lastNote = +(Object.keys(layer.notes.all).at(-1) ?? 0);
 
 			if (lastNote > farthestTick) {
 				farthestTick = lastNote;
@@ -126,27 +126,27 @@ export class Song {
 	/**
 	 * Name of the song.
 	 */
-	public name?: string;
+	public name?: string | undefined;
 
 	/**
 	 * Author of the song.
 	 */
-	public author?: string;
+	public author?: string | undefined;
 
 	/**
 	 * Original author of the song.
 	 */
-	public originalAuthor?: string;
+	public originalAuthor?: string | undefined;
 
 	/**
 	 * Description of the song.
 	 */
-	public description?: string;
+	public description?: string | undefined;
 
 	/**
 	 * Imported MIDI/Schematic file name.
 	 */
-	public importName?: string;
+	public importName?: string | undefined;
 
 	/**
 	 * Looping options for the song.

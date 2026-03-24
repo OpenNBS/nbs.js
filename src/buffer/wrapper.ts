@@ -41,7 +41,7 @@ export class BufferWrapper {
 
 		this.nextByte += by;
 
-		// @ts-ignore - https://github.com/microsoft/TypeScript/issues/54636
+		// @ts-expect-error
 		this.buffer.resize(this.nextByte);
 
 		return originalNextByte;

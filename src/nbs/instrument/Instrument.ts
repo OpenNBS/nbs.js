@@ -116,22 +116,22 @@ export interface InstrumentOptions {
 	/**
 	 * {@inheritDoc Instrument#name}
 	 */
-	"name"?: string;
+	"name"?: string | undefined;
 
 	/**
 	 * {@inheritDoc Instrument#soundFile}
 	 */
-	"soundFile"?: string;
+	"soundFile"?: string | undefined;
 
 	/**
 	 * {@inheritDoc Instrument#key}
 	 */
-	"key"?: number;
+	"key"?: number | undefined;
 
 	/**
 	 * {@inheritDoc Instrument#pressKey}
 	 */
-	"pressKey"?: boolean;
+	"pressKey"?: boolean | undefined;
 }
 
 /**
@@ -181,7 +181,7 @@ export class Instrument {
 	/**
 	 * Name of the instrument.
 	 */
-	public name?: string;
+	public name?: string | undefined;
 
 	/**
 	 * Sound file of the instrument.
@@ -192,7 +192,7 @@ export class Instrument {
 	 *
 	 * It only exists to work with other applications that implement functionality.
 	 */
-	public soundFile: string;
+	public soundFile?: string | undefined;
 
 	/**
 	 * Key of the sound file.

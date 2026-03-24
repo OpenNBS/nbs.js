@@ -9,7 +9,6 @@ import { BufferWrapper } from "~/buffer/wrapper";
 export class BufferWriter extends BufferWrapper {
 	constructor() {
 		super(
-			// @ts-ignore
 			new ArrayBuffer(0, {
 				"maxByteLength": 2 ** 32 - 1
 			})

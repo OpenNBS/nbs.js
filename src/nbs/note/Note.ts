@@ -7,22 +7,22 @@ export interface NoteOptions {
 	/**
 	 * {@inheritDoc Note#key}
 	 */
-	"key"?: number;
+	"key"?: number | undefined;
 
 	/**
 	 * {@inheritDoc Note#velocity}
 	 */
-	"velocity"?: number;
+	"velocity"?: number | undefined;
 
 	/**
 	 * {@inheritDoc Note#panning}
 	 */
-	"panning"?: number;
+	"panning"?: number | undefined;
 
 	/**
 	 * {@inheritDoc Note#pitch}
 	 */
-	"pitch"?: number;
+	"pitch"?: number | undefined;
 }
 
 /**

@@ -14,7 +14,7 @@ export interface ToArrayBufferOptions {
 	 *
 	 * @remarks This skips all layers without notes from the exported song.
 	 */
-	"ignoreEmptyLayers"?: boolean;
+	"ignoreEmptyLayers"?: boolean | undefined;
 }
 
 /**
@@ -157,7 +157,7 @@ function write(song: Song): BufferWriter {
 		writer.writeByte(layer.volume); // Write layer velocity
 
 		if (song.version >= 2) {
-			writer.writeByte(layer.stereo + 100); // Write layer panning
+			writer.writeByte((layer.stereo ?? 0) + 100); // Write layer panning
 		}
 	}
 
@@ -167,7 +167,7 @@ function write(song: Song): BufferWriter {
 	for (let i = 0; i < totalInstruments; i++) {
 		const instrument = song.instruments.all[i];
 		if (!instrument.isBuiltIn) {
-			writer.writeString(instrument.name ?? ""); // Write instrument name
+			writer.writeString(instrument.name); // Write instrument name
 			writer.writeString(instrument.soundFile); // Write instrument filename
 			writer.writeByte(instrument.key); // Write instrument key
 			writer.writeByte(+(instrument.pressKey ?? 0)); // Write press key status

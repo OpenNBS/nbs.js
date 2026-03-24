@@ -36,7 +36,7 @@ export class SongInstruments {
 	 *
 	 * @internal
 	 */
-	public readonly firstCustomIndex = +Object.keys(Instrument.builtIn).at(-1) + 1;
+	public readonly firstCustomIndex = +(Object.keys(Instrument.builtIn).at(-1) ?? 0) + 1;
 
 	/**
 	 * Total number of instruments.

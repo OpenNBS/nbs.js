@@ -3,6 +3,8 @@ import { Instrument } from "~/nbs/instrument/Instrument";
 import { Song } from "~/nbs/Song";
 import { omitEmptyLayers } from "~/util/omitEmptyLayers";
 
+type SongKeys = keyof InstanceType<typeof Song>;
+
 /**
  * Raw structure of a note.
  *
@@ -60,7 +62,7 @@ export interface FromArrayBufferOptions {
 	 *
 	 * This option skips those layers upon import.
 	 */
-	"ignoreEmptyLayers"?: boolean;
+	"ignoreEmptyLayers"?: boolean | undefined;
 }
 
 /**
@@ -123,7 +125,8 @@ export function fromArrayBuffer(arrayBuffer: ArrayBufferLike, options = defaultF
 	song.blocksRemoved = reader.readInt(); // Read total blocks removed from song
 	song.importName = reader.readString(); // Read imported MiDi/schematic file name
 
-	for (const key of ["name", "author", "originalAuthor", "description", "importName"]) {
+	// Un-define empty fields
+	for (const key of ["name", "author", "originalAuthor", "description", "importName"] satisfies SongKeys[]) {
 		if (song[key] !== "") {
 			continue;
 		}
