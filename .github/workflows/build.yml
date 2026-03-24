@@ -3,32 +3,30 @@ name: Build
 on:
   push:
     branches-ignore:
-    - gh-pages
+      - gh-pages
   workflow_dispatch:
 
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up Bun
-      uses: oven-sh/setup-bun@v1
-      with:
-        bun-version: latest
+      - name: Set up Nix
+        uses: JRMurr/direnv-nix-action@v4.2.0
 
-    - name: Build
-      run: |
-        bun install
-        bun run build
-        bun run build:docs
+      - name: Build
+        run: |
+          bun install
+          bun run build
+          bun run build:docs
 
-    - name: Deploy pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: public
-        publish_branch: gh-pages
-        user_name: GitHub Action
-        user_email: action@github.com
+      - name: Deploy pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: public
+          publish_branch: gh-pages
+          user_name: GitHub Action
+          user_email: action@github.com
