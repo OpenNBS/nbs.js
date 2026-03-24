@@ -12,6 +12,7 @@
 		"allowImportingTsExtensions": false,
 		"allowSyntheticDefaultImports": true,
 		"exactOptionalPropertyTypes": true,
+		"strictNullChecks": true,
 		"verbatimModuleSyntax": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
