@@ -118,10 +118,10 @@ export class Song {
 	/**
 	 * Version of NBS the song has been made with.
 	 *
-	 * @remarks Currently, this does not affect the exported song structure properly, and should always be upgraded to `5`.
+	 * @remarks Currently, this does not affect the exported song structure properly, and should always be upgraded to `6`.
 	 * @see https://opennbs.org/nbs
 	 */
-	public version = 5;
+	public version = 6;
 
 	/**
 	 * Name of the song.

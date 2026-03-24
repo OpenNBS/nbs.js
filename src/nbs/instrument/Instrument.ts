@@ -94,6 +94,22 @@ export const builtInBuilder: BuiltInBuilder = {
 	15: {
 		"name": "Pling",
 		"soundFile": "pling.ogg"
+	},
+	16: {
+		"name": "Trumpet",
+		"soundFile": "trumpet.ogg"
+	},
+	17: {
+		"name": "Exposed Trumpet",
+		"soundFile": "exposed_trumpet.ogg"
+	},
+	18: {
+		"name": "Weathered Trumpet",
+		"soundFile": "weathered_trumpet.ogg"
+	},
+	19: {
+		"name": "Oxidized Trumpet",
+		"soundFile": "oxidized_trumpet.ogg"
 	}
 } as const;
 

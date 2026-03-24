@@ -2,7 +2,7 @@
 	"type": "module",
 	"name": "@nbsjs/core",
 	"description": "Robust API for reading and writing OpenNBS files.",
-	"version": "6.0.0",
+	"version": "6.1.0",
 	"author": {
 		"name": "OpenNBS",
 		"url": "https://opennbs.org"

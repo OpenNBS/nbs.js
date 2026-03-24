@@ -27,9 +27,9 @@ test("Read song from file, compare metadata", async () => {
 	};
 
 	const target: TestOptions = {
-		"version": 5,
+		"version": 6,
 		"length": 62,
-		"instruments": 16,
+		"instruments": 20,
 		"layers": 4,
 		"tempo": 10,
 		"lastMeasure": 64

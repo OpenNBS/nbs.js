@@ -105,8 +105,8 @@ export function fromArrayBuffer(arrayBuffer: ArrayBufferLike, options = defaultF
 		song.version = 0;
 	}
 
-	if (song.version > 5) {
-		throw new Error("This library does not support Note Block Songs created with versions greater than 5.");
+	if (song.version > 6) {
+		throw new Error("This library does not support Note Block Songs created with versions greater than 6.");
 	}
 
 	const totalLayers = reader.readShort(); // Read total amount of layers

@@ -1,10 +1,33 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# 6.1.0
+
+**⚠️ All files created with this version will be parsed as and saved using NBSv6 ⚠️**
+
+Bumps the supported NBS version to v6, adding the four new trumpet instruments added in Minecraft 26.1.
+
+Support for exporting songs for older NBS versions will be added in the near future!
+
+### Changed
+
+- Songs are now parsed using NBSv6.
+- Tests and sample files now utilize NBSv6.
+- Updated Bun and Typescript for built module.
+- Migrated Biome formatter from v1 to v2.
+
+### Added
+
+- The four new trumpet instruments.
+- Nix flake for reproducable development environments.
+- Zed configuration file to ensure the usage of Biome.
+
 # 6.0.0
+
 This update will break almost all existing applications!
 
 The package has moved to `@nbsjs/core` to allow for future addons to the library.
@@ -12,31 +35,32 @@ The package has moved to `@nbsjs/core` to allow for future addons to the library
 Please carefully read through these changes and refer to the [examples](/examples).
 
 ### Changed
+
 - The project has been rebranded from `NBS.js` to `nbs.js`.
 - The project has moved from `@encode42/nbs.js` to `@nbsjs/core`.
 - The project's repository has moved to the [OpenNBS](https://github.com/OpenNBS) organization.
 - The project is designated as a module by default.
 - This update redesigns how classes and their properties are structured.
 - Continuing what v5 started, multiple arrays tied to IDs/ticks have been transformed into an object.
-  * `SongInstruments#all` is now indexed by `ID: Instrument`.
+  - `SongInstruments#all` is now indexed by `ID: Instrument`.
 - Renamed `Song#nbsVersion` to `Song#version`.
 - Moved all properties from `Song#meta` and `Song#stats` into `Song`.
 - Moved all properties from `Layer#meta` into `Layer`.
 - Moved all properties from `Instrument#meta` into `Instrument`.
 - Renamed `Song#autosave` to `Song#autoSave`.
 - Some `Song` properties are now getters to reflect their dynamic nature.
-  * `Song#length` -> `Song#getLength()`
-  * `Song#duration` -> `Song#getDuration()`
-  * `Song#lastMeasure` -> `Song#getLastMeasure()`
-  * `Song#tempo` -> `Song#getTempo()`
-  * `Song#timePerTick` -> `Song#getTimePerTick()`
+  - `Song#length` -> `Song#getLength()`
+  - `Song#duration` -> `Song#getDuration()`
+  - `Song#lastMeasure` -> `Song#getLastMeasure()`
+  - `Song#tempo` -> `Song#getTempo()`
+  - `Song#timePerTick` -> `Song#getTimePerTick()`
 - The `Song#hasSolo` property is now a method.
 - The following `Song` methods have been replaced:
-  * `Song#createLayer` -> `SongLayers#create`
-  * `Song#addLayer` -> `SongLayers#add`
-  * `Song#deleteLayer` -> `SongLayers#delete`
-  * `Song#setNote` -> `LayerNotes#set`
-  * `Song#addNote` -> `LayerNotes#add`
+  - `Song#createLayer` -> `SongLayers#create`
+  - `Song#addLayer` -> `SongLayers#add`
+  - `Song#deleteLayer` -> `SongLayers#delete`
+  - `Song#setNote` -> `LayerNotes#set`
+  - `Song#addNote` -> `LayerNotes#add`
 - The `SongInstruments#loaded` property has been renamed to `SongInstruments#all`.
 - The `Instrument#builtIn` property has been renamed to `Instrument#isBuiltIn`.
 - The ArrayBuffer writer no longer requires two passes. This doubles the speed of buffer exports!
@@ -46,6 +70,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - Moved all classes out of `util.ts` and into their own files.
 
 ### Added
+
 - The `Song#setTempo` and `Song#setTimePerTick` methods update each other when changed.
 - The `SongLayers` class that provides helper methods and stores layers.
 - The `LayerNotes` class that provides helper methods and stores notes.
@@ -57,6 +82,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - Documentation categories.
 
 ### Removed
+
 - The `Song#toArrayBuffer` method. (use `toArrayBuffer`)
 - The private `Song#expand` method.
 - The `Song#errors` property. (errors are thrown instead)
@@ -66,27 +92,34 @@ Please carefully read through these changes and refer to the [examples](/example
 - `util.ts`
 
 # 5.0.0
+
 ### Fixed
+
 - Consistency between existing files and exported songs has been improved.
-  * This means that importing and immediately exporting a song will yield identical buffers.
+  - This means that importing and immediately exporting a song will yield identical buffers.
 - The song no longer expands one tick too far.
 
 ### Changed
+
 - `Layer#notes` has been changed from an array to an object.
-  * The object has been designed similarly to an array to ensure parity with existing code.
-  * Applications that access notes using a [property accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) should continue to function normally.
-  * Applications that iterate `Layer#notes` using a for loop require changes. For example:
+  - The object has been designed similarly to an array to ensure parity with existing code.
+  - Applications that access notes using a [property accessor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors) should continue to function normally.
+  - Applications that iterate `Layer#notes` using a for loop require changes. For example:
+
   ```ts
-  for (const note of layer.notes) {}
+  for (const note of layer.notes) {
+  }
   ```
 
   Is translated to
 
   ```ts
-  for (const note of Object.values(layer.notes)) {}
+  for (const note of Object.values(layer.notes)) {
+  }
   ```
 
 ### Added
+
 - `toArrayBuffer` now has an `options` parameter accepting `ignoreEmptyLayers` as a boolean.
 - The `Song#addLayer` function to add existing `Layer` objects to the song.
 - The `Layer#inSong` boolean used to show a warning when `Layer#setNote` or `Layer#addNote` are called within a song.
@@ -96,29 +129,40 @@ Please carefully read through these changes and refer to the [examples](/example
 - More tests to ensure consistency and accuracy.
 
 # 4.0.3
+
 ### Fixed
+
 - No longer marks itself as a module.
 
 ### Changed
+
 - Updated examples in readme and docs.
 
 # 4.0.2
+
 ### Fixed
+
 - [`#9`](https://github.com/encode42/nbs.js/pull/9): Fix custom instruments getting empty name and ID.
 
 ### Changed
+
 - Meta repository restructuring, developer dependency updates, etc.
 
 # 4.0.1
+
 ### Fixed
+
 - Incorrect default panning for older NBS file formats.
 
 # 4.0.0
+
 ### Fixed
+
 - Incorrect `nbsVersion` for songs using v0, causing read errors.
 - Incorrect `Instrument`s incorrectly being read.
 
 ### Changed
+
 - Renamed `pitch` to `key` in `InstrumentOptions`.
 - Renamed `pitch` to `key` in `defaultInstrumentOptions`.
 - Renamed `pitch` to `key` in `Instrument`.
@@ -129,6 +173,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - Cleaned up tsconfig.
 
 ### Removed
+
 - The various class getters/setters from `util`.
   - This never worked properly. A better solution for modifying these classes would be to write a wrapper.
     - `getLayerClass`
@@ -141,7 +186,9 @@ Please carefully read through these changes and refer to the [examples](/example
   - Replacement is being worked on.
 
 # 3.0.0
+
 ### Added
+
 - `fromArrayBuffer` now supports trimming empty leading layers.
   - ONBS automatically generates extra layers past the last populated layer.
 - Created basic testing via `jest`.
@@ -151,6 +198,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - The `FromArrayBufferOptions` interface.
 
 ### Changed
+
 - The `build` now runs the `test` script.
 - All interfaces, classes, and objects no longer have a default export.
   - This should not affect `@encode42/nbs.js` imports.
@@ -158,6 +206,7 @@ Please carefully read through these changes and refer to the [examples](/example
   - For example, `InstrumentMeta.ts` -> `Instrument.ts`.
 
 ### Removed
+
 - The `nbs/interfaces` directory.
 - The `SongMeta.ts` interface file.
   - Moved to `Song.ts`.
@@ -177,17 +226,22 @@ Please carefully read through these changes and refer to the [examples](/example
   - Moved to `Instrument.ts`.
 
 # 2.1.2
+
 ### Changed
+
 - Updated all `devDependencies`.
 - Revamped build scripts.
 - Changed target from `ESNext` to `ES2015` for compatibility.
 
 ### Fixed
+
 - Properly included typings.
 - Moved `devDependencies` out of `dependencies`.
 
 # 2.1.1
+
 ### Fixed
+
 - Fixed potential `defaultSongMeta` pollution.
 - Fixed potential `defaultSongLoopOptions` pollution.
 - Fixed potential `defaultSongAutosaveOptions` pollution.
@@ -196,27 +250,36 @@ Please carefully read through these changes and refer to the [examples](/example
 - Fixed potential `defaultInstrumentMeta` pollution.
 
 # 2.1.0
+
 ### Added
+
 - The `Song#arrayBuffer` field.
 - The `SongStats#lastMeasure` getter.
 
 ### Changed
+
 - The `defaultSongStats#duration` getter is now defined after song instantiation.
 - The `defaultSongStats#hasSolo` getter is now defined after song instantiation.
 
 ### Removed
+
 - The `defaultSongStats#duration` default value.
 - The `defaultSongStats#hasSolo` default value.
 
 # 2.0.2
+
 ### Added
+
 - Minified bundles (`cjs.min.js`, `esm.min.js`, and `umd.min.js`).
 
 ### Changed
+
 - Updated `README.md`.
 
 # 2.0.0
+
 ### Added
+
 - The `Song#meta` field.
 - The `Song#loop` field.
 - The `Song#autosave` field.
@@ -246,6 +309,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - The `defaultInstrumentOptions` object.
 
 ### Changed
+
 - Renamed `Song#size` to `Song#length`.
 - Renamed `Song#addLayer` to `Song#createLayer`.
 - Swapped `layer` and `tick` arguments in `Song#setNote`.
@@ -303,6 +367,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - Made `Buffer#buffer` readonly.
 
 ### Removed
+
 - The `key` argument in `Song#addNote`.
 - The `panning` argument in `Song#addNote`.
 - The `velocity` argument in `Song#addNote`.
@@ -318,36 +383,48 @@ Please carefully read through these changes and refer to the [examples](/example
 - The `name` argument in `Instrument`.
 
 # 1.2.3
+
 ### Changed
+
 - Bumped webpack version from `5.65.0` to `5.67.0`.
 
 ### Fixed
+
 - Custom instruments polluting `Instrument#builtIn`.
 
 # 1.2.2
+
 ### Changed
+
 - Correctly generated webpack bundle.
 - Updated various values in `package.yml`.
 - Updated NPM scripts.
 
 ### Added
+
 - `dist/index.js` is now published to NPM.
 
 ## 1.2.1
+
 ### Changed
+
 - Made `Layer#setNote` return the `note` argument.
 - Made `Song#nbsVersion` default to `5`.
 - Made `Song#firstCustomIndex` default to `Instrument#builtIn.length`
 - Improved method documentation.
 
 ### Added
+
 - The `Song#setNote` method.
 
 ## 1.2.0
+
 ### Changed
+
 - `BufferReader#viewer` and `BufferWriter#viewer` have been made `protected`.
 
 ### Added
+
 - `pressKey` to `InstrumentOptions`. Defaults to `false`.
 - The `Instrument#pressKey` field.
 - The `Layer#solo` field.
@@ -357,6 +434,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - The `Song#toArrayBuffer` member and static method.
 
 ### Removed
+
 - `pitch` from `InstrumentOptions`.
 - `song` from `Layer`'s constructor.
 - The `Instrument#pitch` field.
@@ -364,7 +442,9 @@ Please carefully read through these changes and refer to the [examples](/example
 - The `Layer#delete()` method.
 
 ## 1.1.2
+
 ### Fixed
+
 - The `Instrument#builtIn` field incorrectly being overwritten by falsy values.
 - The `Note#instrument` field incorrectly being overwritten by falsy values.
 - The `Note#key` field incorrectly being overwritten by falsy values.
@@ -373,7 +453,9 @@ Please carefully read through these changes and refer to the [examples](/example
 - The `Note#pitch` field incorrectly being overwritten by falsy values.
 
 ## 1.1.1
+
 ### Changes
+
 - Made `InstrumentOptions` a public interface.
 - Made `Instrument#name` default to `""`.
 - Made `Instrument#audioSrc` default to `""`.
@@ -387,6 +469,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - Improved method documentation.
 
 ### Added
+
 - Defaults for `Note`'s constructor.
 - The `instrument` argument to `Note`'s constructor.
 - The `Song#errors` field.
