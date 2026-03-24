@@ -1,11 +1,9 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
-	"organizeImports": {
-		"enabled": false
-	},
+	"$schema": "https://biomejs.dev/schemas/2.3.6/schema.json",
+	"assist": { "actions": { "source": { "organizeImports": "off" } } },
 	"linter": {
 		"enabled": true,
-		"ignore": ["./public", "./build", "./dist"],
+		"includes": ["**", "!public", "!build", "!dist", "!.direnv"],
 		"rules": {
 			"recommended": true,
 			"complexity": {
@@ -22,7 +20,6 @@
 						"strictCase": false
 					}
 				},
-				"useShorthandArrayType": "error",
 				"noImplicitBoolean": "error",
 				"noNegationElse": "error",
 				"useCollapsedElseIf": "error",
@@ -33,10 +30,14 @@
 						"requireAscii": true,
 						"filenameCases": ["camelCase", "PascalCase"]
 					}
+				},
+				"useConsistentArrayType": {
+					"level": "error",
+					"options": { "syntax": "shorthand" }
 				}
 			},
 			"suspicious": {
-				"noConsoleLog": "warn"
+				"noConsole": { "level": "warn", "options": { "allow": ["log"] } }
 			},
 			"correctness": {
 				"noUnusedImports": "error"
@@ -45,7 +46,7 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"ignore": ["./public", "./build", "./dist"],
+		"includes": ["**", "!public", "!build", "!dist", "!.direnv"],
 		"indentStyle": "tab"
 	},
 	"javascript": {
