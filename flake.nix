@@ -1,7 +1,8 @@
 {
   description = "Nix development environment using Bun runtime and Biome formatter";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-25.11";
+  # Unstable for Bun 1.3.9, use stable once updated
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs";
 
   outputs =
     { self, ... }@inputs:
