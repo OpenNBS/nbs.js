@@ -1,5 +1,6 @@
 import type { HeaderLike } from "~/headers/HeaderLike";
 import type { SupportedVersionRange } from "~/parameters/VersionParameter";
+import type { SongLayer } from "~/songs/SongLayers";
 
 import { BufferWriter } from "~/buffer/writer";
 import { Header } from "~/headers/Header";
@@ -261,20 +262,17 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 			return;
 		}
 
-		const emptyLayers = this.findEmptyLayers(
-			this.#header.layers
-				.values()
-				.map((layer) => ({
-					"isPopulated": layer.notes.total > 0,
-					"name": layer.name,
-					"panning": layer.panning,
-					"status": layer.status,
-					"volume": layer.volume
-				}))
-				.toArray()
-		);
-
 		const layers: Layer[] = this.#header.layers.values().toArray();
+
+		const emptyLayers = this.findEmptyLayers(
+			layers.map((layer) => ({
+				"isPopulated": (layer as SongLayer).notes.total > 0,
+				"name": layer.name,
+				"panning": layer.panning,
+				"status": layer.status,
+				"volume": layer.volume
+			}))
+		);
 
 		for (const [position, action] of emptyLayers) {
 			if (action === LayerAction.Add) {
