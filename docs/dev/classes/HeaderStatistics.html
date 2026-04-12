@@ -1,0 +1,185 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>HeaderStatistics | nbs.js - v7.0.0-alpha1</title><meta name="description" content="Documentation for nbs.js"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-color-primary: #d9b9ff;
+    --md-sys-color-on-primary: #401b6d;
+    --md-sys-color-primary-container: #583485;
+    --md-sys-color-on-primary-container: #eedcff;
+    --md-sys-color-secondary: #cfc1da;
+    --md-sys-color-on-secondary: #352d40;
+    --md-sys-color-secondary-container: #4c4357;
+    --md-sys-color-on-secondary-container: #ebddf7;
+    --md-sys-color-tertiary: #f2b7c1;
+    --md-sys-color-on-tertiary: #4b252d;
+    --md-sys-color-tertiary-container: #653b43;
+    --md-sys-color-on-tertiary-container: #ffd9de;
+    --md-sys-color-error: #ffb4ab;
+    --md-sys-color-on-error: #690005;
+    --md-sys-color-error-container: #93000a;
+    --md-sys-color-on-error-container: #ffb4ab;
+    --md-sys-color-background: #1d1b1e;
+    --md-sys-color-on-background: #e7e1e5;
+    --md-sys-color-surface: #1d1b1e;
+    --md-sys-color-on-surface: #e7e1e5;
+    --md-sys-color-surface-variant: #4a454e;
+    --md-sys-color-on-surface-variant: #ccc4cf;
+    --md-sys-color-outline: #958e99;
+    --md-sys-color-outline-variant: #4a454e;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-inverse-surface: #e7e1e5;
+    --md-sys-color-inverse-on-surface: #322f33;
+    --md-sys-color-inverse-primary: #714d9f;
+    --md-sys-color-surface-dim: #151316;
+    --md-sys-color-surface-bright: #3b383c;
+    --md-sys-color-surface-container-lowest: #0f0d11;
+    --md-sys-color-surface-container-low: #1d1b1e;
+    --md-sys-color-surface-container: #211f22;
+    --md-sys-color-surface-container-high: #2b292d;
+    --md-sys-color-surface-container-highest: #363438
+  }
+}
+:root[data-theme="dark"] {
+  --md-sys-color-primary: #d9b9ff;
+  --md-sys-color-on-primary: #401b6d;
+  --md-sys-color-primary-container: #583485;
+  --md-sys-color-on-primary-container: #eedcff;
+  --md-sys-color-secondary: #cfc1da;
+  --md-sys-color-on-secondary: #352d40;
+  --md-sys-color-secondary-container: #4c4357;
+  --md-sys-color-on-secondary-container: #ebddf7;
+  --md-sys-color-tertiary: #f2b7c1;
+  --md-sys-color-on-tertiary: #4b252d;
+  --md-sys-color-tertiary-container: #653b43;
+  --md-sys-color-on-tertiary-container: #ffd9de;
+  --md-sys-color-error: #ffb4ab;
+  --md-sys-color-on-error: #690005;
+  --md-sys-color-error-container: #93000a;
+  --md-sys-color-on-error-container: #ffb4ab;
+  --md-sys-color-background: #1d1b1e;
+  --md-sys-color-on-background: #e7e1e5;
+  --md-sys-color-surface: #1d1b1e;
+  --md-sys-color-on-surface: #e7e1e5;
+  --md-sys-color-surface-variant: #4a454e;
+  --md-sys-color-on-surface-variant: #ccc4cf;
+  --md-sys-color-outline: #958e99;
+  --md-sys-color-outline-variant: #4a454e;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #e7e1e5;
+  --md-sys-color-inverse-on-surface: #322f33;
+  --md-sys-color-inverse-primary: #714d9f;
+  --md-sys-color-surface-dim: #151316;
+  --md-sys-color-surface-bright: #3b383c;
+  --md-sys-color-surface-container-lowest: #0f0d11;
+  --md-sys-color-surface-container-low: #1d1b1e;
+  --md-sys-color-surface-container: #211f22;
+  --md-sys-color-surface-container-high: #2b292d;
+  --md-sys-color-surface-container-highest: #363438
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --md-sys-color-primary: #714d9f;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-primary-container: #eedcff;
+    --md-sys-color-on-primary-container: #2a0054;
+    --md-sys-color-secondary: #655a6f;
+    --md-sys-color-on-secondary: #ffffff;
+    --md-sys-color-secondary-container: #ebddf7;
+    --md-sys-color-on-secondary-container: #20182a;
+    --md-sys-color-tertiary: #80525a;
+    --md-sys-color-on-tertiary: #ffffff;
+    --md-sys-color-tertiary-container: #ffd9de;
+    --md-sys-color-on-tertiary-container: #321018;
+    --md-sys-color-error: #ba1a1a;
+    --md-sys-color-on-error: #ffffff;
+    --md-sys-color-error-container: #ffdad6;
+    --md-sys-color-on-error-container: #410002;
+    --md-sys-color-background: #fffbff;
+    --md-sys-color-on-background: #1d1b1e;
+    --md-sys-color-surface: #fffbff;
+    --md-sys-color-on-surface: #1d1b1e;
+    --md-sys-color-surface-variant: #e8e0eb;
+    --md-sys-color-on-surface-variant: #4a454e;
+    --md-sys-color-outline: #7b757f;
+    --md-sys-color-outline-variant: #ccc4cf;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-inverse-surface: #322f33;
+    --md-sys-color-inverse-on-surface: #f5eff4;
+    --md-sys-color-inverse-primary: #d9b9ff;
+    --md-sys-color-surface-dim: #ded8dd;
+    --md-sys-color-surface-bright: #fef7fc;
+    --md-sys-color-surface-container-lowest: #ffffff;
+    --md-sys-color-surface-container-low: #f8f2f7;
+    --md-sys-color-surface-container: #f2ecf1;
+    --md-sys-color-surface-container-high: #ede6eb;
+    --md-sys-color-surface-container-highest: #e7e1e5
+  }
+}
+:root[data-theme="light"] {
+  --md-sys-color-primary: #714d9f;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #eedcff;
+  --md-sys-color-on-primary-container: #2a0054;
+  --md-sys-color-secondary: #655a6f;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #ebddf7;
+  --md-sys-color-on-secondary-container: #20182a;
+  --md-sys-color-tertiary: #80525a;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #ffd9de;
+  --md-sys-color-on-tertiary-container: #321018;
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #410002;
+  --md-sys-color-background: #fffbff;
+  --md-sys-color-on-background: #1d1b1e;
+  --md-sys-color-surface: #fffbff;
+  --md-sys-color-on-surface: #1d1b1e;
+  --md-sys-color-surface-variant: #e8e0eb;
+  --md-sys-color-on-surface-variant: #4a454e;
+  --md-sys-color-outline: #7b757f;
+  --md-sys-color-outline-variant: #ccc4cf;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #322f33;
+  --md-sys-color-inverse-on-surface: #f5eff4;
+  --md-sys-color-inverse-primary: #d9b9ff;
+  --md-sys-color-surface-dim: #ded8dd;
+  --md-sys-color-surface-bright: #fef7fc;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f8f2f7;
+  --md-sys-color-surface-container: #f2ecf1;
+  --md-sys-color-surface-container-high: #ede6eb;
+  --md-sys-color-surface-container-highest: #e7e1e5
+}
+</style><link rel="stylesheet" href="../assets/material-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="../index.html" class="title">nbs.js - v7.0.0-alpha1</a><div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb" aria-label="Breadcrumb"><li><a href="" aria-current="page">HeaderStatistics</a></li></ul><h1>Class HeaderStatistics</h1></div><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L10">src/headers/HeaderStatistics.ts:10</a></li></ul></aside><section class="tsd-panel-group tsd-index-group"><section class="tsd-panel tsd-index-panel"><details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h5 class="tsd-index-heading uppercase">Index</h5></summary><div class="tsd-accordion-details"><section class="tsd-index-section"><h3 class="tsd-index-heading">Accessors</h3><div class="tsd-index-list"><a href="#default_blocks_added" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>DEFAULT_<wbr/>BLOCKS_<wbr/>ADDED</span></a>
+<a href="#default_blocks_removed" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>DEFAULT_<wbr/>BLOCKS_<wbr/>REMOVED</span></a>
+<a href="#default_left_clicks" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>DEFAULT_<wbr/>LEFT_<wbr/>CLICKS</span></a>
+<a href="#default_minutes_spent" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>DEFAULT_<wbr/>MINUTES_<wbr/>SPENT</span></a>
+<a href="#default_right_clicks" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>DEFAULT_<wbr/>RIGHT_<wbr/>CLICKS</span></a>
+<a href="#blocksadded" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>blocks<wbr/>Added</span></a>
+<a href="#blocksremoved" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>blocks<wbr/>Removed</span></a>
+<a href="#leftclicks" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>left<wbr/>Clicks</span></a>
+<a href="#minutesspent" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>minutes<wbr/>Spent</span></a>
+<a href="#rightclicks" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>right<wbr/>Clicks</span></a>
+</div></section><section class="tsd-index-section"><h3 class="tsd-index-heading">Constructors</h3><div class="tsd-index-list"><a href="#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Constructor"><use href="../assets/icons.svg#icon-512"></use></svg><span>constructor</span></a>
+</div></section></div></details></section></section><details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Accessors"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h2>Accessors</h2></summary><section><section class="tsd-panel tsd-member"><h3 class="tsd-anchor-link" id="default_blocks_added"><code class="tsd-tag">Static</code><span>DEFAULT_<wbr/>BLOCKS_<wbr/>ADDED</span><a href="#default_blocks_added" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul class="tsd-signatures"><li><div class="tsd-signature" id="default_blocks_addeddefault_blocks_added"><span class="tsd-signature-keyword">get</span> <span class="tsd-kind-get-signature">DEFAULT_BLOCKS_ADDED</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><div class="tsd-description"><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L23">src/headers/HeaderStatistics.ts:23</a></li></ul></aside></div></li></ul></section><section class="tsd-panel tsd-member"><h3 class="tsd-anchor-link" id="default_blocks_removed"><code class="tsd-tag">Static</code><span>DEFAULT_<wbr/>BLOCKS_<wbr/>REMOVED</span><a href="#default_blocks_removed" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul class="tsd-signatures"><li><div class="tsd-signature" id="default_blocks_removeddefault_blocks_removed"><span class="tsd-signature-keyword">get</span> <span class="tsd-kind-get-signature">DEFAULT_BLOCKS_REMOVED</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><div class="tsd-description"><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L27">src/headers/HeaderStatistics.ts:27</a></li></ul></aside></div></li></ul></section><section class="tsd-panel tsd-member"><h3 class="tsd-anchor-link" id="default_left_clicks"><code class="tsd-tag">Static</code><span>DEFAULT_<wbr/>LEFT_<wbr/>CLICKS</span><a href="#default_left_clicks" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul class="tsd-signatures"><li><div class="tsd-signature" id="default_left_clicksdefault_left_clicks"><span class="tsd-signature-keyword">get</span> <span class="tsd-kind-get-signature">DEFAULT_LEFT_CLICKS</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><div class="tsd-description"><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L15">src/headers/HeaderStatistics.ts:15</a></li></ul></aside></div></li></ul></section><section class="tsd-panel tsd-member"><h3 class="tsd-anchor-link" id="default_minutes_spent"><code class="tsd-tag">Static</code><span>DEFAULT_<wbr/>MINUTES_<wbr/>SPENT</span><a href="#default_minutes_spent" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul class="tsd-signatures"><li><div class="tsd-signature" id="default_minutes_spentdefault_minutes_spent"><span class="tsd-signature-keyword">get</span> <span class="tsd-kind-get-signature">DEFAULT_MINUTES_SPENT</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><div class="tsd-description"><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L11">src/headers/HeaderStatistics.ts:11</a></li></ul></aside></div></li></ul></section><section class="tsd-panel tsd-member"><h3 class="tsd-anchor-link" id="default_right_clicks"><code class="tsd-tag">Static</code><span>DEFAULT_<wbr/>RIGHT_<wbr/>CLICKS</span><a href="#default_right_clicks" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul class="tsd-signatures"><li><div class="tsd-signature" id="default_right_clicksdefault_right_clicks"><span class="tsd-signature-keyword">get</span> <span class="tsd-kind-get-signature">DEFAULT_RIGHT_CLICKS</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><div class="tsd-description"><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L19">src/headers/HeaderStatistics.ts:19</a></li></ul></aside></div></li></ul></section><section class="tsd-panel tsd-member"><h3 class="tsd-anchor-link" id="blocksadded"><span>blocks<wbr/>Added</span><a href="#blocksadded" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul class="tsd-signatures"><li><div class="tsd-signature" id="blocksaddedblocksadded"><span class="tsd-signature-keyword">get</span> <span class="tsd-kind-get-signature">blocksAdded</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><div class="tsd-description"><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L70">src/headers/HeaderStatistics.ts:70</a></li></ul></aside></div></li><li><div class="tsd-signature" id="blocksaddedblocksadded-1"><span class="tsd-signature-keyword">set</span> <span class="tsd-kind-set-signature">blocksAdded</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">blocksAdded</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">void</span></div><div class="tsd-description"><div class="tsd-parameters"><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameter-list"><li><span><span class="tsd-kind-parameter">blocksAdded</span>: <span class="tsd-signature-type">number</span></span></li></ul></div><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L74">src/headers/HeaderStatistics.ts:74</a></li></ul></aside></div></li></ul></section><section class="tsd-panel tsd-member"><h3 class="tsd-anchor-link" id="blocksremoved"><span>blocks<wbr/>Removed</span><a href="#blocksremoved" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul class="tsd-signatures"><li><div class="tsd-signature" id="blocksremovedblocksremoved"><span class="tsd-signature-keyword">get</span> <span class="tsd-kind-get-signature">blocksRemoved</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><div class="tsd-description"><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L81">src/headers/HeaderStatistics.ts:81</a></li></ul></aside></div></li><li><div class="tsd-signature" id="blocksremovedblocksremoved-1"><span class="tsd-signature-keyword">set</span> <span class="tsd-kind-set-signature">blocksRemoved</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">blocksRemoved</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">void</span></div><div class="tsd-description"><div class="tsd-parameters"><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameter-list"><li><span><span class="tsd-kind-parameter">blocksRemoved</span>: <span class="tsd-signature-type">number</span></span></li></ul></div><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L85">src/headers/HeaderStatistics.ts:85</a></li></ul></aside></div></li></ul></section><section class="tsd-panel tsd-member"><h3 class="tsd-anchor-link" id="leftclicks"><span>left<wbr/>Clicks</span><a href="#leftclicks" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul class="tsd-signatures"><li><div class="tsd-signature" id="leftclicksleftclicks"><span class="tsd-signature-keyword">get</span> <span class="tsd-kind-get-signature">leftClicks</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><div class="tsd-description"><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L48">src/headers/HeaderStatistics.ts:48</a></li></ul></aside></div></li><li><div class="tsd-signature" id="leftclicksleftclicks-1"><span class="tsd-signature-keyword">set</span> <span class="tsd-kind-set-signature">leftClicks</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">leftClicks</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">void</span></div><div class="tsd-description"><div class="tsd-parameters"><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameter-list"><li><span><span class="tsd-kind-parameter">leftClicks</span>: <span class="tsd-signature-type">number</span></span></li></ul></div><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L52">src/headers/HeaderStatistics.ts:52</a></li></ul></aside></div></li></ul></section><section class="tsd-panel tsd-member"><h3 class="tsd-anchor-link" id="minutesspent"><span>minutes<wbr/>Spent</span><a href="#minutesspent" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul class="tsd-signatures"><li><div class="tsd-signature" id="minutesspentminutesspent"><span class="tsd-signature-keyword">get</span> <span class="tsd-kind-get-signature">minutesSpent</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><div class="tsd-description"><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L37">src/headers/HeaderStatistics.ts:37</a></li></ul></aside></div></li><li><div class="tsd-signature" id="minutesspentminutesspent-1"><span class="tsd-signature-keyword">set</span> <span class="tsd-kind-set-signature">minutesSpent</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">minutesSpent</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">void</span></div><div class="tsd-description"><div class="tsd-parameters"><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameter-list"><li><span><span class="tsd-kind-parameter">minutesSpent</span>: <span class="tsd-signature-type">number</span></span></li></ul></div><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L41">src/headers/HeaderStatistics.ts:41</a></li></ul></aside></div></li></ul></section><section class="tsd-panel tsd-member"><h3 class="tsd-anchor-link" id="rightclicks"><span>right<wbr/>Clicks</span><a href="#rightclicks" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul class="tsd-signatures"><li><div class="tsd-signature" id="rightclicksrightclicks"><span class="tsd-signature-keyword">get</span> <span class="tsd-kind-get-signature">rightClicks</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><div class="tsd-description"><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L59">src/headers/HeaderStatistics.ts:59</a></li></ul></aside></div></li><li><div class="tsd-signature" id="rightclicksrightclicks-1"><span class="tsd-signature-keyword">set</span> <span class="tsd-kind-set-signature">rightClicks</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">rightClicks</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">void</span></div><div class="tsd-description"><div class="tsd-parameters"><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameter-list"><li><span><span class="tsd-kind-parameter">rightClicks</span>: <span class="tsd-signature-type">number</span></span></li></ul></div><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources"><ul><li>Defined in <a href="https://github.com/OpenNBS/nbs.js/blob/02dbc533d2dd65a49220fd403bc561b0bb75b6c6/src/headers/HeaderStatistics.ts#L63">src/headers/HeaderStatistics.ts:63</a></li></ul></aside></div></li></ul></section></section></details><details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Constructors"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h2>Constructors</h2></summary><section><section class="tsd-panel tsd-member"><h3 class="tsd-anchor-link" id="constructor"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul class="tsd-signatures"><li class=""><div class="tsd-signature tsd-anchor-link" id="constructorheaderstatistics"><span class="tsd-signature-keyword">new</span> <span class="tsd-kind-constructor-signature">HeaderStatistics</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type tsd-kind-class">HeaderStatistics</a><a href="#constructorheaderstatistics" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div><div class="tsd-description"><h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type tsd-kind-class">HeaderStatistics</a></h4></div></li></ul></section></section></details></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Accessors"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Accessors</summary><div><a href="#default_blocks_added"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>DEFAULT_<wbr/>BLOCKS_<wbr/>ADDED</span></a><a href="#default_blocks_removed"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>DEFAULT_<wbr/>BLOCKS_<wbr/>REMOVED</span></a><a href="#default_left_clicks"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>DEFAULT_<wbr/>LEFT_<wbr/>CLICKS</span></a><a href="#default_minutes_spent"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>DEFAULT_<wbr/>MINUTES_<wbr/>SPENT</span></a><a href="#default_right_clicks"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>DEFAULT_<wbr/>RIGHT_<wbr/>CLICKS</span></a><a href="#blocksadded"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>blocks<wbr/>Added</span></a><a href="#blocksremoved"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>blocks<wbr/>Removed</span></a><a href="#leftclicks"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>left<wbr/>Clicks</span></a><a href="#minutesspent"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>minutes<wbr/>Spent</span></a><a href="#rightclicks"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Accessor"><use href="../assets/icons.svg#icon-262144"></use></svg><span>right<wbr/>Clicks</span></a></div></details><details open class="tsd-accordion tsd-page-navigation-section"><summary class="tsd-accordion-summary" data-key="section-Constructors"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Constructors</summary><div><a href="#constructor"><svg class="tsd-kind-icon" viewBox="0 0 24 24" aria-label="Constructor"><use href="../assets/icons.svg#icon-512"></use></svg><span>constructor</span></a></div></details></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../index.html">nbs.js - v7.0.0-alpha1</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer></footer><div class="overlay"></div><script>
+          try {
+            const generateLinkElement = document.querySelector(".tsd-generator a");
+            const link = document.createElement("a");
+            Object.assign(link, {
+              href: "https://github.com/dmnsgn/typedoc-material-theme",
+              target: "_blank",
+              rel: "noreferrer",
+              innerText: "typedoc-material-theme."
+            });
+            generateLinkElement.insertAdjacentElement("afterend", link);
+            generateLinkElement.insertAdjacentText("afterend", " with ");
+          } catch (error) {
+
+          }
+        </script></body></html>
