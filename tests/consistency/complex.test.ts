@@ -1,7 +1,7 @@
 import { BinaryReader, BinaryWriter } from "@nbsjs/core";
 
-test("Import and export identical songs", async () => {
-	const originalFile = Bun.file("tests/sample/simple.nbs");
+test("Import and export identical complex songs", async () => {
+	const originalFile = Bun.file("tests/sample/full.nbs");
 	const originalBuffer = await originalFile.bytes();
 
 	const binaryReader = new BinaryReader(originalBuffer.buffer);

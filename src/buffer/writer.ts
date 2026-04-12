@@ -7,12 +7,19 @@ import { BufferWrapper } from "~/buffer/wrapper";
  * @internal
  */
 export class BufferWriter extends BufferWrapper {
-	constructor() {
+	public constructor() {
 		super(
 			new ArrayBuffer(0, {
 				"maxByteLength": 2 ** 32 - 1
 			})
 		);
+	}
+
+	/**
+	 * Write a boolean.
+	 */
+	public writeBoolean(value: boolean): void {
+		this.viewer.setInt8(this.resize(1), ~~value);
 	}
 
 	/**

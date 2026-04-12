@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@nbsjs/core": ["../src/index.ts"],
+      "~/*": ["../src/*"],
+    },
+    "rootDir": "..",
+    "types": ["bun-types"],
+  },
+  "extends": "../tsconfig.json",
+  "include": ["./**/*.ts"],
+}

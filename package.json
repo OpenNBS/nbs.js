@@ -1,22 +1,37 @@
 {
-	"type": "module",
-	"name": "@nbsjs/core",
-	"description": "Robust API for reading and writing OpenNBS files.",
-	"version": "6.1.0",
 	"author": {
 		"name": "OpenNBS",
 		"url": "https://opennbs.org"
 	},
+	"description": "Robust API for reading and writing OpenNBS files.",
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.8",
+		"bun-plugin-dts": "^0.4.0",
+		"bun-types": "^1.3.11",
+		"type-fest": "^5.5.0",
+		"typedoc": "^0.28.18",
+		"typedoc-material-theme": "^1.4.1",
+		"typedoc-plugin-include-example": "^3.0.2",
+		"typedoc-plugin-mdn-links": "^5.1.1",
+		"typescript": "^6.0.2"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"exports": {
+		".": {
+			"bun": "./src/index.ts"
+		}
+	},
+	"files": [
+		"dist",
+		"changelog.md"
+	],
 	"funding": {
 		"type": "github",
 		"url": "https://github.com/sponsors/OpenNBS"
 	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/OpenNBS/nbs.js.git"
-	},
 	"homepage": "https://opennbs.github.io/nbs.js/docs/",
-	"license": "MIT",
 	"keywords": [
 		"api",
 		"minecraft",
@@ -24,32 +39,28 @@
 		"noteblock",
 		"onbs"
 	],
+	"license": "MIT",
 	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"files": [
-		"dist",
-		"changelog.md"
-	],
-	"sideEffects": false,
+	"name": "@nbsjs/core",
+	"packageManager": "bun@1.3.11",
+	"publishConfig": {
+		"exports": {
+			".": "./dist/index.js"
+		}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/OpenNBS/nbs.js.git"
+	},
 	"scripts": {
-		"test": "biome format src/ --write && biome lint src/ && bun test",
 		"build": "bun run build:bundle && bun run build:docs",
 		"build:bundle": "bun build.ts",
 		"build:docs": "typedoc",
-		"build:publish": "bun run test && bun run build && npm publish"
+		"build:publish": "bun run test && bun run build && npm publish",
+		"test": "biome format src/ --write && biome lint src/ && bun test"
 	},
-	"engines": {
-		"node": ">=18"
-	},
-	"packageManager": "bun@1.3.3",
-	"devDependencies": {
-		"@biomejs/biome": "^2.4.8",
-		"@types/bun": "^1.3.10",
-		"bun-plugin-dts": "^0.4.0",
-		"typedoc": "^0.28.18",
-		"typedoc-material-theme": "^1.4.1",
-		"typedoc-plugin-include-example": "^3.0.2",
-		"typedoc-plugin-mdn-links": "^5.1.1",
-		"typescript": "^6.0.2"
-	}
+	"sideEffects": false,
+	"type": "module",
+	"types": "dist/index.d.ts",
+	"version": "7.0.0-alpha1"
 }

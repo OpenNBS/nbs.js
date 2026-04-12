@@ -1,46 +1,25 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.3.6/schema.json",
-	"assist": { "actions": { "source": { "organizeImports": "off" } } },
-	"linter": {
-		"enabled": true,
-		"includes": ["**", "!public", "!build", "!dist", "!.direnv"],
-		"rules": {
-			"recommended": true,
-			"complexity": {
-				"useLiteralKeys": "off"
-			},
-			"performance": {
-				"noDelete": "off"
-			},
-			"style": {
-				"useBlockStatements": "error",
-				"useNamingConvention": {
-					"level": "error",
+	"$schema": "https://biomejs.dev/schemas/2.4.9/schema.json",
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
 					"options": {
-						"strictCase": false
+						"groups": [
+							{ "source": ["!:ALIAS:", "!:NODE:"], "type": true },
+							":BLANK_LINE:",
+							{ "source": [":ALIAS:", ":NODE:"], "type": true },
+							":BLANK_LINE:",
+							[":BUN:", ":NODE:"],
+							":BLANK_LINE:",
+							[":ALIAS:", ":PATH:"],
+							":BLANK_LINE:"
+						]
 					}
 				},
-				"noImplicitBoolean": "error",
-				"noNegationElse": "error",
-				"useCollapsedElseIf": "error",
-				"useFilenamingConvention": {
-					"level": "error",
-					"options": {
-						"strictCase": false,
-						"requireAscii": true,
-						"filenameCases": ["camelCase", "PascalCase"]
-					}
-				},
-				"useConsistentArrayType": {
-					"level": "error",
-					"options": { "syntax": "shorthand" }
-				}
-			},
-			"suspicious": {
-				"noConsole": { "level": "warn", "options": { "allow": ["log"] } }
-			},
-			"correctness": {
-				"noUnusedImports": "error"
+				"useSortedInterfaceMembers": "on",
+				"useSortedKeys": "on"
 			}
 		}
 	},
@@ -51,11 +30,75 @@
 	},
 	"javascript": {
 		"formatter": {
-			"quoteProperties": "preserve",
-			"trailingCommas": "none",
-			"lineWidth": 192,
+			"bracketSameLine": true,
 			"indentStyle": "tab",
-			"bracketSameLine": true
+			"lineWidth": 100,
+			"quoteProperties": "preserve",
+			"trailingCommas": "none"
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"includes": ["**", "!public", "!build", "!dist", "!.direnv"],
+		"rules": {
+			"complexity": {
+				"useLiteralKeys": "off"
+			},
+			"correctness": {
+				"noUnusedImports": "error"
+			},
+			"nursery": {
+				"useExplicitType": "error"
+			},
+			"performance": {
+				"noDelete": "off"
+			},
+			"recommended": true,
+			"style": {
+				"noImplicitBoolean": "error",
+				"noNegationElse": "error",
+				"useBlockStatements": "error",
+				"useCollapsedElseIf": "error",
+				"useConsistentArrayType": {
+					"level": "error",
+					"options": { "syntax": "shorthand" }
+				},
+				"useConsistentMemberAccessibility": {
+					"level": "error",
+					"options": {
+						"accessibility": "explicit"
+					}
+				},
+				"useFilenamingConvention": {
+					"level": "error",
+					"options": {
+						"filenameCases": ["camelCase", "PascalCase"],
+						"requireAscii": true,
+						"strictCase": false
+					}
+				},
+				"useImportType": {
+					"level": "warn",
+					"options": {
+						"style": "separatedType"
+					}
+				},
+				"useNamingConvention": {
+					"level": "error",
+					"options": {
+						"strictCase": false
+					}
+				},
+				"useReadonlyClassProperties": {
+					"level": "warn",
+					"options": {
+						"checkAllProperties": true
+					}
+				}
+			},
+			"suspicious": {
+				"noConsole": { "level": "warn" }
+			}
 		}
 	}
 }

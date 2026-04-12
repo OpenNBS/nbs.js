@@ -5,15 +5,39 @@
  * @internal
  */
 export class BufferWrapper {
+	public static get MIN_BYTE(): number {
+		return -127;
+	}
+
+	public static get MAX_BYTE(): number {
+		return 127;
+	}
+
+	public static get MIN_UNSIGNED_BYTE(): number {
+		return 0;
+	}
+
+	public static get MAX_UNSIGNED_BYTE(): number {
+		return 255;
+	}
+
+	public static get MIN_SHORT(): number {
+		return -32767;
+	}
+
+	public static get MAX_SHORT(): number {
+		return 32767;
+	}
+
 	/**
 	 * Buffer that is being read.
 	 */
-	readonly buffer: ArrayBufferLike;
+	public readonly buffer: ArrayBufferLike;
 
 	/**
 	 * Data view for the buffer.
 	 */
-	protected viewer: DataView;
+	protected readonly viewer: DataView;
 
 	/**
 	 * Next byte to read.
@@ -25,7 +49,7 @@ export class BufferWrapper {
 	 *
 	 * @param buffer An existing array buffer to manipulate
 	 */
-	constructor(buffer: ArrayBufferLike) {
+	public constructor(buffer: ArrayBufferLike) {
 		this.buffer = buffer;
 		this.viewer = new DataView(buffer);
 	}

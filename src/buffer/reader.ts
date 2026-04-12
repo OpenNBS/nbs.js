@@ -8,6 +8,17 @@ import { BufferWrapper } from "~/buffer/wrapper";
  */
 export class BufferReader extends BufferWrapper {
 	/**
+	 * Read the next boolean.
+	 */
+	public readBoolean(): boolean {
+		const result = !!this.viewer.getInt8(this.nextByte);
+
+		this.nextByte += 1;
+
+		return result;
+	}
+
+	/**
 	 * Read the next byte.
 	 */
 	public readByte(): number {
