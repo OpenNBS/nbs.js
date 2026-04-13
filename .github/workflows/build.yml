@@ -19,15 +19,4 @@ jobs:
       - name: Build
         run: |
           bun install --frozen-lockfile
-
           bun run build
-          bun run build:docs
-
-      - name: Deploy pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: public
-          publish_branch: gh-pages
-          user_name: GitHub Action
-          user_email: action@github.com

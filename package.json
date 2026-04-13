@@ -55,8 +55,8 @@
 	"scripts": {
 		"build": "bun run build:bundle && bun run build:docs",
 		"build:bundle": "bun build.ts",
-		"build:docs": "typedoc",
 		"build:publish": "bun run test && bun run build && npm publish",
+		"docs": "typedoc",
 		"test": "biome format src/ --write && biome lint src/ && bun test"
 	},
 	"sideEffects": false,
