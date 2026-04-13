@@ -29,7 +29,13 @@ export class SongInstruments {
 	}
 
 	public register(instrument: Instrument): SongInstrument {
-		const initializedInstrument = InitializedInstrument.from(this.#song, instrument);
+		let initializedInstrument: InitializedInstrument;
+
+		if (instrument instanceof InitializedInstrument) {
+			initializedInstrument = instrument;
+		} else {
+			initializedInstrument = InitializedInstrument.from(this.#song, instrument);
+		}
 
 		this.#map.set(instrument.identifier, initializedInstrument);
 
