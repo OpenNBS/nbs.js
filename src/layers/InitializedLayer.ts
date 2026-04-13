@@ -22,7 +22,7 @@ export class InitializedLayer extends Layer {
 	}
 
 	public get position(): SongLayerPosition {
-		let foundPosition: number | undefined;
+		let foundPosition: SongLayerPosition | undefined;
 
 		for (const [position, layer] of this.#song.layers) {
 			if (this !== layer) {
