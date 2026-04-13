@@ -21,6 +21,7 @@ export * from "~/headers/HeaderLike";
 export * from "~/identifiers/ResourceLocation";
 export * from "~/instruments/Instrument";
 export * from "~/instruments/InstrumentBuilder";
+export * from "~/instruments/MinecraftInstrument";
 export * from "~/instruments/MinecraftInstruments";
 export * from "~/layers/Layer";
 export * from "~/layers/LayerBuilder";
