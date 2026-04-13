@@ -7,7 +7,7 @@ import { VolumeParameter } from "~/parameters/VolumeParameter";
 import { isWithinRange } from "~/validators/isWithinRange";
 import { fail, ok } from "~/validators/results";
 
-import type { Optional } from "type-fest";
+import type { LiteralUnion, Optional } from "type-fest";
 
 export type LayerName = string;
 export type LayerVolume = VolumeRange;
@@ -17,6 +17,7 @@ export type OptionalLayerName = Optional<LayerName>;
 
 export type UnknownLayerVolume = UnknownVolumeRange;
 export type UnknownLayerPanning = UnknownPanningRange;
+export type UnknownLayerStatus = LiteralUnion<LayerStatus, number>;
 
 export enum LayerStatus {
 	None,
@@ -93,13 +94,17 @@ export class Layer {
 		return this.#status;
 	}
 
-	public set status(status: LayerStatus) {
-		isWithinRange(status, LayerStatus.None, LayerStatus.Solo).ensure();
+	public set status(status: UnknownLayerStatus) {
+		this.checkStatus(status).ensure();
 
 		this.#status = status;
 	}
 
 	public checkMutable(): Result {
 		return this.#status === LayerStatus.Locked ? fail("Layer is locked") : ok();
+	}
+
+	public checkStatus(status: LayerStatus): Result {
+		return isWithinRange(status, LayerStatus.None, LayerStatus.Solo);
 	}
 }
