@@ -5,13 +5,6 @@
 {
   "format_on_save": "on",
   "languages": {
-    "JavaScript": {
-      "code_actions_on_format": {
-        "source.fixAll.biome": true,
-      },
-      "formatter": { "language_server": { "name": "biome" } },
-      "language_servers": ["biome", "vtsls"],
-    },
     "JSON": {
       "code_actions_on_format": {
         "source.fixAll.biome": true,
@@ -22,6 +15,7 @@
     "TypeScript": {
       "code_actions_on_format": {
         "source.fixAll.biome": true,
+        "source.organizeImports.biome": true,
       },
       "formatter": { "language_server": { "name": "biome" } },
       "language_servers": ["biome", "vtsls"],
