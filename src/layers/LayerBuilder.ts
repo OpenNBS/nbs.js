@@ -42,14 +42,6 @@ export class LayerBuilder {
 		return this;
 	}
 
-	public status(status: LayerStatus): this {
-		this.#ensureNoneStatus();
-
-		this.#status = status;
-
-		return this;
-	}
-
 	public build(): Layer {
 		const layer = new Layer();
 
@@ -77,7 +69,7 @@ export class LayerBuilder {
 	}
 
 	#ensureNoneStatus(): void {
-		if (this.#status === LayerStatus.None) {
+		if (this.#status === undefined) {
 			return;
 		}
 
