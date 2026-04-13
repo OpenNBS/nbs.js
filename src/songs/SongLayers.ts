@@ -1,6 +1,7 @@
-import type { InitializedLayer } from "~/layers/InitializedLayer";
+import type { Layer } from "~/layers/Layer";
 import type { ParentSong } from "~/types/initialized/Parent";
 
+import { InitializedLayer } from "~/layers/InitializedLayer";
 import { InitializedLayerBuilder } from "~/layers/InitializedLayerBuilder";
 import { SortedIndexMap } from "~/maps/SortedIndexMap";
 import { isInteger } from "~/validators/isInteger";
@@ -112,6 +113,18 @@ export class SongLayers {
 
 	public clear(): void {
 		this.#map.clear();
+	}
+
+	public register(layer: Layer, position: SongLayerPosition | undefined = undefined): SongLayer {
+		const initializedLayer = InitializedLayer.from(this.#song, layer);
+
+		if (position === undefined) {
+			this.add(initializedLayer);
+		} else {
+			this.set(position, initializedLayer);
+		}
+
+		return initializedLayer;
 	}
 
 	public *keys(): Generator<SongLayerKey> {
