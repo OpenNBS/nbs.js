@@ -10,28 +10,32 @@ import type {
 	UnknownNoteVolume
 } from "~/notes/Note";
 import type { Panning } from "~/parameters/PanningParameter";
-import type { ParentLayer, ParentSong } from "~/types/initialized/Parent";
+import type { ParentLayer, ParentLayerNotes, ParentSong } from "~/types/initialized/Parent";
 
 import { InitializedInstrument } from "~/instruments/InitializedInstrument";
 import { Note } from "~/notes/Note";
+import type { LayerNoteTick } from "~/songs/SongLayerNotes";
 
 export type InitializedNoteInstrument = InitializedInstrument | MinecraftInstrument;
 
 export class InitializedNote extends Note {
 	readonly #song: ParentSong;
 	readonly #layer: ParentLayer;
+	readonly #layerNotes: ParentLayerNotes;
 
 	#instrument: InitializedNoteInstrument;
 
 	public constructor(
 		parentSong: ParentSong,
 		parentLayer: ParentLayer,
+		parentLayerNotes: ParentLayerNotes,
 		instrument: InitializedNoteInstrument
 	) {
 		super(instrument);
 
 		this.#song = parentSong;
 		this.#layer = parentLayer;
+		this.#layerNotes = parentLayerNotes;
 
 		this.#instrument = instrument;
 	}
@@ -96,7 +100,32 @@ export class InitializedNote extends Note {
 		return (this.#layer.panning * 2 + this.panning) / 2;
 	}
 
-	public static from(song: ParentSong, layer: ParentLayer, note: Note): InitializedNote {
+	public get tick(): LayerNoteTick {
+		let foundTick: LayerNoteTick | undefined;
+
+		for (const [tick, note] of this.#layerNotes) {
+			if (this !== note) {
+				continue;
+			}
+
+			foundTick = tick;
+
+			break;
+		}
+
+		if (foundTick === undefined) {
+			throw "Note could not be found within song";
+		}
+
+		return foundTick;
+	}
+
+	public static from(
+		song: ParentSong,
+		layer: ParentLayer,
+		layerNotes: ParentLayerNotes,
+		note: Note
+	): InitializedNote {
 		let initializedInstrument = song.instruments.get(note.instrument.identifier);
 
 		if (initializedInstrument === undefined) {
@@ -105,7 +134,7 @@ export class InitializedNote extends Note {
 			song.instruments.register(initializedInstrument);
 		}
 
-		const initializedNote = new InitializedNote(song, layer, initializedInstrument);
+		const initializedNote = new InitializedNote(song, layer, layerNotes, initializedInstrument);
 
 		initializedNote.key = note.key;
 		initializedNote.pitch = note.pitch;

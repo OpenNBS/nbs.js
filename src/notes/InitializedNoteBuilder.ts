@@ -41,7 +41,7 @@ export class InitializedCompleteNoteBuilder extends CompleteNoteBuilder {
 	public build(
 		updateStatistics: UpdateStatistics = SongLayerNotes.DEFAULT_UPDATE_STATISTICS
 	): InitializedNote {
-		const note = new InitializedNote(this.#song, this.#layer, this.#instrument);
+		const note = new InitializedNote(this.#song, this.#layer, this.#layerNotes, this.#instrument);
 
 		this.assign(note);
 
