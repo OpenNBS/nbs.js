@@ -53,11 +53,12 @@
 		"url": "https://github.com/OpenNBS/nbs.js.git"
 	},
 	"scripts": {
-		"build": "bun run build:bundle && bun run build:docs",
+		"build": "bun run test && bun run build:bundle",
 		"build:bundle": "bun build.ts",
-		"build:publish": "bun run test && bun run build && npm publish",
+		"build:publish": "bun run build && npm publish",
 		"docs": "typedoc",
-		"test": "biome format src/ --write && biome lint src/ && bun test"
+		"lint": "biome format src --write && biome lint src --write",
+		"test": "biome lint src && bun test"
 	},
 	"sideEffects": false,
 	"type": "module",
