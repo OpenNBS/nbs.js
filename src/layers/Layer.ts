@@ -52,6 +52,8 @@ export class Layer {
 	}
 
 	public set name(name: OptionalLayerName) {
+		this.checkMutable().ensure();
+
 		this.#name = name;
 	}
 
@@ -60,6 +62,8 @@ export class Layer {
 	}
 
 	public set volume(volume: UnknownLayerVolume) {
+		this.checkMutable().ensure();
+
 		VolumeParameter.validate(volume).ensure();
 
 		this.#volume = volume as LayerVolume;
@@ -70,6 +74,8 @@ export class Layer {
 	}
 
 	public set panning(panning: UnknownLayerPanning) {
+		this.checkMutable().ensure();
+
 		PanningParameter.validate(panning).ensure();
 
 		this.#panning = panning as LayerPanning;
