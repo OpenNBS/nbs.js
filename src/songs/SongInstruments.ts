@@ -1,7 +1,6 @@
 import type { Instrument, InstrumentIdentifier } from "~/instruments/Instrument";
 import type { Song } from "~/songs/Song";
 
-import { ResourceLocation } from "~/identifiers/ResourceLocation";
 import { InitializedInstrument } from "~/instruments/InitializedInstrument";
 import { InitializedInstrumentBuilder } from "~/instruments/InitializedInstrumentBuilder";
 
@@ -42,31 +41,14 @@ export class SongInstruments {
 		return initializedInstrument;
 	}
 
-	public delete(identifier: InstrumentIdentifier): boolean;
-	public delete(instrument: SongInstrument): boolean;
-	public delete(identifierOrInstrument: InstrumentIdentifier | SongInstrument): boolean {
-		if (identifierOrInstrument instanceof ResourceLocation) {
-			const instrument = this.#map.get(identifierOrInstrument);
+	public delete(identifier: InstrumentIdentifier): boolean {
+		const instrument = this.#map.get(identifier);
 
-			if (instrument !== undefined) {
-				this.#removeNotes(instrument);
-			}
-
-			return this.#map.delete(identifierOrInstrument);
-		}
-
-		for (const [identifier, instrument] of this.#map) {
-			if (instrument !== identifierOrInstrument) {
-				continue;
-			}
-
+		if (instrument !== undefined) {
 			this.#removeNotes(instrument);
-			this.#map.delete(identifier);
-
-			return true;
 		}
 
-		return false;
+		return this.#map.delete(identifier);
 	}
 
 	public clear(): void {
@@ -98,13 +80,13 @@ export class SongInstruments {
 	}
 
 	#removeNotes(instrument: SongInstrument): void {
-		for (const [_, layer] of this.#song.layers) {
+		for (const layer of this.#song.layers.values()) {
 			for (const [tick, note] of layer.notes) {
 				if (note.instrument !== instrument) {
 					continue;
 				}
 
-				layer.notes.delete(tick);
+				layer.notes.delete(tick, false);
 			}
 		}
 	}
