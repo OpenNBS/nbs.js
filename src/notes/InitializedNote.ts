@@ -93,7 +93,7 @@ export class InitializedNote extends Note {
 	}
 
 	public get effectivePanning(): Panning {
-		return (this.#layer.panning + this.panning) / 2;
+		return (this.#layer.panning * 2 + this.panning) / 2;
 	}
 
 	public static from(song: ParentSong, layer: ParentLayer, note: Note): InitializedNote {
