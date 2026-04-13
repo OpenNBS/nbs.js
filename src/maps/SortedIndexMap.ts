@@ -111,7 +111,7 @@ export class SortedIndexMap<Key extends number, Value> extends Map<Key, Value> {
 		const start = Math.min(from, to);
 		const end = Math.max(from, to) + 1;
 
-		yield* Iterator.from(this.entries().toArray().splice(start, end));
+		yield* Iterator.from(this.entries().toArray().slice(start, end));
 	}
 
 	public *[Symbol.iterator](): MapIterator<[Key, Value]> {
