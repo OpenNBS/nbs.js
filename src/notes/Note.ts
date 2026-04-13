@@ -10,7 +10,7 @@ import { KeyParameter } from "~/parameters/KeyParameter";
 import { PanningParameter } from "~/parameters/PanningParameter";
 import { PitchParameter } from "~/parameters/PitchParameter";
 import { VolumeParameter } from "~/parameters/VolumeParameter";
-import { mergeResults } from "~/validators/results";
+import { fail, mergeResults, ok } from "~/validators/results";
 
 export type NoteInstrument = Instrument;
 
@@ -114,6 +114,11 @@ export class Note {
 		const keyStatus = KeyParameter.validate(this.#key, true);
 		const instrumentStatus = MinecraftInstruments.validate(this.#instrument);
 
-		return mergeResults(keyStatus, instrumentStatus);
+		const pitchStatus =
+			this.#pitch === Note.DEFAULT_PITCH
+				? ok()
+				: fail("Note utilizes non-vanilla-compatible pitch adjustments");
+
+		return mergeResults(keyStatus, instrumentStatus, pitchStatus);
 	}
 }
