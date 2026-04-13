@@ -103,8 +103,24 @@ export class SongLayerNotes {
 		return position;
 	}
 
-	public register(note: Note): LayerNote {
-		return InitializedNote.from(this.#song, this.#layer, note);
+	public register(
+		note: Note,
+		tick: LayerNoteTick,
+		updateStatistics: UpdateStatistics = SongLayerNotes.DEFAULT_UPDATE_STATISTICS
+	): LayerNote {
+		const initializedNote = InitializedNote.from(this.#song, this.#layer, this, note);
+
+		if (tick === undefined) {
+			this.add(initializedNote);
+		} else {
+			this.set(tick, initializedNote);
+		}
+
+		if (updateStatistics) {
+			this.#song.statistics.blocksAdded++;
+		}
+
+		return initializedNote;
 	}
 
 	public delete(
