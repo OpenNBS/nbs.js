@@ -1,5 +1,4 @@
 import type { HeaderSize } from "~/headers/Header";
-import type { HeaderLike } from "~/types/headers/HeaderLike";
 
 import { HeaderLoopPiece } from "~/headers/HeaderLoop";
 import { AutoSavePiece } from "~/pieces/AutoSavePiece";
@@ -8,6 +7,7 @@ import { StatisticsPiece } from "~/pieces/StatisticsPiece";
 import { TempoPiece } from "~/pieces/TempoPiece";
 import { SongInstrumentsPiece } from "~/songs/SongInstruments";
 import { SongLayersPiece } from "~/songs/SongLayers";
+import { HeaderLike } from "~/types/headers/HeaderLike";
 import type { InitializedLayerNotesPiece } from "../layers/InitializedLayerNotes";
 
 export type SongHasNotes = boolean;
@@ -93,5 +93,13 @@ export class Song extends MetadataPiece implements HeaderLike {
 
 	public get layers(): SongLayers {
 		return this.#layers;
+	}
+
+	public static fromHeader(header: HeaderLike): Song {
+		const song = new Song();
+
+		HeaderLike.assignHeader(header, song);
+
+		return song;
 	}
 }
