@@ -1,5 +1,6 @@
 import type {
 	InstrumentKey,
+	InstrumentPressKey,
 	OptionalInstrumentName,
 	OptionalInstrumentSoundFile,
 	UnknownInstrumentKey
@@ -61,6 +62,16 @@ export class MinecraftInstrument extends Instrument {
 		this.checkMutable().ensure();
 
 		super.key = key;
+	}
+
+	public get doesPressKey(): InstrumentPressKey {
+		return super.doesPressKey;
+	}
+
+	public set doesPressKey(pressKey: InstrumentPressKey) {
+		this.checkMutable().ensure();
+
+		super.doesPressKey = pressKey;
 	}
 
 	public get supportedVersion(): InstrumentSupportedVersion {
