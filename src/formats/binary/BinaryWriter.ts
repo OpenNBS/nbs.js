@@ -225,7 +225,16 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 						continue;
 					}
 
-					instrumentId = this.#instrumentTransformer.to.toId();
+					const fallbackInstrument = this.#instrumentTransformer.to;
+
+					if (
+						fallbackInstrument instanceof MinecraftInstrument &&
+						fallbackInstrument.supportedVersion > this.#version
+					) {
+						throw `Specified fallback instrument "${fallbackInstrument.name}" is not supported by provided version "${this.#version}"`;
+					}
+
+					instrumentId = fallbackInstrument.toId();
 				} else if (note.instrument instanceof InitializedInstrument) {
 					instrumentId = note.instrument.toId() + customInstrumentIndex;
 				} else {
