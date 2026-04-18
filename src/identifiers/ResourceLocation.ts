@@ -68,11 +68,18 @@ export class ResourceLocation {
 	}
 
 	public static sanitizeNamespace(namespace: ResourceNamespace): ResourceNamespace {
-		return namespace.toLowerCase().replaceAll(" ", "_").replace(invalidNamespacePattern, "");
+		const sanitizedNamespace = namespace
+			.toLowerCase()
+			.replaceAll(" ", "_")
+			.replace(invalidNamespacePattern, "");
+
+		return sanitizedNamespace.length > 0 ? sanitizedNamespace : "empty";
 	}
 
 	public static sanitizePath(path: ResourcePath): ResourcePath {
-		return path.toLowerCase().replaceAll(" ", "_").replace(invalidPathPattern, "");
+		const sanitizedPath = path.toLowerCase().replaceAll(" ", "_").replace(invalidPathPattern, "");
+
+		return sanitizedPath.length > 0 ? sanitizedPath : "empty";
 	}
 
 	public static validate(namespace: ResourceNamespace, path: ResourcePath): Result {
