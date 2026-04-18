@@ -61,6 +61,16 @@ export class Song extends MetadataPiece implements HeaderLike {
 		return hasNotes;
 	}
 
+	public get totalNotes(): number {
+		let totalNotes = 0;
+
+		for (const layer of this.#layers.values()) {
+			totalNotes += layer.notes.total;
+		}
+
+		return totalNotes;
+	}
+
 	public get autoSave(): SongAutoSave {
 		return this.#autoSave;
 	}
