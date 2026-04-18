@@ -40,9 +40,6 @@ export type FrozenIntermediaryNotes = readonly IntermediaryNote[];
 export type FrozenIntermediaryLayers = readonly IntermediaryLayer[];
 export type FrozenIntermediaryInstruments = readonly IntermediaryInstrument[];
 
-export type { EmptyLayerOptions } from "./Binary";
-export { LayerBehavior } from "./Binary";
-
 export class BinaryReader extends Binary<
 	FrozenIntermediaryHeader,
 	FrozenIntermediaryNotes,

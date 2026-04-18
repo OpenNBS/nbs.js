@@ -47,9 +47,6 @@ export interface BinaryWriterOptions extends BinaryOptions {
 	"version": BinaryWriterVersion;
 }
 
-export type { EmptyLayerOptions } from "./Binary";
-export { LayerBehavior } from "./Binary";
-
 export class BinaryWriter extends Binary<ArrayBufferLike> {
 	public static get DEFAULT_INSTRUMENT_TRANSFORMER(): UnsupportedInstrumentOptions {
 		return {

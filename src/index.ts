@@ -1,3 +1,4 @@
+export type { EmptyLayerOptions } from "~/formats/binary/Binary";
 export type * from "~/instruments/InitializedInstrument";
 export type * from "~/instruments/InitializedInstrumentBuilder";
 export type * from "~/instruments/MinecraftInstrument";
@@ -21,6 +22,7 @@ export type * from "~/songs/SongLayers";
 export type * from "~/types/headers/HeaderLike";
 export type * from "~/types/validators/Result";
 
+export { BinaryStep, LayerBehavior } from "~/formats/binary/Binary";
 export * from "~/formats/binary/BinaryReader";
 export * from "~/formats/binary/BinaryWriter";
 export * from "~/headers/Header";
