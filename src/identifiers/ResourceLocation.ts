@@ -2,18 +2,18 @@ import type { Result } from "~/types/validators/Result";
 
 import { fail, mergeResults, ok } from "~/validators/results";
 
-function toPattern(...characters: string[]): RegExp {
-	return new RegExp(`[${characters.join()}]`);
+function toPattern(global: boolean, ...characters: string[]): RegExp {
+	return new RegExp(`[${characters.join()}]`, global ? "g" : undefined);
 }
 
 const allowedNamespaceCharacters: string[] = ["a-z", "0-9", "_", "\\-", "."];
 const allowedPathCharacters: string[] = [...allowedNamespaceCharacters, "\\/"];
 
-const validNamespacePattern: RegExp = toPattern(...allowedNamespaceCharacters);
-const validPathPattern: RegExp = toPattern(...allowedPathCharacters);
+const validNamespacePattern: RegExp = toPattern(false, ...allowedNamespaceCharacters);
+const validPathPattern: RegExp = toPattern(false, ...allowedPathCharacters);
 
-const invalidNamespacePattern: RegExp = toPattern("^", ...allowedNamespaceCharacters);
-const invalidPathPattern: RegExp = toPattern("^", ...allowedPathCharacters);
+const invalidNamespacePattern: RegExp = toPattern(true, "^", ...allowedNamespaceCharacters);
+const invalidPathPattern: RegExp = toPattern(true, "^", ...allowedPathCharacters);
 
 export type ResourceNamespace = string;
 export type ResourcePath = string;
