@@ -1,28 +1,29 @@
-import type { HeaderLike } from "~/headers/HeaderLike";
-import type { TimeSignatureBeats } from "~/headers/HeaderTempo";
+import type { BinaryOptions } from "~/formats/binary/Binary";
 import type { LayerPanning } from "~/layers/Layer";
 import type { InitializedNoteInstrument } from "~/notes/InitializedNote";
 import type { UnknownNotePanning, UnknownNotePitch, UnknownNoteVolume } from "~/notes/Note";
+import type { SupportedVersionRange } from "~/parameters/VersionParameter";
 import type {
 	IntermediaryHeader,
 	IntermediaryInstrument,
 	IntermediaryLayer,
 	IntermediaryNote
-} from "~/types/formats/nbs/Intermediary";
+} from "~/types/formats/binary/Intermediary";
+import type { HeaderLike } from "~/types/headers/HeaderLike";
 
 import { BufferReader } from "~/buffer/reader";
+import { Binary, BinaryStatus, LayerAction } from "~/formats/binary//Binary";
 import { Header } from "~/headers/Header";
-import { HeaderAutoSave } from "~/headers/HeaderAutoSave";
-import { HeaderLoop } from "~/headers/HeaderLoop";
-import { HeaderStatistics } from "~/headers/HeaderStatistics";
-import { HeaderTempo } from "~/headers/HeaderTempo";
 import { ResourceLocation } from "~/identifiers/ResourceLocation";
 import { Instrument } from "~/instruments/Instrument";
 import { MinecraftInstruments } from "~/instruments/MinecraftInstruments";
 import { Layer, LayerStatus } from "~/layers/Layer";
+import { AutoSavePiece } from "~/pieces/AutoSavePiece";
+import { LoopPiece } from "~/pieces/LoopPiece";
+import { MetadataPiece } from "~/pieces/MetadataPiece";
+import { StatisticsPiece } from "~/pieces/StatisticsPiece";
+import { TempoPiece } from "~/pieces/TempoPiece";
 import { Song } from "~/songs/Song";
-import type { BinaryOptions } from "./Binary";
-import { Binary, BinaryStatus, LayerAction } from "./Binary";
 
 import type { PartialDeep } from "type-fest";
 
@@ -50,26 +51,26 @@ export class BinaryReader extends Binary<
 > {
 	public static get DEFAULT_HEADER(): IntermediaryHeader {
 		return {
-			"author": Header.DEFAULT_AUTHOR,
-			"autoSaveEnabled": HeaderAutoSave.DEFAULT_ENABLED,
-			"autoSaveInterval": HeaderAutoSave.DEFAULT_INTERVAL,
-			"blocksAdded": HeaderStatistics.DEFAULT_BLOCKS_ADDED,
-			"blocksRemoved": HeaderStatistics.DEFAULT_BLOCKS_REMOVED,
-			"description": Header.DEFAULT_DESCRIPTION,
+			"author": MetadataPiece.DEFAULT_AUTHOR,
+			"autoSaveEnabled": AutoSavePiece.DEFAULT_ENABLED,
+			"autoSaveInterval": AutoSavePiece.DEFAULT_INTERVAL,
+			"blocksAdded": StatisticsPiece.DEFAULT_BLOCKS_ADDED,
+			"blocksRemoved": StatisticsPiece.DEFAULT_BLOCKS_REMOVED,
+			"description": MetadataPiece.DEFAULT_DESCRIPTION,
 			"firstCustomInstrument": 16,
-			"importName": Header.DEFAULT_IMPORT_NAME,
+			"importName": MetadataPiece.DEFAULT_IMPORT_NAME,
 			"layerTotal": 0,
-			"leftClicks": HeaderStatistics.DEFAULT_LEFT_CLICKS,
-			"loopCount": HeaderLoop.DEFAULT_COUNT,
-			"loopEnabled": HeaderLoop.DEFAULT_ENABLED,
-			"loopStartTick": HeaderLoop.DEFAULT_START_TICK,
-			"minutesSpent": HeaderStatistics.DEFAULT_MINUTES_SPENT,
-			"name": Header.DEFAULT_NAME,
-			"originalAuthor": Header.DEFAULT_ORIGINAL_AUTHOR,
-			"rightClicks": HeaderStatistics.DEFAULT_RIGHT_CLICKS,
+			"leftClicks": StatisticsPiece.DEFAULT_LEFT_CLICKS,
+			"loopCount": LoopPiece.DEFAULT_COUNT,
+			"loopEnabled": LoopPiece.DEFAULT_ENABLED,
+			"loopStartTick": LoopPiece.DEFAULT_START_TICK,
+			"minutesSpent": StatisticsPiece.DEFAULT_MINUTES_SPENT,
+			"name": MetadataPiece.DEFAULT_NAME,
+			"originalAuthor": MetadataPiece.DEFAULT_ORIGINAL_AUTHOR,
+			"rightClicks": StatisticsPiece.DEFAULT_RIGHT_CLICKS,
 			"size": 0,
-			"ticksPerSecond": HeaderTempo.DEFAULT_TICKS_PER_SECOND,
-			"timeSignatureBeats": HeaderTempo.DEFAULT_BEATS,
+			"ticksPerSecond": TempoPiece.DEFAULT_TICKS_PER_SECOND,
+			"timeSignatureBeats": TempoPiece.DEFAULT_BEATS,
 			"version": Header.DEFAULT_VERSION
 		};
 	}
@@ -227,7 +228,7 @@ export class BinaryReader extends Binary<
 			header.size = this.#header.size;
 		}
 
-		header.version = this.#header.version;
+		header.version = this.#header.version as SupportedVersionRange;
 
 		header.name = this.#header.name;
 		header.author = this.#header.author;
@@ -291,10 +292,7 @@ export class BinaryReader extends Binary<
 		this.#header.autoSaveEnabled = this.#reader.readBoolean(); // Song auto-save status
 		this.#header.autoSaveInterval = this.#reader.readByte(); // Song auto-save interval
 
-		const parsedBeats = this.#reader.readByte(); // Song time signature (beats)
-
-		HeaderTempo.checkBeats(parsedBeats).ensure();
-		this.#header.timeSignatureBeats = parsedBeats as TimeSignatureBeats;
+		this.#header.timeSignatureBeats = this.#reader.readByte(); // Song time signature (beats)
 
 		this.#header.minutesSpent = this.#reader.readInt(); // Minutes spent with song open
 		this.#header.leftClicks = this.#reader.readInt(); // Amount of left-clicks on the song

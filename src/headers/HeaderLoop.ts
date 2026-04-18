@@ -1,54 +1,25 @@
-import { isInteger } from "~/validators/isInteger";
-import { isPositive } from "~/validators/isPositive";
+import type { LoopTick } from "~/pieces/LoopPiece";
+import type { HeaderLike } from "~/types/headers/HeaderLike";
 
-export type LoopEnabled = boolean;
-export type LoopStartTick = number;
-export type LoopCount = number;
+import { LoopPiece } from "~/pieces/LoopPiece";
 
-export class HeaderLoop {
-	public static get DEFAULT_ENABLED(): LoopEnabled {
-		return false;
+export class HeaderLoopPiece extends LoopPiece {
+	readonly #header: HeaderLike;
+
+	public constructor(header: HeaderLike) {
+		super();
+
+		this.#header = header;
 	}
 
-	public static get DEFAULT_START_TICK(): LoopStartTick {
-		return 0;
+	public get endTick(): LoopTick {
+		return this.#header.size;
 	}
 
-	public static get DEFAULT_COUNT(): LoopCount {
-		return 0;
-	}
+	public get endMeasureTick(): LoopTick {
+		const size = this.#header.size;
+		const beats = this.#header.tempo.beats;
 
-	#isEnabled: LoopEnabled = HeaderLoop.DEFAULT_ENABLED;
-	#startTick: LoopStartTick = HeaderLoop.DEFAULT_START_TICK;
-	#count: LoopCount = HeaderLoop.DEFAULT_COUNT;
-
-	public get isEnabled(): LoopEnabled {
-		return this.#isEnabled;
-	}
-
-	public set isEnabled(isEnabled: LoopEnabled) {
-		this.#isEnabled = isEnabled;
-	}
-
-	public get startTick(): LoopStartTick {
-		return this.#startTick;
-	}
-
-	public set startTick(startTick: LoopStartTick) {
-		isInteger(startTick).ensure();
-		isPositive(startTick).ensure();
-
-		this.#startTick = startTick;
-	}
-
-	public get count(): LoopCount {
-		return this.#count;
-	}
-
-	public set count(count: LoopCount) {
-		isInteger(count).ensure();
-		isPositive(count).ensure();
-
-		this.#count = count;
+		return size + (beats - (size % beats));
 	}
 }

@@ -4,7 +4,7 @@ import { isPositive } from "~/validators/isPositive";
 export type AutoSaveEnabled = boolean;
 export type AutoSaveInterval = number;
 
-export class HeaderAutoSave {
+export class AutoSavePiece {
 	public static get DEFAULT_ENABLED(): AutoSaveEnabled {
 		return false;
 	}
@@ -13,8 +13,8 @@ export class HeaderAutoSave {
 		return 5;
 	}
 
-	#isEnabled: AutoSaveEnabled = HeaderAutoSave.DEFAULT_ENABLED;
-	#interval: AutoSaveInterval = HeaderAutoSave.DEFAULT_INTERVAL;
+	#isEnabled: AutoSaveEnabled = AutoSavePiece.DEFAULT_ENABLED;
+	#interval: AutoSaveInterval = AutoSavePiece.DEFAULT_INTERVAL;
 
 	public get isEnabled(): AutoSaveEnabled {
 		return this.#isEnabled;

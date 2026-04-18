@@ -1,20 +1,3 @@
-import type { AutoSaveEnabled, AutoSaveInterval } from "~/headers/HeaderAutoSave";
-import type {
-	OptionalHeaderAuthor,
-	OptionalHeaderDescription,
-	OptionalHeaderImportName,
-	OptionalHeaderName,
-	UnknownHeaderVersion
-} from "~/headers/HeaderLike";
-import type { LoopCount, LoopEnabled, LoopStartTick } from "~/headers/HeaderLoop";
-import type {
-	BlocksAdded,
-	BlocksRemoved,
-	LeftClicks,
-	MinutesSpent,
-	RightClicks
-} from "~/headers/HeaderStatistics";
-import type { TicksPerSecond, UnknownTimeSignatureBeats } from "~/headers/HeaderTempo";
 import type {
 	InstrumentPressKey,
 	OptionalInstrumentName,
@@ -33,29 +16,46 @@ import type {
 	UnknownNotePitch,
 	UnknownNoteVolume
 } from "~/notes/Note";
+import type { AutoSaveEnabled, AutoSaveInterval } from "~/pieces/AutoSavePiece";
+import type { LoopCount, LoopEnabled, LoopTick } from "~/pieces/LoopPiece";
+import type {
+	OptionalMetadataAuthor,
+	OptionalMetadataDescription,
+	OptionalMetadataImportName,
+	OptionalMetadataName,
+	UnknownVersion
+} from "~/pieces/MetadataPiece";
+import type {
+	StatisticsBlocksAdded,
+	StatisticsBlocksRemoved,
+	StatisticsLeftClicks,
+	StatisticsMinutesSpent,
+	StatisticsRightClicks
+} from "~/pieces/StatisticsPiece";
+import type { TicksPerSecond, UnknownTimeSignatureBeats } from "~/pieces/TempoPiece";
 
 export interface IntermediaryHeader {
-	"author": OptionalHeaderAuthor;
+	"author": OptionalMetadataAuthor;
 	"autoSaveEnabled": AutoSaveEnabled;
 	"autoSaveInterval": AutoSaveInterval;
-	"blocksAdded": BlocksAdded;
-	"blocksRemoved": BlocksRemoved;
-	"description": OptionalHeaderDescription;
+	"blocksAdded": StatisticsBlocksAdded;
+	"blocksRemoved": StatisticsBlocksRemoved;
+	"description": OptionalMetadataDescription;
 	"firstCustomInstrument": number;
-	"importName": OptionalHeaderImportName;
+	"importName": OptionalMetadataImportName;
 	"layerTotal": number;
-	"leftClicks": LeftClicks;
+	"leftClicks": StatisticsLeftClicks;
 	"loopCount": LoopCount;
 	"loopEnabled": LoopEnabled;
-	"loopStartTick": LoopStartTick;
-	"minutesSpent": MinutesSpent;
-	"name": OptionalHeaderName;
-	"originalAuthor": OptionalHeaderAuthor;
-	"rightClicks": RightClicks;
+	"loopStartTick": LoopTick;
+	"minutesSpent": StatisticsMinutesSpent;
+	"name": OptionalMetadataName;
+	"originalAuthor": OptionalMetadataAuthor;
+	"rightClicks": StatisticsRightClicks;
 	"size": number;
 	"ticksPerSecond": TicksPerSecond;
 	"timeSignatureBeats": UnknownTimeSignatureBeats;
-	"version": UnknownHeaderVersion;
+	"version": UnknownVersion;
 }
 
 export interface IntermediaryNote {

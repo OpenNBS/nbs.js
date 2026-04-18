@@ -1,4 +1,5 @@
 import type { MinecraftInstrument } from "~/instruments/MinecraftInstrument";
+import type { LayerNoteTick } from "~/layers/InitializedLayerNotes";
 import type {
 	NoteKey,
 	NotePanning,
@@ -14,7 +15,6 @@ import type { ParentLayer, ParentLayerNotes, ParentSong } from "~/types/initiali
 
 import { InitializedInstrument } from "~/instruments/InitializedInstrument";
 import { Note } from "~/notes/Note";
-import type { LayerNoteTick } from "~/songs/SongLayerNotes";
 
 export type InitializedNoteInstrument = InitializedInstrument | MinecraftInstrument;
 

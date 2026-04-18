@@ -1,10 +1,10 @@
+import type { LayerNoteTick, UpdateStatistics } from "~/layers/InitializedLayerNotes";
 import type { InitializedNoteInstrument } from "~/notes/InitializedNote";
-import type { LayerNoteTick, UpdateStatistics } from "~/songs/SongLayerNotes";
 import type { ParentLayer, ParentLayerNotes, ParentSong } from "~/types/initialized/Parent";
 
+import { InitializedLayerNotesPiece } from "~/layers/InitializedLayerNotes";
 import { InitializedNote } from "~/notes/InitializedNote";
 import { CompleteNoteBuilder, NoteBuilder } from "~/notes/NoteBuilder";
-import { SongLayerNotes } from "~/songs/SongLayerNotes";
 
 export class InitializedCompleteNoteBuilder extends CompleteNoteBuilder {
 	readonly #song: ParentSong;
@@ -39,7 +39,7 @@ export class InitializedCompleteNoteBuilder extends CompleteNoteBuilder {
 	}
 
 	public build(
-		updateStatistics: UpdateStatistics = SongLayerNotes.DEFAULT_UPDATE_STATISTICS
+		updateStatistics: UpdateStatistics = InitializedLayerNotesPiece.DEFAULT_UPDATE_STATISTICS
 	): InitializedNote {
 		const note = new InitializedNote(this.#song, this.#layer, this.#layerNotes, this.#instrument);
 

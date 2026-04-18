@@ -11,7 +11,7 @@ export type SongInstrumentValue = SongInstrument;
 
 export type SongInstrumentEntry = [SongInstrumentKey, SongInstrumentValue];
 
-export class SongInstruments {
+export class SongInstrumentsPiece {
 	readonly #song: Song;
 	readonly #map: Map<SongInstrumentKey, SongInstrumentValue> = new Map();
 

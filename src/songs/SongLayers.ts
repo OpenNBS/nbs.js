@@ -14,7 +14,7 @@ type SongLayerKey = SongLayerPosition;
 type SongLayerValue = SongLayer;
 type SongLayerEntry = [SongLayerKey, SongLayerValue];
 
-export class SongLayers {
+export class SongLayersPiece {
 	readonly #song: ParentSong;
 
 	readonly #map: SortedIndexMap<SongLayerKey, SongLayerValue> = new SortedIndexMap();

@@ -1,22 +1,21 @@
-import type { Result } from "~/types/validators/Result";
+import type { BeatsRange, UnknownBeatsRange } from "~/parameters/BeatsParameter";
+import type { NoteValueRange, UnknownNoteValueRange } from "~/parameters/NoteParameter";
 
-import { isInteger } from "~/validators/isInteger";
+import { BeatsParameter } from "~/parameters/BeatsParameter";
+import { NoteParameter } from "~/parameters/NoteParameter";
 import { isWithinRange } from "~/validators/isWithinRange";
-import { fail, mergeResults, ok } from "~/validators/results";
 
-import type { IntClosedRange, LiteralUnion } from "type-fest";
-
-export type TimeSignatureBeats = IntClosedRange<2, 8>;
-export type TimeSignatureNote = 4;
+export type TimeSignatureBeats = BeatsRange;
+export type TimeSignatureNote = NoteValueRange;
 
 export type TicksPerSecond = number;
 export type BeatsPerMinute = number;
 export type MillisecondsPerTick = number;
 
-export type UnknownTimeSignatureBeats = LiteralUnion<TimeSignatureBeats, number>;
-export type UnknownTimeSignatureNote = LiteralUnion<TimeSignatureNote, number>;
+export type UnknownTimeSignatureBeats = UnknownBeatsRange;
+export type UnknownTimeSignatureNote = UnknownNoteValueRange;
 
-export class HeaderTempo {
+export class TempoPiece {
 	public static get DEFAULT_BEATS(): TimeSignatureBeats {
 		return 4;
 	}
@@ -37,19 +36,19 @@ export class HeaderTempo {
 		return 100;
 	}
 
-	#beats: TimeSignatureBeats = HeaderTempo.DEFAULT_BEATS;
-	#note: TimeSignatureNote = HeaderTempo.DEFAULT_NOTE;
+	#beats: TimeSignatureBeats = TempoPiece.DEFAULT_BEATS;
+	#note: TimeSignatureNote = TempoPiece.DEFAULT_NOTE;
 
-	#ticksPerSecond: TicksPerSecond = HeaderTempo.DEFAULT_TICKS_PER_SECOND;
-	#beatsPerMinute: BeatsPerMinute = HeaderTempo.DEFAULT_BEATS_PER_MINUTE;
-	#millisecondsPerTick: MillisecondsPerTick = HeaderTempo.DEFAULT_MILLISECONDS_PER_TICK;
+	#ticksPerSecond: TicksPerSecond = TempoPiece.DEFAULT_TICKS_PER_SECOND;
+	#beatsPerMinute: BeatsPerMinute = TempoPiece.DEFAULT_BEATS_PER_MINUTE;
+	#millisecondsPerTick: MillisecondsPerTick = TempoPiece.DEFAULT_MILLISECONDS_PER_TICK;
 
 	public get beats(): TimeSignatureBeats {
 		return this.#beats;
 	}
 
 	public set beats(beats: UnknownTimeSignatureBeats) {
-		HeaderTempo.checkBeats(beats).ensure();
+		BeatsParameter.validate(beats).ensure();
 
 		this.#beats = beats as TimeSignatureBeats;
 	}
@@ -59,7 +58,7 @@ export class HeaderTempo {
 	}
 
 	public set note(note: UnknownTimeSignatureNote) {
-		HeaderTempo.checkNotes(note).ensure();
+		NoteParameter.validate(note).ensure();
 
 		this.#note = note as TimeSignatureNote;
 	}
@@ -101,21 +100,5 @@ export class HeaderTempo {
 		this.#beatsPerMinute = (15 / millisecondsPerTick) * 1000;
 
 		this.#millisecondsPerTick = millisecondsPerTick;
-	}
-
-	public static checkBeats(beats: UnknownTimeSignatureBeats): Result {
-		const integerStatus = isInteger(beats);
-		const rangeStatus = isWithinRange(beats, 2, 8);
-
-		return mergeResults(integerStatus, rangeStatus);
-	}
-
-	public static checkNotes(note: UnknownTimeSignatureNote): Result {
-		const integerStatus = isInteger(note);
-
-		// This will be removed once the NBS specification supports more time signatures
-		const rangeStatus = note === 4 ? ok() : fail("Time signature notes must be 4");
-
-		return mergeResults(integerStatus, rangeStatus);
 	}
 }

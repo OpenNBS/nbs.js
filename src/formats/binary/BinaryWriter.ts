@@ -1,6 +1,6 @@
-import type { HeaderLike } from "~/headers/HeaderLike";
 import type { SupportedVersionRange } from "~/parameters/VersionParameter";
 import type { SongLayer } from "~/songs/SongLayers";
+import type { HeaderLike } from "~/types/headers/HeaderLike";
 
 import { BufferWriter } from "~/buffer/writer";
 import { Header } from "~/headers/Header";

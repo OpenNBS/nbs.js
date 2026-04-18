@@ -1,16 +1,16 @@
 import { isInteger } from "~/validators/isInteger";
 import { isPositive } from "~/validators/isPositive";
 
-export type HeaderLayersTotal = number;
+export type LayersTotal = number;
 
-export class HeaderLayers {
-	#total: HeaderLayersTotal = 0;
+export class HeaderLayersPiece {
+	#total: LayersTotal = 0;
 
-	public get total(): HeaderLayersTotal {
+	public get total(): LayersTotal {
 		return this.#total;
 	}
 
-	public set total(total: HeaderLayersTotal) {
+	public set total(total: LayersTotal) {
 		isInteger(total).ensure();
 		isPositive(total).ensure();
 

@@ -6,7 +6,7 @@ import { mergeResults } from "~/validators/results";
 
 import type { IntClosedRange, LiteralUnion } from "type-fest";
 
-export type Version = number;
+export type SupportedVersion = number;
 
 export type MinimumSupportedVersion = 0;
 export type MaximumSupportedVersion = 6;
@@ -16,7 +16,7 @@ export type SupportedVersionRange = IntClosedRange<
 	MaximumSupportedVersion
 >;
 
-export type UnknownSupportedVersionRange = LiteralUnion<SupportedVersionRange, Version>;
+export type UnknownSupportedVersionRange = LiteralUnion<SupportedVersionRange, SupportedVersion>;
 
 function validator(version: UnknownSupportedVersionRange): Result {
 	const integerStatus = isInteger(version);
