@@ -40,13 +40,13 @@ export class ResourceLocation {
 	}
 
 	public set namespace(namespace: ResourceNamespace) {
-		ResourceLocation.validateNamespace(namespace);
+		ResourceLocation.validateNamespace(namespace).ensure();
 
 		this.#namespace = namespace;
 	}
 
 	public set path(path: ResourcePath) {
-		ResourceLocation.validatePath(path);
+		ResourceLocation.validatePath(path).ensure();
 
 		this.#path = path;
 	}
