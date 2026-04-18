@@ -158,6 +158,8 @@ export abstract class Binary<
 					) {
 						break;
 					}
+
+					continue;
 				}
 
 				trailingEmptyLayers++;
