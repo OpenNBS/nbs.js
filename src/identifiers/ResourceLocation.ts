@@ -85,14 +85,14 @@ export class ResourceLocation {
 	public static validateNamespace(namespace: ResourceNamespace): Result {
 		// This will be removed once the NBS specification supports instrument namespaces
 		if (namespace !== "minecraft" && namespace !== "custom") {
-			return fail('Namespace must be either "minecraft" or "custom"');
+			return fail(`Namespace "${namespace}" must be either "minecraft" or "custom"`);
 		}
 
 		if (validNamespacePattern.test(namespace)) {
 			return ok();
 		}
 
-		return fail("Namespace uses invalid characters");
+		return fail(`Namespace "${namespace}" uses invalid characters`);
 	}
 
 	public static validatePath(path: ResourcePath): Result {
@@ -100,6 +100,6 @@ export class ResourceLocation {
 			return ok();
 		}
 
-		return fail("Path uses invalid characters");
+		return fail(`Path "${path}" uses invalid characters`);
 	}
 }
