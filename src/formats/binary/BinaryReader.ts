@@ -12,7 +12,7 @@ import type {
 import type { HeaderLike } from "~/types/headers/HeaderLike";
 
 import { BufferReader } from "~/buffer/reader";
-import { Binary, BinaryStatus, LayerAction } from "~/formats/binary//Binary";
+import { Binary, BinaryStep, LayerAction } from "~/formats/binary//Binary";
 import { Header } from "~/headers/Header";
 import { ResourceLocation } from "~/identifiers/ResourceLocation";
 import { Instrument } from "~/instruments/Instrument";
@@ -100,32 +100,32 @@ export class BinaryReader extends Binary<
 		this.#reader = new BufferReader(file);
 	}
 
-	public atHeader(): FrozenIntermediaryHeader {
-		this.processUntil(BinaryStatus.Notes);
+	public atHeaderStep(): FrozenIntermediaryHeader {
+		this.processUntil(BinaryStep.Notes);
 
 		return Object.freeze(this.#header);
 	}
 
-	public atNotes(): FrozenIntermediaryNotes {
-		this.processUntil(BinaryStatus.Layers);
+	public atNotesStep(): FrozenIntermediaryNotes {
+		this.processUntil(BinaryStep.Layers);
 
 		return Object.freeze(this.#notes);
 	}
 
-	public atLayers(): FrozenIntermediaryLayers {
-		this.processUntil(BinaryStatus.Instruments);
+	public atLayersStep(): FrozenIntermediaryLayers {
+		this.processUntil(BinaryStep.Instruments);
 
 		return Object.freeze(this.#layers);
 	}
 
-	public atInstruments(): FrozenIntermediaryInstruments {
-		this.processUntil(BinaryStatus.Complete);
+	public atInstrumentsStep(): FrozenIntermediaryInstruments {
+		this.processUntil(BinaryStep.Complete);
 
 		return Object.freeze(this.#instruments);
 	}
 
 	public toHeader(): Header {
-		this.processUntil(BinaryStatus.Notes);
+		this.processUntil(BinaryStep.Notes);
 
 		const header = new Header();
 
@@ -137,7 +137,7 @@ export class BinaryReader extends Binary<
 	}
 
 	public toSong(): Song {
-		this.processUntil(BinaryStatus.Complete);
+		this.processUntil(BinaryStep.Complete);
 
 		const song = new Song();
 
@@ -254,7 +254,7 @@ export class BinaryReader extends Binary<
 	}
 
 	protected processHeader(): void {
-		this.ensureStatus(BinaryStatus.Header);
+		this.ensureStep(BinaryStep.Header);
 
 		this.#header.size = this.#reader.readShort(); // Song length or NBSv1 header
 
@@ -308,11 +308,11 @@ export class BinaryReader extends Binary<
 			this.#header.loopStartTick = this.#reader.readShort(); // Song loop start tick
 		}
 
-		this.status = BinaryStatus.Notes;
+		this.step = BinaryStep.Notes;
 	}
 
 	protected processNotes(): void {
-		this.ensureStatus(BinaryStatus.Notes);
+		this.ensureStep(BinaryStep.Notes);
 
 		let tick = -1;
 
@@ -363,11 +363,11 @@ export class BinaryReader extends Binary<
 			this.#header.size = tick;
 		}
 
-		this.status = BinaryStatus.Layers;
+		this.step = BinaryStep.Layers;
 	}
 
 	protected processLayers(): void {
-		this.ensureStatus(BinaryStatus.Layers);
+		this.ensureStep(BinaryStep.Layers);
 
 		for (let layerIndex = 0; layerIndex < this.#header.layerTotal; layerIndex++) {
 			const layer: IntermediaryLayer = {
@@ -444,11 +444,11 @@ export class BinaryReader extends Binary<
 			}
 		}
 
-		this.status = BinaryStatus.Instruments;
+		this.step = BinaryStep.Instruments;
 	}
 
 	protected processInstruments(): void {
-		this.ensureStatus(BinaryStatus.Instruments);
+		this.ensureStep(BinaryStep.Instruments);
 
 		const instrumentTotal = this.#reader.readByte(); // Amount of custom instruments
 
@@ -468,6 +468,6 @@ export class BinaryReader extends Binary<
 			this.#instruments.push(instrument);
 		}
 
-		this.status = BinaryStatus.Complete;
+		this.step = BinaryStep.Complete;
 	}
 }

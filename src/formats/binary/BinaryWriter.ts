@@ -10,7 +10,7 @@ import { MinecraftInstruments } from "~/instruments/MinecraftInstruments";
 import { Layer } from "~/layers/Layer";
 import { Song } from "~/songs/Song";
 import type { BinaryOptions, BinaryTransformers } from "./Binary";
-import { Binary, BinaryStatus, LayerAction } from "./Binary";
+import { Binary, BinaryStep, LayerAction } from "./Binary";
 
 import type { PartialDeep } from "type-fest";
 
@@ -75,38 +75,38 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 			BinaryWriter.DEFAULT_INSTRUMENT_TRANSFORMER;
 	}
 
-	public atHeader(): ArrayBufferLike {
-		this.processUntil(BinaryStatus.Header);
+	public atHeaderStep(): ArrayBufferLike {
+		this.processUntil(BinaryStep.Header);
 
 		return this.#writer.buffer;
 	}
 
-	public atNotes(): ArrayBufferLike {
-		this.processUntil(BinaryStatus.Layers);
+	public atNotesStep(): ArrayBufferLike {
+		this.processUntil(BinaryStep.Layers);
 
 		return this.#writer.buffer;
 	}
 
-	public atLayers(): ArrayBufferLike {
-		this.processUntil(BinaryStatus.Instruments);
+	public atLayersStep(): ArrayBufferLike {
+		this.processUntil(BinaryStep.Instruments);
 
 		return this.#writer.buffer;
 	}
 
-	public atInstruments(): ArrayBufferLike {
-		this.processUntil(BinaryStatus.Complete);
+	public atInstrumentsStep(): ArrayBufferLike {
+		this.processUntil(BinaryStep.Complete);
 
 		return this.#writer.buffer;
 	}
 
 	public toArrayBuffer(): ArrayBufferLike {
-		this.processUntil(BinaryStatus.Complete);
+		this.processUntil(BinaryStep.Complete);
 
 		return this.#writer.buffer;
 	}
 
 	protected processHeader(): void {
-		this.ensureStatus(BinaryStatus.Header);
+		this.ensureStep(BinaryStep.Header);
 
 		const supportedInstruments = MinecraftInstruments.getSupportedFor(this.#version);
 
@@ -164,11 +164,11 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 			this.#writer.writeShort(this.#header.loop.startTick); // Song loop start tick
 		}
 
-		this.status = BinaryStatus.Notes;
+		this.step = BinaryStep.Notes;
 	}
 
 	protected processNotes(): void {
-		this.ensureStatus(BinaryStatus.Notes);
+		this.ensureStep(BinaryStep.Notes);
 
 		if (!(this.#header instanceof Song)) {
 			this.#writer.writeShort(0); // End of notes section
@@ -252,11 +252,11 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 
 		this.#writer.writeShort(0); // End of notes section
 
-		this.status = BinaryStatus.Layers;
+		this.step = BinaryStep.Layers;
 	}
 
 	protected processLayers(): void {
-		this.ensureStatus(BinaryStatus.Layers);
+		this.ensureStep(BinaryStep.Layers);
 
 		if (!(this.#header instanceof Song)) {
 			return;
@@ -298,11 +298,11 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 			}
 		}
 
-		this.status = BinaryStatus.Instruments;
+		this.step = BinaryStep.Instruments;
 	}
 
 	protected processInstruments(): void {
-		this.ensureStatus(BinaryStatus.Instruments);
+		this.ensureStep(BinaryStep.Instruments);
 
 		if (!(this.#header instanceof Song)) {
 			return;
@@ -317,6 +317,6 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 			this.#writer.writeBoolean(instrument.doesPressKey); // Instrument press key status
 		}
 
-		this.status = BinaryStatus.Complete;
+		this.step = BinaryStep.Complete;
 	}
 }

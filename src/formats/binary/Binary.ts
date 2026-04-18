@@ -9,7 +9,7 @@ import { Layer } from "~/layers/Layer";
 
 import type { PartialDeep } from "type-fest";
 
-export enum BinaryStatus {
+export enum BinaryStep {
 	Header,
 	Notes,
 	Layers,
@@ -68,8 +68,8 @@ export abstract class Binary<
 	LayersType = HeaderType,
 	InstrumentsType = HeaderType
 > {
-	public static get DEFAULT_BINARY_STATUS(): BinaryStatus {
-		return BinaryStatus.Header;
+	public static get DEFAULT_BINARY_STEP(): BinaryStep {
+		return BinaryStep.Header;
 	}
 
 	public static get DEFAULT_LAYER_TRANSFORMER(): EmptyLayerOptions {
@@ -85,44 +85,40 @@ export abstract class Binary<
 			(options.transformers?.layers as EmptyLayerOptions) ?? Binary.DEFAULT_LAYER_TRANSFORMER;
 	}
 
-	// biome-ignore lint/style/useReadonlyClassProperties: Status is re-assigned in inherited classes
-	public status: BinaryStatus = Binary.DEFAULT_BINARY_STATUS;
+	// biome-ignore lint/style/useReadonlyClassProperties: Step is re-assigned in inherited classes
+	public step: BinaryStep = Binary.DEFAULT_BINARY_STEP;
 
-	public abstract atHeader(): HeaderType;
-	public abstract atNotes(): NotesType;
-	public abstract atLayers(): LayersType;
-	public abstract atInstruments(): InstrumentsType;
+	public abstract atHeaderStep(): HeaderType;
+	public abstract atNotesStep(): NotesType;
+	public abstract atLayersStep(): LayersType;
+	public abstract atInstrumentsStep(): InstrumentsType;
 
-	protected processUntil(status: BinaryStatus): void {
-		if (this.status >= status) {
+	protected processUntil(step: BinaryStep): void {
+		if (this.step >= step) {
 			return;
 		}
 
-		for (
-			let currentProcessStatus = this.status;
-			currentProcessStatus < status;
-			currentProcessStatus++
-		) {
-			switch (currentProcessStatus) {
-				case BinaryStatus.Header: {
+		for (let currentProcessStep = this.step; currentProcessStep < step; currentProcessStep++) {
+			switch (currentProcessStep) {
+				case BinaryStep.Header: {
 					this.processHeader();
 
 					break;
 				}
 
-				case BinaryStatus.Notes: {
+				case BinaryStep.Notes: {
 					this.processNotes();
 
 					break;
 				}
 
-				case BinaryStatus.Layers: {
+				case BinaryStep.Layers: {
 					this.processLayers();
 
 					break;
 				}
 
-				case BinaryStatus.Instruments: {
+				case BinaryStep.Instruments: {
 					this.processInstruments();
 
 					break;
@@ -182,9 +178,9 @@ export abstract class Binary<
 		return layerActions;
 	}
 
-	protected ensureStatus(status: BinaryStatus): void {
-		if (this.status !== status) {
-			throw `Parsing status mismatch between current status "${this.status}" and required status "${status}"`;
+	protected ensureStep(step: BinaryStep): void {
+		if (this.step !== step) {
+			throw `Parsing step mismatch between current step "${this.step}" and required step "${step}"`;
 		}
 	}
 }
