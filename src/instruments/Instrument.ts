@@ -2,7 +2,6 @@ import type { ResourceLocation } from "~/identifiers/ResourceLocation";
 import type { KeyRange, UnknownKeyRange } from "~/parameters/KeyParameter";
 
 import { KeyParameter } from "~/parameters/KeyParameter";
-import { isBoolean } from "~/validators/isBoolean";
 
 import type { Optional } from "type-fest";
 
@@ -81,8 +80,6 @@ export class Instrument {
 	}
 
 	public set doesPressKey(pressKey: InstrumentPressKey) {
-		isBoolean(pressKey).ensure();
-
 		this.#doesPressKey = pressKey;
 	}
 }
