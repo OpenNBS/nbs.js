@@ -70,6 +70,17 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 		this.#instrumentTransformer =
 			(options.transformers?.instruments as UnsupportedInstrumentOptions) ??
 			BinaryWriter.DEFAULT_INSTRUMENT_TRANSFORMER;
+
+		if (this.#instrumentTransformer.behavior === InstrumentBehavior.Fallback) {
+			const fallbackInstrument = this.#instrumentTransformer.to;
+
+			if (
+				fallbackInstrument instanceof MinecraftInstrument &&
+				fallbackInstrument.supportedVersion > this.#version
+			) {
+				throw `Specified fallback instrument "${fallbackInstrument.name}" is not supported by provided version "${this.#version}"`;
+			}
+		}
 	}
 
 	public atHeaderStep(): ArrayBufferLike {
@@ -222,16 +233,7 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 						continue;
 					}
 
-					const fallbackInstrument = this.#instrumentTransformer.to;
-
-					if (
-						fallbackInstrument instanceof MinecraftInstrument &&
-						fallbackInstrument.supportedVersion > this.#version
-					) {
-						throw `Specified fallback instrument "${fallbackInstrument.name}" is not supported by provided version "${this.#version}"`;
-					}
-
-					instrumentId = fallbackInstrument.toId();
+					instrumentId = this.#instrumentTransformer.to.toId();
 				} else if (note.instrument instanceof InitializedInstrument) {
 					instrumentId = note.instrument.toId() + customInstrumentIndex;
 				} else {
