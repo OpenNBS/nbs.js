@@ -7,4 +7,4 @@ export type ParentSong = Song;
 export type ParentSongInstruments = SongInstrumentsPiece;
 
 export type ParentLayer = InitializedLayer;
-export type ParentLayerNotes = SongLayerNotes;
+export type ParentLayerNotes = InitializedLayerNotesPiece;

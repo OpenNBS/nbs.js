@@ -1,23 +1,25 @@
 import type { SongLayerPosition } from "~/songs/SongLayers";
 import type { ParentSong } from "~/types/initialized/Parent";
 
+import { InitializedLayerNotesPiece } from "~/layers/InitializedLayerNotes";
 import { Layer } from "~/layers/Layer";
-import { SongLayerNotes } from "~/songs/SongLayerNotes";
+
+export type InitializedLayerNotes = InitializedLayerNotesPiece;
 
 export class InitializedLayer extends Layer {
 	readonly #song: ParentSong;
 
-	readonly #notes: SongLayerNotes;
+	readonly #notes: InitializedLayerNotesPiece;
 
 	public constructor(song: ParentSong) {
 		super();
 
 		this.#song = song;
 
-		this.#notes = new SongLayerNotes(song, this);
+		this.#notes = new InitializedLayerNotesPiece(song, this);
 	}
 
-	public get notes(): SongLayerNotes {
+	public get notes(): InitializedLayerNotes {
 		return this.#notes;
 	}
 

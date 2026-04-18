@@ -16,7 +16,7 @@ type LayerNotesKey = LayerNoteTick;
 type LayerNotesValue = LayerNote;
 type LayerNotesEntry = [LayerNoteTick, LayerNote];
 
-export class SongLayerNotes {
+export class InitializedLayerNotesPiece {
 	public static get DEFAULT_UPDATE_STATISTICS(): UpdateStatistics {
 		return true;
 	}
@@ -72,7 +72,7 @@ export class SongLayerNotes {
 	public set(
 		tick: LayerNoteTick,
 		note: LayerNote,
-		updateStatistics: UpdateStatistics = SongLayerNotes.DEFAULT_UPDATE_STATISTICS
+		updateStatistics: UpdateStatistics = InitializedLayerNotesPiece.DEFAULT_UPDATE_STATISTICS
 	): this {
 		this.#layer.checkMutable().ensure();
 
@@ -94,7 +94,7 @@ export class SongLayerNotes {
 
 	public add(
 		note: LayerNote,
-		updateStatistics: UpdateStatistics = SongLayerNotes.DEFAULT_UPDATE_STATISTICS
+		updateStatistics: UpdateStatistics = InitializedLayerNotesPiece.DEFAULT_UPDATE_STATISTICS
 	): LayerNoteTick {
 		const position = this.#map.size === 0 ? 0 : this.#map.last() + 1;
 
@@ -106,7 +106,7 @@ export class SongLayerNotes {
 	public register(
 		note: Note,
 		tick: LayerNoteTick,
-		updateStatistics: UpdateStatistics = SongLayerNotes.DEFAULT_UPDATE_STATISTICS
+		updateStatistics: UpdateStatistics = InitializedLayerNotesPiece.DEFAULT_UPDATE_STATISTICS
 	): LayerNote {
 		const initializedNote = InitializedNote.from(this.#song, this.#layer, this, note);
 
@@ -125,7 +125,7 @@ export class SongLayerNotes {
 
 	public delete(
 		tick: LayerNoteTick,
-		updateStatistics: UpdateStatistics = SongLayerNotes.DEFAULT_UPDATE_STATISTICS
+		updateStatistics: UpdateStatistics = InitializedLayerNotesPiece.DEFAULT_UPDATE_STATISTICS
 	): boolean {
 		this.#layer.checkMutable().ensure();
 
@@ -137,7 +137,7 @@ export class SongLayerNotes {
 	}
 
 	public clear(
-		updateStatistics: UpdateStatistics = SongLayerNotes.DEFAULT_UPDATE_STATISTICS
+		updateStatistics: UpdateStatistics = InitializedLayerNotesPiece.DEFAULT_UPDATE_STATISTICS
 	): void {
 		this.#layer.checkMutable().ensure();
 
