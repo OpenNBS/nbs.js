@@ -2,12 +2,190 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# 6.1.0
+## 7.0.0
 
-**⚠️ All files created with this version will be parsed as and saved using NBSv6 ⚠️**
+> [!IMPORTANT]  
+> This update will break all existing applications!
+
+The library has been rewritten from the ground-up to achieve its claim of robustness.
+
+All applications utilizing version 6 and older will require major changes. Many methods have been altered or removed, custom instruments are handled using a namespace system, and validation is present on nearly every field.
+
+Please carefully read through these changes and refer to the [tests as examples](/tests).
+
+### Added
+
+#### Song features
+
+Various song fields and objects have been moved into relevant classes. Each `Song` instance also creates a new instance of these classes.
+
+These classes are designed to be modular and extendable, with new features and maintinence ideally being easier compared to their previous object-based counterparts. Fields are validated when set.
+
+> [!TIP]
+> A demonstration of creating and modifying songs can be found in the [`createSongs` test file](tests/songs/createSongs.test.ts).
+
+- The `SongAutoSave` class accessed via `Song#autoSave`.
+  - Alias of the new `AutoSavePiece` class also used by `Header`.
+  - Provides no additional features over the previous `autoSave` object.
+  - Provides the following static fields:
+    - `DEFAULT_ENABLED`
+    - `DEFAULT_INTERVAL`
+- The `SongLoop` class accessed via `Song#loop`.
+  - Alias of the new `HeaderLoopPiece` class used by `Header`, which extends `LoopPiece`.
+  - Adds the `#endTick` field which is an alias for `Song#size`.
+  - Adds the `#endMeasureTick` field which is the tick of the final measure.
+  - Provides the following static fields:
+    - `DEFAULT_ENABLED`
+    - `DEFAULT_START_TICK`
+    - `DEFAULT_COUNT`
+- The `SongStatistics` class accessed via `Song#statistics`.
+  - Alias of the new `StatisticsPiece` class also used by `Header`.
+  - Provides the following static fields:
+    - `DEFAULT_MINUTES_SPENT`
+    - `DEFAULT_LEFT_CLICKS`
+    - `DEFAULT_RIGHT_CLICKS`
+    - `DEFAULT_BLOCKS_ADDED`
+    - `DEFAULT_BLOCKS_REMOVED`
+- The `SongTempo` class accessed via `Song#tempo`.
+  - Alias of the new `TempoPiece` class also used by `Header`.
+  - Replaces the previous `Song#tempo`, which is now `SongTempo#ticksPerSecond`.
+  - Replaces the previous `Song#timePerTick`, which is now `SongTempo#millisecondsPerTick`.
+  - Adds the `#beatsPerMinute` field which represents the number of beats per minute.
+  - Adds the `#note` field which represents the bottom number of a time signature.
+  - Provides the following static fields:
+    - `DEFAULT_BEATS`
+    - `DEFAULT_NOTE`
+    - `DEFAULT_TICKS_PER_SECOND`
+    - `DEFAULT_BEATS_PER_MINUTE`
+    - `DEFAULT_MILLISECONDS_PER_TICK`
+
+Both management classes for layers and instruments have faced major changes. Notably, each class has been renamed to follow the `Piece` convention as seen above.
+
+Accessing and iterating these classes is now similar to the same processes with map objects. The internal map is private and protected, and can only be accessed using the exposed methods.
+
+- The `SongLayersPiece` class is now based on a key-sorted map and provides more methods.
+  - `#at()` for accessing a specified layer position.
+  - `#has()` for checking the existance of a specified layer position.
+  - `#move()` for replacing a layer position with another layer.
+  - `#shift()` for moving a layer position with another layer without replacing.
+  - `#set()` for setting a layer at a specified position.
+  - `#clear()` for deleting all layers.
+  - `#register()` for adding layers created outside of the parent song.
+  - `#between()` for iterating a slice of layer positions.
+- The `SongInstrumentsPiece` class is now based on an identifier map and provides more methods.
+  - `#at()` for accessing an instrument by identifier.
+  - `#has()` for checking the existance of a specified instrument by identifier.
+  - `#register()` for adding instruments created outside of the parent song.
+  - `#clear()` for deleting all instruments.
+
+- The `Header` class that provides partial fields similar to `Song`.
+  - This is used when only reading a binary file's header.
+  - The `HeaderLike` interface represents classes that implement basic NBS header data.
+
+- The `Song#totalNotes` field which counts the total number of notes within a song.
+- The `Song#hasNotes` field to determine whether the song contains at least one note.
+- The `SongStatistics#blocksAdded` and `SongStatistics#blocksRemoved` fields are now updated when notes are added or removed.
+
+#### Note features
+
+#### Layer features
+
+#### Instrument features
+
+#### Binary reading and writing
+
+Following a similar pattern to the rest of the library, the `fromArrayBuffer` and `toArrayBuffer` have been replaced by class-based counterparts.
+
+These classes take the fundamental ideas of the functions and transformed their processes into steps in order to achieve incremental processing. This may open up the possibility of reading and writing NBS binary files asynchronously in the future. The change also allows for options that alter how the binaries are processed, notably the ability to specify the NBS version to utilize while writing. Transformation options alter how elements such as empty layers and unsupported instruments are handled, with a future-proof model that opens up many possibilities for future parse-time alterations.
+
+> [!TIP]
+> A demonstration of reading binary files can be found in the [`binaryReader` test file](tests/formats/binaryReader.test.ts), and writing in the [`binaryWriter` test file](tests/formats/binaryWriter.test.ts).
+
+- The `BinaryReader` class, which replaces the `fromArrayBuffer()` function.
+  - `BinaryReaderOptions#transformers.layers` replaces the `omitEmptyLayers()` function.
+  - `#toHeader()` returns a `Header` instance.
+  - `#toSong()` returns a `Song` instance.
+  - For more performance, methods are provided to return raw data in steps:
+    - `#atHeaderStep()` returns an `IntermediaryHeader` object
+    - `#atNotesStep()` returns an `IntermediaryNote[]` array
+    - `#atLayersStep()` returns an `IntermediaryLayer[]` array
+    - `#atInstrumentsStep()` returns an `IntermediaryInstrument[]` array
+- The `BinaryWriter` class, which replaces the `toArrayBuffer()` function.
+  - `BinaryWriterOptions#transformers.layers` replaces the `omitEmptyLayers()` function.
+  - `#toArrayBuffer()` returns an `ArrayBuffer` instance.
+  - Provides the ability to write using specified NBS version.
+    - `BinaryWriterOptions#transformers.instruments` alters how unsupported instruments are written.
+
+#### Validators
+
+The library now has a maximum priority on data type validation. Every field is now constrained to their relevant specification definitions, and methods to check whether an arbitrary argument falls within these constraints have been provided in various ways depending on how they're most often used. A Rust-inspired validation result response type has been implemented to ensure easy adoption of this new standard.
+
+- The `Result` type and relevant functions.
+  - `Result#ok` will be `true` if a validator succeeds.
+  - `Result#ok` will be `false` if a validator fails, with `Result#errors` containing the reason(s).
+  - `isInteger` checks whether the specified value is a whole-number safe integer.
+  - `isPositive` checks whether the specified value is greater than or equal to 0.
+  - `isWithinRange` checks whether the specified value is greater than, less than, or equal to the provided range.
+
+#### Other additions
+
+- The maximum and minimum data type constants in `BufferWrapper`.
+  - `MIN_BYTE` and `MAX_BYTE`
+  - `MIN_UNSINGED_BYTE` and `MAX_UNSINGED_BYTE`
+  - `MIN_SHORT` and `MAX_SHORT`
+- The `BufferReader#readBoolean` and `BufferWriter#readBoolean` internal methods.
+- [Unit and example tests](/tests) for extensive code coverage and reliability.
+- rumdl Markdown formatter and configuration.
+
+### Changed
+
+- The `Song#getLength()` method has been replaced by `#size`.
+- Various `Song` class objects have been replaced by dedicated classes.
+  - `SongAutoSave`:
+    - Replaces and accessed via `Song#autoSave`.
+  - `SongLoop`:
+    - Replaces and accessed via `Song#loop`.
+    - `Song#getLastMeasure()` -> `SongLoop#endMeasureTick`
+  - `SongTempo`:
+    - Accessed via `Song#tempo`.
+    - `Song#getTempo()` and `Song#setTempo()` -> `SongTempo#ticksPerSecond`
+    - `Song#getTimePerTick()` and `Song#setTimePerTick()` -> `SongTempo#millisecondsPerTick`
+    - `Song#timeSignature` -> `SongTempo#beats`
+  - `SongStatistics`:
+    - Replaces `Song#minutesSpent`.
+    - Replaces `Song#blocksAdded`.
+    - Replaces `Song#blocksRemoved`.
+    - Replaces `Song#leftClicks`.
+    - Replaces `Song#rightClicks`.
+- `SongInstrumentsPiece` (formerly `SongInstruments`) is now internally based on a map.
+  - All references to IDs have been replaced by `ResourceLocation`s.
+  - Vanilla instruments will no longer be included in the song's instruments.
+  - Deleting a custom instrument will delete all notes using the instrument.
+  - `#all` has been replaced by `#values()`.
+  - `#getTotal()` has been replaced by `#total`.
+  - `#create()` has been replaced by `#builder()`.
+- `SongLayersPiece` (formerly `SongLayers`) is now internally based on a key-sorted map.
+  - `#all` has been replaced by `#values()`.
+  - `#getTotal()` has been replaced by `#total`.
+  - `#create()` has been replaced by `#builder()`.
+- Many fields are now validated when set.
+- Split the build scripts into separate `build`, `lint`, `docs`, and `publish` scripts.
+- Introduced stricter TypeScript, JSON, and Markdown linting.
+
+### Removed
+
+- The `Song#getDuration()` method. This will be re-implemented with unofficial tempo changer support.
+- The `Song#hasSolo()` method. TODO
+- The `SongInstrumentsPiece#firstCustomIndex` field.
+- The `/examples` directory has been replaced by [examples through testing](/tests).
+
+## 6.1.0
+
+> [!CAUTION]  
+> All files created with this version will be parsed as and saved using NBSv6
 
 Bumps the supported NBS version to v6, adding the four new trumpet instruments added in Minecraft 26.1.
 
@@ -26,9 +204,10 @@ Support for exporting songs for older NBS versions will be added in the near fut
 - Nix flake for reproducable development environments.
 - Zed configuration file to ensure the usage of Biome.
 
-# 6.0.0
+## 6.0.0
 
-This update will break almost all existing applications!
+> [!IMPORTANT]  
+> This update will break all existing applications!
 
 The package has moved to `@nbsjs/core` to allow for future addons to the library.
 
@@ -91,7 +270,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - The `Instrument#id` property and constructor parameter.
 - `util.ts`
 
-# 5.0.0
+## 5.0.0
 
 ### Fixed
 
@@ -128,7 +307,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - The `LayerNotes` interface.
 - More tests to ensure consistency and accuracy.
 
-# 4.0.3
+## 4.0.3
 
 ### Fixed
 
@@ -138,7 +317,7 @@ Please carefully read through these changes and refer to the [examples](/example
 
 - Updated examples in readme and docs.
 
-# 4.0.2
+## 4.0.2
 
 ### Fixed
 
@@ -148,13 +327,13 @@ Please carefully read through these changes and refer to the [examples](/example
 
 - Meta repository restructuring, developer dependency updates, etc.
 
-# 4.0.1
+## 4.0.1
 
 ### Fixed
 
 - Incorrect default panning for older NBS file formats.
 
-# 4.0.0
+## 4.0.0
 
 ### Fixed
 
@@ -185,7 +364,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - Tuottaa dependency and index page.
   - Replacement is being worked on.
 
-# 3.0.0
+## 3.0.0
 
 ### Added
 
@@ -225,7 +404,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - The `InstrumentOptions.ts` interface file.
   - Moved to `Instrument.ts`.
 
-# 2.1.2
+## 2.1.2
 
 ### Changed
 
@@ -238,7 +417,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - Properly included typings.
 - Moved `devDependencies` out of `dependencies`.
 
-# 2.1.1
+## 2.1.1
 
 ### Fixed
 
@@ -249,7 +428,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - Fixed potential `defaultLayerMeta` pollution.
 - Fixed potential `defaultInstrumentMeta` pollution.
 
-# 2.1.0
+## 2.1.0
 
 ### Added
 
@@ -266,7 +445,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - The `defaultSongStats#duration` default value.
 - The `defaultSongStats#hasSolo` default value.
 
-# 2.0.2
+## 2.0.2
 
 ### Added
 
@@ -276,7 +455,7 @@ Please carefully read through these changes and refer to the [examples](/example
 
 - Updated `README.md`.
 
-# 2.0.0
+## 2.0.0
 
 ### Added
 
@@ -382,7 +561,7 @@ Please carefully read through these changes and refer to the [examples](/example
 - The `pitch` argument in `Note`.
 - The `name` argument in `Instrument`.
 
-# 1.2.3
+## 1.2.3
 
 ### Changed
 
@@ -392,7 +571,7 @@ Please carefully read through these changes and refer to the [examples](/example
 
 - Custom instruments polluting `Instrument#builtIn`.
 
-# 1.2.2
+## 1.2.2
 
 ### Changed
 
