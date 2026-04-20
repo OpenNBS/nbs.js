@@ -1,3 +1,4 @@
+import type { Parameter } from "~/types/parameters/Parameter";
 import type { Result } from "~/types/validators/Result";
 
 import { isInteger } from "~/validators/isInteger";
@@ -18,30 +19,27 @@ export type SupportedVersionRange = IntClosedRange<
 
 export type UnknownSupportedVersionRange = LiteralUnion<SupportedVersionRange, SupportedVersion>;
 
-function validator(version: UnknownSupportedVersionRange): Result {
-	const integerStatus = isInteger(version);
+// biome-ignore lint/complexity/noStaticOnlyClass: Members have high overlap with other parameters
+export class VersionParameter {
+	public static get MAX_VALUE(): MaximumSupportedVersion {
+		return 6;
+	}
 
-	const rangeStatus = isWithinRange(
-		version,
-		VersionParameter.MIN_SUPPORTED_VERSION,
-		VersionParameter.MAX_SUPPORTED_VERSION
-	);
+	public static get MIN_VALUE(): MinimumSupportedVersion {
+		return 0;
+	}
 
-	return mergeResults(integerStatus, rangeStatus);
+	public static validate(version: UnknownSupportedVersionRange): Result {
+		const integerStatus = isInteger(version);
+
+		const rangeStatus = isWithinRange(
+			version,
+			VersionParameter.MIN_VALUE,
+			VersionParameter.MAX_VALUE
+		);
+
+		return mergeResults(integerStatus, rangeStatus);
+	}
 }
 
-export const VersionParameter = {
-	// biome-ignore-start lint/style/useNamingConvention: Object acts like an enum
-	get MAX_SUPPORTED_VERSION(): MaximumSupportedVersion {
-		return 6;
-	},
-
-	get MIN_SUPPORTED_VERSION(): MinimumSupportedVersion {
-		return 0;
-	},
-	// biome-ignore-end lint/style/useNamingConvention: Object acts like an enum
-
-	get validate(): typeof validator {
-		return validator;
-	}
-};
+const _: Parameter = VersionParameter as Parameter;

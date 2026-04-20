@@ -1,4 +1,4 @@
-import { LayerBuilder, LayerStatus, PanningParameter, VolumeParameter } from "@nbsjs/core";
+import { LayerBuilder, LayerStatus } from "@nbsjs/core";
 
 test("Create a layer", () => {
 	// The `LayerBuilder` class creates a new layer with validation
@@ -33,24 +33,4 @@ test("Create a layer", () => {
 	expect(() => {
 		new LayerBuilder().name("Baz").lock().solo().build();
 	}).toThrow();
-});
-
-test("Validate layer parameters", () => {
-	const fooLayer = new LayerBuilder().name("Foo").build();
-
-	// Setting a layer's parameters to invalid values will throw
-	expect(() => {
-		fooLayer.volume = 200;
-	}).toThrow();
-
-	// To check a parameter's validity, use their relevant `Parameter` classes
-	expect(VolumeParameter.validate(VolumeParameter.MAX_VOLUME).ok).toBeTrue();
-	expect(VolumeParameter.validate(VolumeParameter.MAX_VOLUME + 1).ok).toBeFalse();
-
-	expect(PanningParameter.validate(PanningParameter.MAX_PANNING).ok).toBeTrue();
-	expect(PanningParameter.validate(PanningParameter.MAX_PANNING + 1).ok).toBeFalse();
-
-	expect(() => {
-		fooLayer.volume = 100;
-	}).not.toThrow();
 });

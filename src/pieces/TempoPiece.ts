@@ -5,6 +5,8 @@ import { BeatsParameter } from "~/parameters/BeatsParameter";
 import { NoteParameter } from "~/parameters/NoteParameter";
 import { isWithinRange } from "~/validators/isWithinRange";
 
+// TODO: Song duration, support tempo changer
+
 export type TimeSignatureBeats = BeatsRange;
 export type TimeSignatureNote = NoteValueRange;
 

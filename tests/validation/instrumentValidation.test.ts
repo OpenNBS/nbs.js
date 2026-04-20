@@ -13,11 +13,11 @@ test("Ensure that instrument fields are validated", () => {
 	const instrument = new InstrumentBuilder().identifier(identifier).build();
 
 	expect(() => {
-		instrument.key = KeyParameter.MAX_KEY + 1;
+		instrument.key = KeyParameter.MAX_VALUE + 1;
 	}).toThrow();
 
 	expect(() => {
-		instrument.key = KeyParameter.MAX_KEY - 0.5;
+		instrument.key = KeyParameter.MAX_VALUE - 0.5;
 	}).toThrow();
 });
 
@@ -27,15 +27,15 @@ test("Ensure that Minecraft instrument fields are validated", () => {
 	const instrument = new MinecraftInstrument(identifier);
 
 	expect(() => {
-		instrument.key = KeyParameter.MAX_KEY + 1;
+		instrument.key = KeyParameter.MAX_VALUE + 1;
 	}).toThrow();
 
 	expect(() => {
-		instrument.key = KeyParameter.MAX_KEY - 0.5;
+		instrument.key = KeyParameter.MAX_VALUE - 0.5;
 	}).toThrow();
 
 	expect(() => {
-		instrument.supportedVersion = VersionParameter.MAX_SUPPORTED_VERSION + 1;
+		instrument.supportedVersion = VersionParameter.MAX_VALUE + 1;
 	}).toThrow();
 });
 

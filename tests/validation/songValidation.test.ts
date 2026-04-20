@@ -9,7 +9,7 @@ test("Ensure that song fields are validated", () => {
 	}).toThrow();
 
 	expect(() => {
-		song.version = VersionParameter.MAX_SUPPORTED_VERSION + 1;
+		song.version = VersionParameter.MAX_VALUE + 1;
 	}).toThrow();
 
 	expect(() => {

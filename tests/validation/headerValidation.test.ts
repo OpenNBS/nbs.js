@@ -12,11 +12,11 @@ test("Ensure that header fields are validated", () => {
 	}).toThrow();
 
 	expect(() => {
-		header.version = VersionParameter.MAX_SUPPORTED_VERSION + 1;
+		header.version = VersionParameter.MAX_VALUE + 1;
 	}).toThrow();
 
 	expect(() => {
-		header.version = VersionParameter.MAX_SUPPORTED_VERSION - 0.5;
+		header.version = VersionParameter.MAX_VALUE - 0.5;
 	}).toThrow();
 
 	expect(() => {

@@ -22,7 +22,7 @@ export type UnknownVersion = UnknownSupportedVersionRange;
 
 export class MetadataPiece {
 	public static get DEFAULT_VERSION(): MetadataVersion {
-		return VersionParameter.MAX_SUPPORTED_VERSION;
+		return VersionParameter.MAX_VALUE;
 	}
 
 	public static get DEFAULT_NAME(): OptionalMetadataName {

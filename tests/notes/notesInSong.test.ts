@@ -153,7 +153,7 @@ test("Generate a song using random notes", () => {
 		layer.notes
 			.builder()
 			.instrument(fooInstrument)
-			.key(random(KeyParameter.MIN_VANILLA_KEY, KeyParameter.MAX_VANILLA_KEY))
+			.key(random(KeyParameter.MIN_VANILLA_VALUE, KeyParameter.MAX_VANILLA_VALUE))
 			.at(noteIndex + 4)
 			.build();
 	}

@@ -47,11 +47,11 @@ test("Check whether a note is vanilla-compatible", () => {
 
 	// A note is vanilla-compatible when it can exist using Minecraft's note blocks
 	// This can be due to the note's key exceeding Minecraft's two octave limit
-	note.key = KeyParameter.MAX_VANILLA_KEY + 1;
+	note.key = KeyParameter.MAX_VANILLA_VALUE + 1;
 
 	expect(note.isVanillaCompatible().ok).toBeFalse();
 
-	note.key = KeyParameter.MAX_VANILLA_KEY;
+	note.key = KeyParameter.MAX_VANILLA_VALUE;
 
 	expect(note.isVanillaCompatible().ok).toBeTrue();
 

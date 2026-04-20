@@ -1,3 +1,4 @@
+import type { Parameter } from "~/types/parameters/Parameter";
 import type { Result } from "~/types/validators/Result";
 
 import { isInteger } from "~/validators/isInteger";
@@ -15,26 +16,23 @@ export type VolumeRange = IntClosedRange<MinimumVolume, MaximumVolume>;
 
 export type UnknownVolumeRange = LiteralUnion<VolumeRange, Volume>;
 
-function validator(volume: UnknownVolumeRange): Result {
-	const integerStatus = isInteger(volume);
+// biome-ignore lint/complexity/noStaticOnlyClass: Members have high overlap with other parameters
+export class VolumeParameter {
+	public static get MAX_VALUE(): MaximumVolume {
+		return 100;
+	}
 
-	const rangeStatus = isWithinRange(volume, VolumeParameter.MIN_VOLUME, VolumeParameter.MAX_VOLUME);
+	public static get MIN_VALUE(): MinimumVolume {
+		return 0;
+	}
 
-	return mergeResults(integerStatus, rangeStatus);
+	public static validate(volume: UnknownVolumeRange): Result {
+		const integerStatus = isInteger(volume);
+
+		const rangeStatus = isWithinRange(volume, VolumeParameter.MIN_VALUE, VolumeParameter.MAX_VALUE);
+
+		return mergeResults(integerStatus, rangeStatus);
+	}
 }
 
-export const VolumeParameter = {
-	// biome-ignore-start lint/style/useNamingConvention: Object acts like an enum
-	get MAX_VOLUME(): MaximumVolume {
-		return 100;
-	},
-
-	get MIN_VOLUME(): MinimumVolume {
-		return 0;
-	},
-	// biome-ignore-end lint/style/useNamingConvention: Object acts like an enum
-
-	get validate(): typeof validator {
-		return validator;
-	}
-};
+const _: Parameter = VolumeParameter as Parameter;

@@ -13,23 +13,23 @@ test("Ensure that note fields are validated", () => {
 	const note = new NoteBuilder().instrument(MinecraftInstruments.HARP).build();
 
 	expect(() => {
-		note.pitch = PitchParameter.MAX_PITCH + 1;
+		note.pitch = PitchParameter.MAX_VALUE + 1;
 	}).toThrow();
 
 	expect(() => {
-		note.panning = PanningParameter.MAX_PANNING + 1;
+		note.panning = PanningParameter.MAX_VALUE + 1;
 	}).toThrow();
 
 	expect(() => {
-		note.panning = PanningParameter.MAX_PANNING - 0.5;
+		note.panning = PanningParameter.MAX_VALUE - 0.5;
 	}).toThrow();
 
 	expect(() => {
-		note.volume = VolumeParameter.MAX_VOLUME + 1;
+		note.volume = VolumeParameter.MAX_VALUE + 1;
 	}).toThrow();
 
 	expect(() => {
-		note.volume = VolumeParameter.MAX_VOLUME - 0.5;
+		note.volume = VolumeParameter.MAX_VALUE - 0.5;
 	}).toThrow();
 
 	expect(() => {

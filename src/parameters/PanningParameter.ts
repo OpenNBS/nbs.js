@@ -1,3 +1,4 @@
+import type { Parameter } from "~/types/parameters/Parameter";
 import type { Negate } from "~/types/utility/Negate";
 import type { Result } from "~/types/validators/Result";
 
@@ -19,30 +20,27 @@ export type PanningRange = NegativePanningRange | 0 | PositivePanningRange;
 
 export type UnknownPanningRange = LiteralUnion<PanningRange, Panning>;
 
-function validator(panning: UnknownPanningRange): Result {
-	const integerStatus = isInteger(panning);
+// biome-ignore lint/complexity/noStaticOnlyClass: Members have high overlap with other parameters
+export class PanningParameter {
+	public static get MAX_VALUE(): MaximumPanning {
+		return 100;
+	}
 
-	const rangeStatus = isWithinRange(
-		panning,
-		PanningParameter.MIN_PANNING,
-		PanningParameter.MAX_PANNING
-	);
+	public static get MIN_VALUE(): MinimumPanning {
+		return -100;
+	}
 
-	return mergeResults(integerStatus, rangeStatus);
+	public static validate(panning: UnknownPanningRange): Result {
+		const integerStatus = isInteger(panning);
+
+		const rangeStatus = isWithinRange(
+			panning,
+			PanningParameter.MIN_VALUE,
+			PanningParameter.MAX_VALUE
+		);
+
+		return mergeResults(integerStatus, rangeStatus);
+	}
 }
 
-export const PanningParameter = {
-	// biome-ignore-start lint/style/useNamingConvention: Object acts like an enum
-	get MAX_PANNING(): MaximumPanning {
-		return 100;
-	},
-
-	get MIN_PANNING(): MinimumPanning {
-		return -100;
-	},
-	// biome-ignore-end lint/style/useNamingConvention: Object acts like an enum
-
-	get validate(): typeof validator {
-		return validator;
-	}
-};
+const _: Parameter = PanningParameter as Parameter;

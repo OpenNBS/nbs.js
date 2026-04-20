@@ -1,3 +1,4 @@
+import type { Parameter } from "~/types/parameters/Parameter";
 import type { Result } from "~/types/validators/Result";
 
 import { isInteger } from "~/validators/isInteger";
@@ -15,25 +16,22 @@ export type BeatsRange = IntClosedRange<MinimumBeats, MaximumBeats>;
 
 export type UnknownBeatsRange = LiteralUnion<BeatsRange, Beats>;
 
-function validator(beats: UnknownBeatsRange): Result {
-	const integerStatus = isInteger(beats);
-	const rangeStatus = isWithinRange(beats, BeatsParameter.MIN_BEATS, BeatsParameter.MAX_BEATS);
+// biome-ignore lint/complexity/noStaticOnlyClass: Members have high overlap with other parameters
+export class BeatsParameter {
+	public static get MAX_VALUE(): MaximumBeats {
+		return 8;
+	}
 
-	return mergeResults(integerStatus, rangeStatus);
+	public static get MIN_VALUE(): MinimumBeats {
+		return 2;
+	}
+
+	public static validate(beats: UnknownBeatsRange): Result {
+		const integerStatus = isInteger(beats);
+		const rangeStatus = isWithinRange(beats, BeatsParameter.MIN_VALUE, BeatsParameter.MAX_VALUE);
+
+		return mergeResults(integerStatus, rangeStatus);
+	}
 }
 
-export const BeatsParameter = {
-	// biome-ignore-start lint/style/useNamingConvention: Object acts like an enum
-	get MAX_BEATS(): MaximumBeats {
-		return 8;
-	},
-
-	get MIN_BEATS(): MinimumBeats {
-		return 2;
-	},
-	// biome-ignore-end lint/style/useNamingConvention: Object acts like an enum
-
-	get validate(): typeof validator {
-		return validator;
-	}
-};
+const _: Parameter = BeatsParameter as Parameter;

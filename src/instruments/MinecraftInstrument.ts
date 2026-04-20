@@ -24,7 +24,7 @@ export type UnknownInstrumentSupportedVersion = UnknownSupportedVersionRange;
 
 export class MinecraftInstrument extends Instrument {
 	public static get DEFAULT_SUPPORTED_VERSION(): InstrumentSupportedVersion {
-		return VersionParameter.MAX_SUPPORTED_VERSION;
+		return VersionParameter.MAX_VALUE;
 	}
 
 	public static get DEFAULT_IMMUTABLE(): InstrumentImmutable {

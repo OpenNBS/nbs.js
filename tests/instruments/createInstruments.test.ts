@@ -1,4 +1,4 @@
-import { Instrument, InstrumentBuilder, KeyParameter, ResourceLocation } from "@nbsjs/core";
+import { Instrument, InstrumentBuilder, ResourceLocation } from "@nbsjs/core";
 
 test("Create a custom instrument", () => {
 	const fooIdentifier = new ResourceLocation("custom", "foo");
@@ -27,21 +27,4 @@ test("Create a custom instrument", () => {
 
 	expect(barInstrument.name).toBe("Bar");
 	expect(barInstrument.doesPressKey).toBeTrue();
-});
-
-test("Validate instrument parameters", () => {
-	const fooIdentifier = new ResourceLocation("custom", "foo");
-
-	// Setting an instrument's key to an invalid value will throw
-	expect(() => {
-		new InstrumentBuilder().identifier(fooIdentifier).key(88 /* Invalid! */).build();
-	}).toThrow();
-
-	// To check a key's validity, use the KeyParameter validataors
-	expect(KeyParameter.validate(KeyParameter.MAX_KEY).ok).toBeTrue();
-	expect(KeyParameter.validate(KeyParameter.MAX_KEY + 1).ok).toBeFalse();
-
-	expect(() => {
-		new InstrumentBuilder().identifier(fooIdentifier).key(87).build();
-	}).not.toThrow();
 });

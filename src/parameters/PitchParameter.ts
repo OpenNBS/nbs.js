@@ -1,3 +1,4 @@
+import type { Parameter } from "~/types/parameters/Parameter";
 import type { Negate } from "~/types/utility/Negate";
 import type { Result } from "~/types/validators/Result";
 
@@ -18,22 +19,19 @@ export type PitchRange = LiteralUnion<NegativePitchRange | 0 | PositivePitchRang
 
 export type UnknownPitchRange = LiteralUnion<PitchRange, Pitch>;
 
-function validator(pitch: UnknownPitchRange): Result {
-	return isWithinRange(pitch, PitchParameter.MIN_PITCH, PitchParameter.MAX_PITCH);
+// biome-ignore lint/complexity/noStaticOnlyClass: Members have high overlap with other parameters
+export class PitchParameter {
+	public static get MAX_VALUE(): MaximumPitch {
+		return 12;
+	}
+
+	public static get MIN_VALUE(): MinimumPitch {
+		return -12;
+	}
+
+	public static validate(pitch: UnknownPitchRange): Result {
+		return isWithinRange(pitch, PitchParameter.MIN_VALUE, PitchParameter.MAX_VALUE);
+	}
 }
 
-export const PitchParameter = {
-	// biome-ignore-start lint/style/useNamingConvention: Object acts like an enum
-	get MAX_PITCH(): MaximumPitch {
-		return 12;
-	},
-
-	get MIN_PITCH(): MinimumPitch {
-		return -12;
-	},
-	// biome-ignore-end lint/style/useNamingConvention: Object acts like an enum
-
-	get validate(): typeof validator {
-		return validator;
-	}
-};
+const _: Parameter = PitchParameter as Parameter;

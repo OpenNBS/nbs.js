@@ -20,6 +20,7 @@ export type * from "~/pieces/TempoPiece";
 export type * from "~/songs/SongInstruments";
 export type * from "~/songs/SongLayers";
 export type * from "~/types/headers/HeaderLike";
+export type * from "~/types/parameters/Parameter";
 export type * from "~/types/validators/Result";
 
 export { BinaryStep, LayerBehavior } from "~/formats/binary/Binary";

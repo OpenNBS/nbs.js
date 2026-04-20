@@ -1,3 +1,4 @@
+import type { Parameter } from "~/types/parameters/Parameter";
 import type { Result } from "~/types/validators/Result";
 
 import { isInteger } from "~/validators/isInteger";
@@ -21,37 +22,34 @@ export type KeyRange = VanillaKeyRange | ExtendedKeyRange;
 
 export type UnknownKeyRange = LiteralUnion<KeyRange, Key>;
 
-function validator(key: UnknownKeyRange, checkVanilla: boolean = false): Result {
-	const integerStatus = isInteger(key);
+// biome-ignore lint/complexity/noStaticOnlyClass: Members have high overlap with other parameters
+export class KeyParameter {
+	public static get MAX_VALUE(): MaximumKey {
+		return 87;
+	}
 
-	const minimumKey = checkVanilla ? KeyParameter.MIN_VANILLA_KEY : KeyParameter.MIN_KEY;
-	const maximumKey = checkVanilla ? KeyParameter.MAX_VANILLA_KEY : KeyParameter.MAX_KEY;
+	public static get MAX_VANILLA_VALUE(): MaximumVanillaKey {
+		return 57;
+	}
 
-	const rangeStatus = isWithinRange(key, minimumKey, maximumKey);
+	public static get MIN_VALUE(): MinimumKey {
+		return 0;
+	}
 
-	return mergeResults(integerStatus, rangeStatus);
+	public static get MIN_VANILLA_VALUE(): MinimumVanillaKey {
+		return 33;
+	}
+
+	public static validate(key: UnknownKeyRange, checkVanilla: boolean = false): Result {
+		const integerStatus = isInteger(key);
+
+		const minimumKey = checkVanilla ? KeyParameter.MIN_VANILLA_VALUE : KeyParameter.MIN_VALUE;
+		const maximumKey = checkVanilla ? KeyParameter.MAX_VANILLA_VALUE : KeyParameter.MAX_VALUE;
+
+		const rangeStatus = isWithinRange(key, minimumKey, maximumKey);
+
+		return mergeResults(integerStatus, rangeStatus);
+	}
 }
 
-export const KeyParameter = {
-	// biome-ignore-start lint/style/useNamingConvention: Object acts like an enum
-	get MAX_KEY(): MaximumKey {
-		return 87;
-	},
-
-	get MAX_VANILLA_KEY(): MaximumVanillaKey {
-		return 57;
-	},
-
-	get MIN_KEY(): MinimumKey {
-		return 0;
-	},
-
-	get MIN_VANILLA_KEY(): MinimumVanillaKey {
-		return 33;
-	},
-	// biome-ignore-end lint/style/useNamingConvention: Object acts like an enum
-
-	get validate(): typeof validator {
-		return validator;
-	}
-};
+const _: Parameter = KeyParameter as Parameter;
