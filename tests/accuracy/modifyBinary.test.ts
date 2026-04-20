@@ -1,9 +1,13 @@
 /** biome-ignore-all lint/style/noNonNullAssertion: Disabled for brevity */
-import { BinaryReader, MinecraftInstruments } from "@nbsjs/core";
+
+import { readSample } from "./samples/readSample";
+
+import { BinaryReader, BinaryWriter, MinecraftInstruments } from "@nbsjs/core";
 
 test("Add notes to an existing song", async () => {
-	const sampleFile = Bun.file("tests/sample/simple.nbs");
-	const binaryReader = new BinaryReader(await sampleFile.arrayBuffer());
+	const originalArray = await readSample("simple.nbs");
+
+	const binaryReader = new BinaryReader(originalArray.buffer);
 
 	const song = binaryReader.toSong();
 
@@ -33,4 +37,15 @@ test("Add notes to an existing song", async () => {
 
 	expect(harpLayer.notes.at(64)?.instrument).toBe(MinecraftInstruments.HARP);
 	expect(plingLayerTop.notes.at(64)?.instrument).toBe(MinecraftInstruments.PLING);
+
+	song.statistics.blocksAdded += 2;
+
+	const expectedBuffer = await readSample("simple_added.nbs");
+
+	const binaryWriter = new BinaryWriter(song);
+
+	const exportedArray = binaryWriter.toArrayBuffer();
+	const exportedBuffer = new Uint8Array(exportedArray);
+
+	expect(Buffer.compare(expectedBuffer, exportedBuffer)).toBe(0);
 });
