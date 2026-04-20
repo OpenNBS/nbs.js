@@ -7,8 +7,6 @@ import type {
 
 import { Layer } from "~/layers/Layer";
 
-import type { PartialDeep } from "type-fest";
-
 export enum BinaryStep {
 	Header,
 	Notes,
@@ -40,11 +38,11 @@ export interface LayerTransformerEnsure extends LayerTransformerBase {
 export type EmptyLayerOptions = LayerTransformerStandard | LayerTransformerEnsure;
 
 export interface BinaryTransformers {
-	"layers": EmptyLayerOptions;
+	"layers"?: EmptyLayerOptions;
 }
 
 export interface BinaryOptions {
-	"transformers": BinaryTransformers;
+	"transformers"?: BinaryTransformers;
 }
 
 export interface BasicLayer {
@@ -80,9 +78,8 @@ export abstract class Binary<
 
 	readonly #layerTransformer: EmptyLayerOptions;
 
-	public constructor(options: PartialDeep<BinaryOptions> = {}) {
-		this.#layerTransformer =
-			(options.transformers?.layers as EmptyLayerOptions) ?? Binary.DEFAULT_LAYER_TRANSFORMER;
+	public constructor(options: BinaryOptions = {}) {
+		this.#layerTransformer = options.transformers?.layers ?? Binary.DEFAULT_LAYER_TRANSFORMER;
 	}
 
 	// biome-ignore lint/style/useReadonlyClassProperties: Step is re-assigned in inherited classes

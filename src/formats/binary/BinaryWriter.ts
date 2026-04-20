@@ -12,8 +12,6 @@ import { Song } from "~/songs/Song";
 import type { BinaryOptions, BinaryTransformers } from "./Binary";
 import { Binary, BinaryStep, LayerAction } from "./Binary";
 
-import type { PartialDeep } from "type-fest";
-
 export enum InstrumentBehavior {
 	Skip,
 	Fallback
@@ -39,12 +37,12 @@ export type UnsupportedInstrumentOptions =
 	| InstrumentTransformerFallback;
 
 export interface BinaryWriterTransformers extends BinaryTransformers {
-	"instruments": UnsupportedInstrumentOptions;
+	"instruments"?: UnsupportedInstrumentOptions;
 }
 
 export interface BinaryWriterOptions extends BinaryOptions {
-	"transformers": BinaryWriterTransformers;
-	"version": BinaryWriterVersion;
+	"transformers"?: BinaryWriterTransformers;
+	"version"?: BinaryWriterVersion;
 }
 
 export class BinaryWriter extends Binary<ArrayBufferLike> {
@@ -60,7 +58,7 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 	readonly #version: BinaryWriterVersion;
 	readonly #instrumentTransformer: UnsupportedInstrumentOptions;
 
-	public constructor(header: HeaderLike, options: PartialDeep<BinaryWriterOptions> = {}) {
+	public constructor(header: HeaderLike, options: BinaryWriterOptions = {}) {
 		super(options);
 
 		this.#writer = new BufferWriter();

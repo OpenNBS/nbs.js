@@ -25,8 +25,6 @@ import { StatisticsPiece } from "~/pieces/StatisticsPiece";
 import { TempoPiece } from "~/pieces/TempoPiece";
 import { Song } from "~/songs/Song";
 
-import type { PartialDeep } from "type-fest";
-
 type IntermediaryInstrumentMap = Record<number, ResourceLocation>;
 
 function convertEmpty(argument: string): string | undefined {
@@ -91,7 +89,7 @@ export class BinaryReader extends Binary<
 	readonly #layers: IntermediaryLayer[] = BinaryReader.DEFAULT_LAYERS;
 	readonly #instruments: IntermediaryInstrument[] = BinaryReader.DEFAULT_INSTRUMENTS;
 
-	public constructor(file: ArrayBufferLike, options: PartialDeep<BinaryReaderOptions> = {}) {
+	public constructor(file: ArrayBufferLike, options: BinaryReaderOptions = {}) {
 		super(options);
 
 		this.#reader = new BufferReader(file);
