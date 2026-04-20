@@ -63,5 +63,5 @@
 	"sideEffects": false,
 	"type": "module",
 	"types": "dist/index.d.ts",
-	"version": "7.0.0-alpha1"
+	"version": "7.0.0-alpha2"
 }
