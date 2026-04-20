@@ -131,6 +131,11 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 				size = this.#header.size;
 			}
 
+			// To ensure that NBSv0 binaries are parsed correctly, size is altered on empty songs
+			if (this.#version === 0 && size === 0) {
+				size = 1;
+			}
+
 			this.#writer.writeShort(size); // Song size in total ticks
 		}
 
@@ -185,6 +190,7 @@ export class BinaryWriter extends Binary<ArrayBufferLike> {
 		}
 
 		let size = 0;
+
 		if (this.#header instanceof Header || this.#header instanceof Song) {
 			size = this.#header.size;
 		}
