@@ -30,7 +30,9 @@
           default = pkgs.mkShellNoCC {
             packages = with pkgs; [
               bun
+
               biome
+              rumdl
             ];
           };
         }

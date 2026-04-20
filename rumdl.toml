@@ -1,0 +1,25 @@
+[global]
+flavor = "gfm"
+
+extend-enable = ["MD060", "MD063", "MD070"]
+disable = ["MD032"]
+
+line-length = 100
+
+exclude = ["license.md"]
+
+[MD013]
+paragraphs = false
+blockquotes = false
+tables = false
+
+[MD022]
+lines-above = 1
+lines-below = 0
+
+[MD033]
+allowed-elements = ["img", "details", "summary"]
+
+[MD063]
+style = "sentence-case"
+ignore-words = ["nbs.js"]
