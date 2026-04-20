@@ -1,3 +1,4 @@
+import type { Negate } from "~/types/utility/Negate";
 import type { Result } from "~/types/validators/Result";
 
 import { isInteger } from "~/validators/isInteger";
@@ -11,7 +12,10 @@ export type Panning = number;
 export type MinimumPanning = -100;
 export type MaximumPanning = 100;
 
-export type PanningRange = IntClosedRange<MinimumPanning, MaximumPanning>;
+type PositivePanningRange = IntClosedRange<1, MaximumPanning>;
+type NegativePanningRange = Negate<PositivePanningRange>;
+
+export type PanningRange = NegativePanningRange | 0 | PositivePanningRange;
 
 export type UnknownPanningRange = LiteralUnion<PanningRange, Panning>;
 

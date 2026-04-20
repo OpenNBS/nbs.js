@@ -1,3 +1,4 @@
+import type { Negate } from "~/types/utility/Negate";
 import type { Result } from "~/types/validators/Result";
 
 import { isWithinRange } from "~/validators/isWithinRange";
@@ -9,7 +10,11 @@ export type Pitch = number;
 export type MinimumPitch = -12;
 export type MaximumPitch = 12;
 
-export type PitchRange = IntClosedRange<MinimumPitch, MaximumPitch>;
+type PositivePitchRange = IntClosedRange<1, MaximumPitch>;
+type NegativePitchRange = Negate<PositivePitchRange>;
+
+// This is a union because `IntClosedRange` does not support decimals
+export type PitchRange = LiteralUnion<NegativePitchRange | 0 | PositivePitchRange, Pitch>;
 
 export type UnknownPitchRange = LiteralUnion<PitchRange, Pitch>;
 
