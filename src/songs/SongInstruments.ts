@@ -23,6 +23,10 @@ export class SongInstrumentsPiece {
 		return this.#map.get(identifier);
 	}
 
+	public at(index: number): SongInstrument | undefined {
+		return this.#map.values().toArray()[index];
+	}
+
 	public has(identifier: InstrumentIdentifier): boolean {
 		return this.#map.has(identifier);
 	}
