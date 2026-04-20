@@ -1,4 +1,3 @@
-[global]
 flavor = "gfm"
 
 extend-enable = ["MD060", "MD063", "MD070"]
@@ -7,6 +6,9 @@ disable = ["MD032"]
 line-length = 100
 
 exclude = ["license.md"]
+
+[MD004]
+style = "dash"
 
 [MD013]
 paragraphs = false

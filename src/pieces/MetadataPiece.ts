@@ -46,7 +46,6 @@ export class MetadataPiece {
 	}
 
 	#version: MetadataVersion = MetadataPiece.DEFAULT_VERSION;
-
 	#name: OptionalMetadataName = MetadataPiece.DEFAULT_NAME;
 	#author: OptionalMetadataAuthor = MetadataPiece.DEFAULT_AUTHOR;
 	#originalAuthor: OptionalMetadataAuthor = MetadataPiece.DEFAULT_ORIGINAL_AUTHOR;

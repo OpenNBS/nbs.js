@@ -37,6 +37,12 @@
 			"trailingCommas": "none"
 		}
 	},
+	"json": {
+		"formatter": {
+			"indentStyle": "tab",
+			"trailingCommas": "none"
+		}
+	},
 	"linter": {
 		"enabled": true,
 		"includes": ["**", "!public", "!build", "!dist", "!.direnv"],
