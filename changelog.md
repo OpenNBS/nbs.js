@@ -101,21 +101,27 @@ Accessing and iterating these classes is now similar to the same processes with 
 
 Now that instruments are referenced by namespace, `Note#instrument` is no longer a number ID. Rather, with `Song#instrument`'s new registration system, `Note#instrument` is now an object reference to a registered instrument. This makes accessing a note's instrument more robust, as the process no longer depends on an arbitrary array index. Since `#instrument` is an object reference, modifications to a note's instruments propagates to every note utilizing the instrument.
 
-Each `Note` field is validated upon change, and `#velocity` has been renamed to `#volume` to match with the use of `VolumeParameter`.
+Each `Note` field is validated upon change, and `#velocity` has been renamed to `#volume` to match with the use of `VolumeParameter`. To account for field validation, the `NoteOptions` interface has been removed meaning that a note cannot be initialized with values. Instead, use the new `NoteBuilder` class.
 
 - The `Note` class provides more helper methods.
-  - `#effectivePitch()` accounts for the note's key, instrument key, and pitch.
+  - `#effectivePitch` accounts for the note's key, instrument key, and pitch.
   - `#isVanillaCompatible()` for checking whether a note is compatible with vanilla Minecraft.
 - The `Note` class provides following static fields:
   - `DEFAULT_KEY`
   - `DEFAULT_PITCH`
   - `DEFAULT_VOLUME`
   - `DEFAULT_PANNING`
-
-To account for field validation, the `NoteOptions` interface has been removed meaning that a note cannot be initialized with values. Instead, use the new `NoteBuilder` class.
-
 - The `NoteBuilder` class which provides a pipeline to create a new `Note` instance with values.
   - The builder chain always starts with `#instrument()` as it's a required value.
+
+For future expandability with notes created for songs, the `InitializedNote` class extends `Note` to provide additional song-related functionality. It is not designed to be instantiated on its own, rather it's created by `InitializedNoteBuilder#build()` (created by `SongLayers#builder()`).
+
+- The `InitializedNote` class provides helper methods for `Note`s created in songs.
+  - Provides the `#tick` field which finds the note within the song.
+  - If the note's parent layer is locked, the note is immutable as well.
+  - `#effectivePanning` accounts for the note's panning and layer panning.
+- The `InitializedNoteBuilder` class instantiates an `InitializedNote`.
+  - `#build()` accepts the `updateStatistics` argument which dictates whether `Song#statistics` will be updated when the note is built.
 
 #### Layer features
 
@@ -171,6 +177,7 @@ The validators will return a `Result` object, which contains an `#ok` boolean th
 
 #### Other additions
 
+- The `SortedIndexMap` class that extends `Map` to sort numeric keys on iteration.
 - The maximum and minimum data type constants in `BufferWrapper`.
   - `MIN_BYTE` and `MAX_BYTE`
   - `MIN_UNSINGED_BYTE` and `MAX_UNSINGED_BYTE`
