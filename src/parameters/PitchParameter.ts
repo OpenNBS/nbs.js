@@ -1,4 +1,4 @@
-import type { Parameter } from "~/types/parameters/Parameter";
+import type { ParameterLike } from "~/types/parameters/ParameterLike";
 import type { Negate } from "~/types/utility/Negate";
 import type { Result } from "~/types/validators/Result";
 
@@ -34,4 +34,4 @@ export class PitchParameter {
 	}
 }
 
-const _: Parameter = PitchParameter as Parameter;
+const _: ParameterLike = PitchParameter as ParameterLike;

@@ -1,6 +1,6 @@
 import type { Result } from "../validators/Result";
 
-export interface Parameter {
+export interface ParameterLike {
 	// biome-ignore-start lint/style/useNamingConvention: These are constant static fields
 	"MAX_VALUE": unknown;
 	"MIN_VALUE": unknown;

@@ -1,4 +1,4 @@
-import type { Parameter } from "~/types/parameters/Parameter";
+import type { ParameterLike } from "~/types/parameters/ParameterLike";
 import type { Result } from "~/types/validators/Result";
 
 import { isInteger } from "~/validators/isInteger";
@@ -35,4 +35,4 @@ export class VolumeParameter {
 	}
 }
 
-const _: Parameter = VolumeParameter as Parameter;
+const _: ParameterLike = VolumeParameter as ParameterLike;

@@ -1,4 +1,4 @@
-import type { Parameter } from "~/types/parameters/Parameter";
+import type { ParameterLike } from "~/types/parameters/ParameterLike";
 import type { Result } from "~/types/validators/Result";
 
 import { isInteger } from "~/validators/isInteger";
@@ -34,4 +34,4 @@ export class BeatsParameter {
 	}
 }
 
-const _: Parameter = BeatsParameter as Parameter;
+const _: ParameterLike = BeatsParameter as ParameterLike;

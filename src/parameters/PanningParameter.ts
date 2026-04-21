@@ -1,4 +1,4 @@
-import type { Parameter } from "~/types/parameters/Parameter";
+import type { ParameterLike } from "~/types/parameters/ParameterLike";
 import type { Negate } from "~/types/utility/Negate";
 import type { Result } from "~/types/validators/Result";
 
@@ -43,4 +43,4 @@ export class PanningParameter {
 	}
 }
 
-const _: Parameter = PanningParameter as Parameter;
+const _: ParameterLike = PanningParameter as ParameterLike;
