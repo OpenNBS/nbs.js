@@ -18,12 +18,12 @@ test("Ensure that vanilla keys are validated", () => {
 	expect(KeyParameter.MAX_VANILLA_VALUE).toBe(57);
 	expect(KeyParameter.MIN_VANILLA_VALUE).toBe(33);
 
-	expect(KeyParameter.validate(KeyParameter.MAX_VANILLA_VALUE, true).ok).toBeTrue();
-	expect(KeyParameter.validate(KeyParameter.MAX_VANILLA_VALUE + 1, true).ok).toBeFalse();
+	expect(KeyParameter.validateVanilla(KeyParameter.MAX_VANILLA_VALUE).ok).toBeTrue();
+	expect(KeyParameter.validateVanilla(KeyParameter.MAX_VANILLA_VALUE + 1).ok).toBeFalse();
 
-	expect(KeyParameter.validate(KeyParameter.MIN_VANILLA_VALUE, true).ok).toBeTrue();
-	expect(KeyParameter.validate(KeyParameter.MIN_VANILLA_VALUE - 1, true).ok).toBeFalse();
+	expect(KeyParameter.validateVanilla(KeyParameter.MIN_VANILLA_VALUE).ok).toBeTrue();
+	expect(KeyParameter.validateVanilla(KeyParameter.MIN_VANILLA_VALUE - 1).ok).toBeFalse();
 
-	expect(KeyParameter.validate(KeyParameter.MAX_VANILLA_VALUE - 0.5, true).ok).toBeFalse();
-	expect(KeyParameter.validate(KeyParameter.MIN_VANILLA_VALUE + 0.5, true).ok).toBeFalse();
+	expect(KeyParameter.validateVanilla(KeyParameter.MAX_VANILLA_VALUE - 0.5).ok).toBeFalse();
+	expect(KeyParameter.validateVanilla(KeyParameter.MIN_VANILLA_VALUE + 0.5).ok).toBeFalse();
 });

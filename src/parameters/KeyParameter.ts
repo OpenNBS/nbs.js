@@ -22,6 +22,13 @@ export type KeyRange = VanillaKeyRange | ExtendedKeyRange;
 
 export type UnknownKeyRange = LiteralUnion<KeyRange, Key>;
 
+function validateWith(key: UnknownKeyRange, minimumKey: Key, maximumKey: Key): Result {
+	const integerStatus = isInteger(key);
+	const rangeStatus = isWithinRange(key, minimumKey, maximumKey);
+
+	return mergeResults(integerStatus, rangeStatus);
+}
+
 // biome-ignore lint/complexity/noStaticOnlyClass: Members have high overlap with other parameters
 export class KeyParameter {
 	public static get MAX_VALUE(): MaximumKey {
@@ -40,15 +47,12 @@ export class KeyParameter {
 		return 33;
 	}
 
-	public static validate(key: UnknownKeyRange, checkVanilla: boolean = false): Result {
-		const integerStatus = isInteger(key);
+	public static validate(key: UnknownKeyRange): Result {
+		return validateWith(key, KeyParameter.MIN_VALUE, KeyParameter.MAX_VALUE);
+	}
 
-		const minimumKey = checkVanilla ? KeyParameter.MIN_VANILLA_VALUE : KeyParameter.MIN_VALUE;
-		const maximumKey = checkVanilla ? KeyParameter.MAX_VANILLA_VALUE : KeyParameter.MAX_VALUE;
-
-		const rangeStatus = isWithinRange(key, minimumKey, maximumKey);
-
-		return mergeResults(integerStatus, rangeStatus);
+	public static validateVanilla(key: UnknownKeyRange): Result {
+		return validateWith(key, KeyParameter.MIN_VANILLA_VALUE, KeyParameter.MAX_VANILLA_VALUE);
 	}
 }
 

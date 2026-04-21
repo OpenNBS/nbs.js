@@ -111,7 +111,7 @@ export class Note {
 	}
 
 	public isVanillaCompatible(): Result {
-		const keyStatus = KeyParameter.validate(this.#key, true);
+		const keyStatus = KeyParameter.validateVanilla(this.#key);
 		const instrumentStatus = MinecraftInstruments.validate(this.#instrument);
 
 		const pitchStatus =
