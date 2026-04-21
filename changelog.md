@@ -103,6 +103,9 @@ Now that instruments are referenced by namespace, `Note#instrument` is no longer
 
 Each `Note` field is validated upon change, and `#velocity` has been renamed to `#volume` to match with the use of `VolumeParameter`. To account for field validation, the `NoteOptions` interface has been removed meaning that a note cannot be initialized with values. Instead, use the new `NoteBuilder` class.
 
+> [!TIP]
+> A demonstration of creating notes can be found in the [`createNotes` test file](tests/notes/createNotes.test.ts).
+
 - The `Note` class provides more helper methods.
   - `#effectivePitch` accounts for the note's key, instrument key, and pitch.
   - `#isVanillaCompatible()` for checking whether a note is compatible with vanilla Minecraft.
@@ -115,6 +118,9 @@ Each `Note` field is validated upon change, and `#velocity` has been renamed to 
   - The builder chain always starts with `#instrument()` as it's a required value.
 
 For future expandability with notes created for songs, the `InitializedNote` class extends `Note` to provide additional song-related functionality. It is not designed to be instantiated on its own, rather it's created by `InitializedNoteBuilder#build()` (created by `SongLayers#builder()`).
+
+> [!TIP]
+> A demonstration of creating notes from a song can be found in the [`notesInSong` test file](tests/notes/notesInSong.test.ts).
 
 - The `InitializedNote` class provides helper methods for `Note`s created in songs.
   - Provides the `#tick` field which finds the note within the song.
