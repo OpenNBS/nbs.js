@@ -188,6 +188,7 @@ The validators will return a `Result` object, which contains an `#ok` boolean th
 
 ### Changed
 
+- The `Note#velocity` field has been renamed to `#volume`.
 - The `Song#getLength()` method has been replaced by `#size`.
 - Various `Song` class objects have been replaced by dedicated classes.
   - `SongAutoSave`:
@@ -223,6 +224,7 @@ The validators will return a `Result` object, which contains an `#ok` boolean th
 
 ### Removed
 
+- The `NoteOptions` interface and `options` constructor argument.
 - The `Song#getDuration()` method. This will be re-implemented with unofficial tempo changer support.
 - The `Song#hasSolo()` method. TODO
 - The `SongInstrumentsPiece#firstCustomIndex` field.
