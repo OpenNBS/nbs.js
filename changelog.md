@@ -61,6 +61,14 @@ These classes are designed to be modular and extendable, with new features and m
     - `DEFAULT_TICKS_PER_SECOND`
     - `DEFAULT_BEATS_PER_MINUTE`
     - `DEFAULT_MILLISECONDS_PER_TICK`
+- The `MetadataPiece` class now serves as the base structure for `Song` and `Header`.
+  - This provides basic metadata fields such as name and version.
+  - Provides the following static fields:
+    - `DEFAULT_VERSION`
+    - `DEFAULT_AUTHOR`
+    - `DEFAULT_ORIGINAL_AUTHOR`
+    - `DEFAULT_DESCRIPTION`
+    - `DEFAULT_IMPORT_NAME`
 
 Both management classes for layers and instruments have faced major changes. Notably, each class has been renamed to follow the `Piece` convention as seen above.
 
@@ -68,7 +76,7 @@ Accessing and iterating these classes is now similar to the same processes with 
 
 - The `SongLayersPiece` class is now based on a key-sorted map and provides more methods.
   - `#at()` for accessing a specified layer position.
-  - `#has()` for checking the existance of a specified layer position.
+  - `#has()` for checking the existence of a specified layer position.
   - `#move()` for replacing a layer position with another layer.
   - `#shift()` for moving a layer position with another layer without replacing.
   - `#set()` for setting a layer at a specified position.
@@ -77,7 +85,7 @@ Accessing and iterating these classes is now similar to the same processes with 
   - `#between()` for iterating a slice of layer positions.
 - The `SongInstrumentsPiece` class is now based on an identifier map and provides more methods.
   - `#at()` for accessing an instrument by identifier.
-  - `#has()` for checking the existance of a specified instrument by identifier.
+  - `#has()` for checking the existence of a specified instrument by identifier.
   - `#register()` for adding instruments created outside of the parent song.
   - `#clear()` for deleting all instruments.
 
@@ -90,6 +98,24 @@ Accessing and iterating these classes is now similar to the same processes with 
 - The `SongStatistics#blocksAdded` and `SongStatistics#blocksRemoved` fields are now updated when notes are added or removed.
 
 #### Note features
+
+Now that instruments are referenced by namespace, `Note#instrument` is no longer a number ID. Rather, with `Song#instrument`'s new registration system, `Note#instrument` is now an object reference to a registered instrument. This makes accessing a note's instrument more robust, as the process no longer depends on an arbitrary array index. Since `#instrument` is an object reference, modifications to a note's instruments propagates to every note utilizing the instrument.
+
+Each `Note` field is validated upon change, and `#velocity` has been renamed to `#volume` to match with the use of `VolumeParameter`.
+
+- The `Note` class provides more helper methods.
+  - `#effectivePitch()` accounts for the note's key, instrument key, and pitch.
+  - `#isVanillaCompatible()` for checking whether a note is compatible with vanilla Minecraft.
+- The `Note` class provides following static fields:
+  - `DEFAULT_KEY`
+  - `DEFAULT_PITCH`
+  - `DEFAULT_VOLUME`
+  - `DEFAULT_PANNING`
+
+To account for field validation, the `NoteOptions` interface has been removed meaning that a note cannot be initialized with values. Instead, use the new `NoteBuilder` class.
+
+- The `NoteBuilder` class which provides a pipeline to create a new `Note` instance with values.
+  - The builder chain always starts with `#instrument()` as it's a required value.
 
 #### Layer features
 
@@ -123,9 +149,22 @@ These classes take the fundamental ideas of the functions and transformed their 
 
 The library now has a maximum priority on data type validation. Every field is now constrained to their relevant specification definitions, and methods to check whether an arbitrary argument falls within these constraints have been provided in various ways depending on how they're most often used. A Rust-inspired validation result response type has been implemented to ensure easy adoption of this new standard.
 
+Parameters always satisfy the `ParameterLike` interface, which always includes `MIN_VALUE` and `MAX_VALUE`, as well a `validate()` method which accepts a single argument.
+
+- The `BeatsParameter` class to validate the tempo beats per measure value.
+- The `NoteParameter` class to validate the tempo note value.
+- The `KeyParameter` class to validate note and instrument keys.
+- The `PanningParameter` class to validate note and layer pannings.
+- The `PitchParameter` class to validate note pitchs.
+- The `VersionParameter` class to validate supported NBS versions.
+- The `VolumeParameter` class to validate note and layer volumes.
+
+The validators will return a `Result` object, which contains an `#ok` boolean that specifies whether a parameter is valid. These objects also contains an `#ensure()` function which will throw an error only if the validation has failed. Otherwise, this function will do nothing. Failed validations will include the `#errors` array containing the reason(s) why the validation failed.
+
 - The `Result` type and relevant functions.
   - `Result#ok` will be `true` if a validator succeeds.
   - `Result#ok` will be `false` if a validator fails, with `Result#errors` containing the reason(s).
+  - `Result#ensure()` will always be present, and when called, will throw an error only if validation has failed.
   - `isInteger` checks whether the specified value is a whole-number safe integer.
   - `isPositive` checks whether the specified value is greater than or equal to 0.
   - `isWithinRange` checks whether the specified value is greater than, less than, or equal to the provided range.
