@@ -26,6 +26,7 @@
 	},
 	"files": [
 		"dist",
+		"readme",
 		"changelog.md"
 	],
 	"funding": {
@@ -43,14 +44,9 @@
 	"license": "MIT",
 	"name": "@nbsjs/core",
 	"packageManager": "bun@1.3.11",
-	"publishConfig": {
-		"exports": {
-			".": "./dist/index.js"
-		}
-	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/OpenNBS/nbs.js.git"
+		"url": "git+https://github.com/OpenNBS/nbs.js.git"
 	},
 	"scripts": {
 		"build": "bun run test && bun run build:bundle",
