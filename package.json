@@ -56,7 +56,9 @@
 		"lint": "biome format src --write && biome lint src --write",
 		"test": "biome lint src && bun test"
 	},
-	"sideEffects": false,
+	"sideEffects": [
+		"./src/index.ts"
+	],
 	"type": "module",
 	"types": "dist/index.d.ts",
 	"version": "7.0.0-alpha3"
