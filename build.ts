@@ -4,6 +4,12 @@ await Bun.build({
 	"entrypoints": ["src/index.ts"],
 	"minify": true,
 	"outdir": "dist",
-	"plugins": [dts()],
+	"plugins": [
+		dts({
+			"libraries": {
+				"inlinedLibraries": ["type-fest"]
+			}
+		})
+	],
 	"sourcemap": "linked"
 });
