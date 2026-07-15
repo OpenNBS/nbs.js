@@ -7,13 +7,13 @@ import { VolumeParameter } from "~/parameters/VolumeParameter";
 import { isWithinRange } from "~/validators/isWithinRange";
 import { fail, ok } from "~/validators/results";
 
-import type { LiteralUnion, Optional } from "type-fest";
+import type { LiteralUnion } from "type-fest";
 
 export type LayerName = string;
 export type LayerVolume = VolumeRange;
 export type LayerPanning = PanningRange;
 
-export type OptionalLayerName = Optional<LayerName>;
+export type OptionalLayerName = LayerName | undefined;
 
 export type UnknownLayerVolume = UnknownVolumeRange;
 export type UnknownLayerPanning = UnknownPanningRange;

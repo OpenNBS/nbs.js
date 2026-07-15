@@ -5,18 +5,16 @@ import type {
 
 import { VersionParameter } from "~/parameters/VersionParameter";
 
-import type { Optional } from "type-fest";
-
 export type MetadataVersion = SupportedVersionRange;
 export type MetadataName = string;
 export type MetadataAuthor = string;
 export type MetadataDescription = string;
 export type MetadataImportName = string;
 
-export type OptionalMetadataName = Optional<MetadataName>;
-export type OptionalMetadataAuthor = Optional<MetadataAuthor>;
-export type OptionalMetadataDescription = Optional<MetadataDescription>;
-export type OptionalMetadataImportName = Optional<MetadataImportName>;
+export type OptionalMetadataName = MetadataName | undefined;
+export type OptionalMetadataAuthor = MetadataAuthor | undefined;
+export type OptionalMetadataDescription = MetadataDescription | undefined;
+export type OptionalMetadataImportName = MetadataImportName | undefined;
 
 export type UnknownVersion = UnknownSupportedVersionRange;
 

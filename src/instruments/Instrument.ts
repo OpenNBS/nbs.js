@@ -3,8 +3,6 @@ import type { KeyRange, UnknownKeyRange } from "~/parameters/KeyParameter";
 
 import { KeyParameter } from "~/parameters/KeyParameter";
 
-import type { Optional } from "type-fest";
-
 export type InstrumentIdentifier = ResourceLocation;
 
 export type InstrumentName = string;
@@ -12,8 +10,8 @@ export type InstrumentSoundFile = string;
 export type InstrumentKey = KeyRange;
 export type InstrumentPressKey = boolean;
 
-export type OptionalInstrumentName = Optional<InstrumentName>;
-export type OptionalInstrumentSoundFile = Optional<InstrumentSoundFile>;
+export type OptionalInstrumentName = InstrumentName | undefined;
+export type OptionalInstrumentSoundFile = InstrumentSoundFile | undefined;
 
 export type UnknownInstrumentKey = UnknownKeyRange;
 
